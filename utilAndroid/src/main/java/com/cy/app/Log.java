@@ -380,13 +380,13 @@ public class Log {
     public static void printBundle(Bundle b){
     	e(bundle2String(b));
     }
-    public static <T> void printMap(Map<T,T> map){
+    public static <K,T> void printMap(Map<K,T> map){
         if (!allowLog) return;
         if (map==null) {
 			return;
 		}
     	StringBuilder sb = new StringBuilder("");
-    	for (Entry<T, T> entry : map.entrySet()) {
+    	for (Entry<K, T> entry : map.entrySet()) {
     	    sb.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
     	}
     	e(sb.toString());
