@@ -1,5 +1,12 @@
 package com.cy.File;
 
+import android.content.Context;
+import android.os.Environment;
+import android.os.StatFs;
+import android.util.Log;
+
+import com.cy.DataStructure.UtilString;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,18 +20,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.Map;
 
-import org.apache.http.util.EncodingUtils;
-
-import android.content.Context;
-import android.os.Environment;
-import android.os.StatFs;
-import android.util.Log;
-
-import com.cy.DataStructure.UtilString;
-
 /**
  * @author djun100
- * 
  */
 public class UtilFile {
     private static final double KB = 1024.0;
@@ -76,8 +73,7 @@ public class UtilFile {
     /**
      * 根据路径删除指定的目录或文件，无论存在与否
      *
-     * @param sPath
-     *            要删除的目录或文件
+     * @param sPath 要删除的目录或文件
      * @return 删除成功返回 true，否则返回 false。
      */
     public static boolean deleteFolder(String sPath) {
@@ -98,9 +94,8 @@ public class UtilFile {
 
     /**
      * 删除单个文件
-     * 
-     * @param sPath
-     *            被删除文件的文件名
+     *
+     * @param sPath 被删除文件的文件名
      * @return 单个文件删除成功返回true，否则返回false
      */
     public static boolean deleteFile(String sPath) {
@@ -116,9 +111,8 @@ public class UtilFile {
 
     /**
      * 删除目录（文件夹）以及目录下的文件
-     * 
-     * @param sPath
-     *            被删除目录的文件路径
+     *
+     * @param sPath 被删除目录的文件路径
      * @return 目录删除成功返回true，否则返回false
      */
     public static boolean deleteDirectory(String sPath) {
@@ -160,7 +154,7 @@ public class UtilFile {
 
     /**
      * 智能添加路径开头分隔符
-     * 
+     *
      * @param path
      */
     public static String addStartPathSeparator(String path) {
@@ -174,7 +168,7 @@ public class UtilFile {
 
     /**
      * 智能添加路径末尾分隔符
-     * 
+     *
      * @param path
      */
     public static String addEndPathSeparator(String path) {
@@ -187,7 +181,7 @@ public class UtilFile {
 
     /**
      * 写在/mnt/sdcard/目录下面的文件
-     * 
+     *
      * @param fileName
      * @param content
      */
@@ -205,7 +199,7 @@ public class UtilFile {
 
     /**
      * 读在/mnt/sdcard/目录下面的文件
-     * 
+     *
      * @param fileName
      * @return
      */
@@ -223,13 +217,11 @@ public class UtilFile {
 
             fin.read(buffer);
 
-            res = EncodingUtils.getString(buffer, "UTF-8");
+            res = new String(buffer, "UTF-8");
 
             fin.close();
 
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
 
@@ -244,7 +236,7 @@ public class UtilFile {
      * String url="http://192.168.1.15:8080/tvportal/images/c11.jpg";<br>
      * File file=new File(url);<br>
      * System.out.println(file.getName());<br>
-     * 
+     *
      * @param url
      * @return
      */
@@ -255,9 +247,8 @@ public class UtilFile {
 
     /**
      * 判断文件的编码格式
-     * 
-     * @param fileName
-     *            :file
+     *
+     * @param fileName :file
      * @return 文件编码格式
      * @throws Exception
      */
@@ -287,7 +278,9 @@ public class UtilFile {
         return code;
     }
 
-    /** 获取文件后缀 */
+    /**
+     * 获取文件后缀
+     */
     public static String getFileExtension(File f) {
         if (f != null) {
             String filename = f.getName();
@@ -345,7 +338,9 @@ public class UtilFile {
         return fileSize;
     }
 
-    /** 显示SD卡剩余空间 */
+    /**
+     * 显示SD卡剩余空间
+     */
     public static String showFileAvailable() {
         String result = "";
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -358,7 +353,9 @@ public class UtilFile {
         return result;
     }
 
-    /** 多个SD卡时 取外置SD卡 */
+    /**
+     * 多个SD卡时 取外置SD卡
+     */
     public static String getExternalStorageDirectory() {
         // 参考文章
         // http://blog.csdn.net/bbmiku/article/details/7937745
@@ -375,7 +372,7 @@ public class UtilFile {
 
     /**
      * 判断文件是否存在，并且存在的不是一个目录
-     * 
+     *
      * @param path
      * @return
      */
@@ -394,7 +391,7 @@ public class UtilFile {
 
     /**
      * 判断是否存在内置SD卡
-     * 
+     *
      * @return
      */
     public static boolean isSdCardExist() {
@@ -403,7 +400,7 @@ public class UtilFile {
 
     /**
      * 使用Java.nio ByteBuffer字节将一个文件输出至另一文件
-     * 
+     *
      * @param filePath
      */
     public static void readFileByBybeBuffer(String sourcePath, String desPath, int allocate) {
@@ -464,7 +461,7 @@ public class UtilFile {
      * // readFileByBybeBuffer(FILE_PATH);//1024*10000 10M,711k: 21,13,17<br>
      * // readFileByBybeBuffer(FILE_PATH);//1024*10000 10M,1422k: 16,17,14,15<br>
      * // readFileByBybeBuffer(FILE_PATH);//1024*10000 10M,9951k:64,60<br>
-     * 
+     * <p/>
      * long time2 = getTime() ;<br>
      * System.out.println(time2-time1); }
      */
@@ -506,15 +503,19 @@ public class UtilFile {
             }
         }
     }
-    /**sdCard下创建目录,非exsdCard
+
+    /**
+     * sdCard下创建目录,非exsdCard
+     *
      * @param _path eg:   /Download  _path代表地址前面需要加“/”
      */
-    public static boolean makeDirsInExternalStorageDirectory(String _path){
-        String temp=Environment.getExternalStorageDirectory().getAbsolutePath()+ _path;
+    public static boolean makeDirsInExternalStorageDirectory(String _path) {
+        String temp = Environment.getExternalStorageDirectory().getAbsolutePath() + _path;
         return new File(temp).mkdirs();
 
     }
-	public static String getSdPath() {
-		return Environment.getExternalStorageDirectory().getAbsolutePath();
-	}
+
+    public static String getSdPath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath();
+    }
 }
