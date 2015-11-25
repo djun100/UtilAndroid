@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -517,5 +518,79 @@ public class UtilFile {
 
     public static String getSdPath() {
         return Environment.getExternalStorageDirectory().getAbsolutePath();
+    }
+    /**移动文件*/
+    public static boolean move(File srcFile, String destPath)
+    {
+        // Destination directory
+        File dir = new File(destPath);
+
+        // Move file to new directory
+        boolean success = srcFile.renameTo(new File(dir, srcFile.getName()));
+
+        return success;
+    }
+    /**移动文件*/
+    public static boolean move(String srcFile, String destPath)
+    {
+        // File (or directory) to be moved
+        File file = new File(srcFile);
+
+        // Destination directory
+        File dir = new File(destPath);
+
+        // Move file to new directory
+        boolean success = file.renameTo(new File(dir, file.getName()));
+
+        return success;
+    }
+
+    public  static   void     copy(String     oldPath,     String     newPath)
+    {
+        try     {
+            int     bytesum     =     0;
+            int     byteread     =     0;
+            File     oldfile     =     new     File(oldPath);
+            if     (oldfile.exists())     {
+                InputStream inStream     =     new     FileInputStream(oldPath);
+                FileOutputStream     fs     =     new     FileOutputStream(newPath);
+                byte[]     buffer     =     new     byte[1444];
+                int     length;
+                while     (     (byteread     =     inStream.read(buffer))     !=     -1)     {
+                    bytesum     +=     byteread;
+                    System.out.println(bytesum);
+                    fs.write(buffer,     0,     byteread);
+                }
+                inStream.close();
+            }
+        }
+        catch     (Exception     e)     {
+            System.out.println( "error  ");
+            e.printStackTrace();
+        }
+    }
+
+    public   static  void     copy(File     oldfile,     String     newPath)
+    {
+        try     {
+            int     bytesum     =     0;
+            int     byteread     =     0;
+            //File     oldfile     =     new     File(oldPath);
+            if     (oldfile.exists())     {
+                InputStream     inStream     =     new     FileInputStream(oldfile);
+                FileOutputStream     fs     =     new     FileOutputStream(newPath);
+                byte[]     buffer     =     new     byte[1444];
+                while     (     (byteread     =     inStream.read(buffer))     !=     -1)     {
+                    bytesum     +=     byteread;
+                    System.out.println(bytesum);
+                    fs.write(buffer,     0,     byteread);
+                }
+                inStream.close();
+            }
+        }
+        catch     (Exception     e)     {
+            System.out.println( "error  ");
+            e.printStackTrace();
+        }
     }
 }
