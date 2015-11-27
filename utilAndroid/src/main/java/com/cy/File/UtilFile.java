@@ -401,13 +401,10 @@ public class UtilFile {
 
     /**
      * 使用Java.nio ByteBuffer字节将一个文件输出至另一文件
-     *
-     * @param filePath
-     */
-    public static void readFileByBybeBuffer(String sourcePath, String desPath, int allocate) {
+     * */
+    public static void copyFileByByteBuffer(String sourcePath, String desPath, int bufferSize) {
         FileInputStream in = null;
         FileOutputStream out = null;
-        int bufferSize = allocate;
         try {
             // 获取源文件和目标文件的输入输出流
             in = new FileInputStream(sourcePath);
@@ -466,7 +463,7 @@ public class UtilFile {
      * long time2 = getTime() ;<br>
      * System.out.println(time2-time1); }
      */
-    public static void readFileByBybeBuffer(String sourcePath, String desPath) {
+    public static void copyFileByByteBuffer(String sourcePath, String desPath) {
         FileInputStream in = null;
         FileOutputStream out = null;
         int bufferSize = 1024;
@@ -545,51 +542,47 @@ public class UtilFile {
         return success;
     }
 
-    public  static   void     copy(String     oldPath,     String     newPath)
-    {
-        try     {
-            int     bytesum     =     0;
-            int     byteread     =     0;
-            File     oldfile     =     new     File(oldPath);
-            if     (oldfile.exists())     {
-                InputStream inStream     =     new     FileInputStream(oldPath);
-                FileOutputStream     fs     =     new     FileOutputStream(newPath);
-                byte[]     buffer     =     new     byte[1444];
-                int     length;
-                while     (     (byteread     =     inStream.read(buffer))     !=     -1)     {
-                    bytesum     +=     byteread;
+    public static void copy(String oldPath, String newPath) {
+        try {
+            int bytesum = 0;
+            int byteread = 0;
+            File oldfile = new File(oldPath);
+            if (oldfile.exists()) {
+                InputStream inStream = new FileInputStream(oldPath);
+                FileOutputStream fs = new FileOutputStream(newPath);
+                byte[] buffer = new byte[1444];
+                int length;
+                while ((byteread = inStream.read(buffer)) != -1) {
+                    bytesum += byteread;
                     System.out.println(bytesum);
-                    fs.write(buffer,     0,     byteread);
+                    fs.write(buffer, 0, byteread);
                 }
                 inStream.close();
             }
-        }
-        catch     (Exception     e)     {
-            System.out.println( "error  ");
+        } catch (Exception e) {
+            System.out.println("error  ");
             e.printStackTrace();
         }
     }
 
-    public   static  void     copy(File     oldfile,     String     newPath)
-    {
-        try     {
-            int     bytesum     =     0;
-            int     byteread     =     0;
+    public static void copy(File oldfile, String newPath) {
+        try {
+            int bytesum = 0;
+            int byteread = 0;
             //File     oldfile     =     new     File(oldPath);
-            if     (oldfile.exists())     {
-                InputStream     inStream     =     new     FileInputStream(oldfile);
-                FileOutputStream     fs     =     new     FileOutputStream(newPath);
-                byte[]     buffer     =     new     byte[1444];
-                while     (     (byteread     =     inStream.read(buffer))     !=     -1)     {
-                    bytesum     +=     byteread;
+            if (oldfile.exists()) {
+                InputStream inStream = new FileInputStream(oldfile);
+                FileOutputStream fs = new FileOutputStream(newPath);
+                byte[] buffer = new byte[1444];
+                while ((byteread = inStream.read(buffer)) != -1) {
+                    bytesum += byteread;
                     System.out.println(bytesum);
-                    fs.write(buffer,     0,     byteread);
+                    fs.write(buffer, 0, byteread);
                 }
                 inStream.close();
             }
-        }
-        catch     (Exception     e)     {
-            System.out.println( "error  ");
+        } catch (Exception e) {
+            System.out.println("error  ");
             e.printStackTrace();
         }
     }
