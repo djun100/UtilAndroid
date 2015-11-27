@@ -441,6 +441,7 @@ public class UtilFile {
     }
 
     /**
+     * 请确保目标文件夹存在，不存在请先新建
      * 使用Java.nio ByteBuffer字节将一个文件输出至另一文件<br>
      * bufferSize=1024;<br>
      * public static void main(String args[]) {<br>
@@ -467,6 +468,7 @@ public class UtilFile {
         FileInputStream in = null;
         FileOutputStream out = null;
         int bufferSize = 1024;
+        // TODO: 2015/11/27 如a/b/file file是文件，b文件夹不存在，先新建b.makedirs()
         try {
             // 获取源文件和目标文件的输入输出流
             in = new FileInputStream(sourcePath);
