@@ -6,4 +6,4 @@
     maven { url "https://jitpack.io" }
     }
 
-    compile 'com.github.djun100:UtilAndroid:2b8e42ad933e68c3b5037fa2f0615f65db6aaf1d'
+    compile 'com.github.djun100:UtilAndroid:f80d8055dbef3c98fa78bae7fa90d158fa0869b2'
