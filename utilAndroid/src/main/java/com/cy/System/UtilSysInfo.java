@@ -26,6 +26,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 
 /**
  * print开头函数为探针工具，返回String
@@ -112,20 +113,20 @@ public class UtilSysInfo {
 	}
 
 	@SuppressLint("NewApi")
-	public static Point getScreenSize(Activity activity) {
+	public static Point getScreenSize(Context context) {
 		Point size = new Point();
 		if (false) {
 //			if (Build.VERSION.SDK_INT >= 11) {
 			try {
-				activity.getWindowManager().getDefaultDisplay()
-						.getRealSize(size);
+				size.x=getWindowManager(context).getDefaultDisplay().getWidth();
+				size.y=getWindowManager(context).getDefaultDisplay().getHeight();
 			} catch (NoSuchMethodError e) {
 				Log.i("error", "it can't work");
 			}
 
 		} else {
 			DisplayMetrics metrics = new DisplayMetrics();
-			activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			getWindowManager(context).getDefaultDisplay().getMetrics(metrics);
 			size.x = metrics.widthPixels;
 			size.y = metrics.heightPixels;
 		}
@@ -519,4 +520,26 @@ public class UtilSysInfo {
 		String uniqueId = deviceUuid.toString();
 		return uniqueId;
 	}
+
+
+
+	/**
+	 * 用于控制在屏幕上添加或移除悬浮窗
+	 */
+	private static WindowManager mWindowManager;
+	/**
+	 * 如果WindowManager还未创建，则创建一个新的WindowManager返回。否则返回当前已创建的WindowManager。
+	 *
+	 * @param context
+	 *            必须为应用程序的Context.
+	 * @return WindowManager的实例，用于控制在屏幕上添加或移除悬浮窗。
+	 */
+	private static WindowManager getWindowManager(Context context) {
+		if (mWindowManager == null) {
+			mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		}
+		return mWindowManager;
+	}
+
+
 }
