@@ -112,12 +112,12 @@ public class UtilSysInfo {
 	}
 
 	@SuppressLint("NewApi")
-	public static Point getScreenSize(Context context) {
+	public static Point getScreenSize(Activity activity) {
 		Point size = new Point();
 		if (false) {
 //			if (Build.VERSION.SDK_INT >= 11) {
 			try {
-				((Activity)context).getWindowManager().getDefaultDisplay()
+				activity.getWindowManager().getDefaultDisplay()
 						.getRealSize(size);
 			} catch (NoSuchMethodError e) {
 				Log.i("error", "it can't work");
@@ -125,7 +125,7 @@ public class UtilSysInfo {
 
 		} else {
 			DisplayMetrics metrics = new DisplayMetrics();
-			((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 			size.x = metrics.widthPixels;
 			size.y = metrics.heightPixels;
 		}
