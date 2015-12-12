@@ -1,4 +1,6 @@
-package com.cy.DataStructure;
+package com.cy.security;
+
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -7,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.apache.commons.codec.binary.Base64;
 
 
 /** *//**

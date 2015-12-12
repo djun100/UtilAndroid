@@ -5,7 +5,6 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -17,8 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.Cipher;
-
-import com.cy.DataStructure.UtilsBase64;
 
 /** *//**
  * <p>

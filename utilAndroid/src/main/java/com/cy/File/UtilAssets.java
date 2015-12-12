@@ -19,9 +19,8 @@ public class UtilAssets {
 	  * @param ASSETS_NAME 要复制的文件名
 	  * @param savePath 要保存的路径 
 	  * @param saveName 复制后的文件名
-	  *  @see testCopy(Context context)是一个测试例子。
+	  *  @see #testCopy(Context context)是一个测试例子。
 	  */
-	 
 	public static boolean copyFileFromAssets(Context myContext, String ASSETS_NAME, String savePath, String saveName) {
 		new File(savePath).mkdirs();
 		String filename = savePath +File.separator+ saveName;
