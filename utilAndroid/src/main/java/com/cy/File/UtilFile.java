@@ -3,6 +3,7 @@ package com.cy.File;
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.cy.DataStructure.UtilString;
@@ -25,9 +26,7 @@ import java.util.Map;
  * @author djun100
  */
 public class UtilFile {
-    private static final double KB = 1024.0;
-    private static final double MB = KB * KB;
-    private static final double GB = KB * KB * KB;
+
 
     public static String read_UTF8_FileContent(File file) {
         String str = null;
@@ -324,17 +323,21 @@ public class UtilFile {
         }
         return filename;
     }
-
-    public static String showFileSize(long size) {
+    /**@param format %.20f 小数点后20位*/
+    public static String showFileSize(long size,String format) {
+        if (TextUtils.isEmpty(format)) format="%.1f";
+        final double KB = 1024.0;
+        final double MB = KB * KB;
+        final double GB = KB * KB * KB;
         String fileSize;
         if (size < KB)
             fileSize = size + "B";
         else if (size < MB)
-            fileSize = String.format("%.1f", size / KB) + "KB";
+            fileSize = String.format(format, size / KB) + "K";
         else if (size < GB)
-            fileSize = String.format("%.1f", size / MB) + "MB";
+            fileSize = String.format(format, size / MB) + "M";
         else
-            fileSize = String.format("%.1f", size / GB) + "GB";
+            fileSize = String.format(format, size / GB) + "G";
 
         return fileSize;
     }
@@ -349,7 +352,7 @@ public class UtilFile {
             long blockSize = sf.getBlockSize();
             long blockCount = sf.getBlockCount();
             long availCount = sf.getAvailableBlocks();
-            return showFileSize(availCount * blockSize) + " / " + showFileSize(blockSize * blockCount);
+            return showFileSize(availCount * blockSize,null) + " / " + showFileSize(blockSize * blockCount,"");
         }
         return result;
     }
@@ -588,6 +591,7 @@ public class UtilFile {
             e.printStackTrace();
         }
     }
+
     /**
      * 获取文件夹大小
      * @param file File实例
