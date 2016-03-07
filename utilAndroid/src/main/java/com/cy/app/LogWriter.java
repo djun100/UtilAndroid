@@ -8,8 +8,6 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.cy.app.Log;
-
 public class LogWriter {
 	
 	private static LogWriter mLogWriter;
@@ -27,7 +25,20 @@ public class LogWriter {
 	
 	public static LogWriter open(String file_path) throws IOException {
 		if (mLogWriter == null) {
-			mLogWriter = new LogWriter(file_path);
+			File file=new File(file_path);
+			File[] files= file.listFiles();
+			String fileName=UtilContext.getContext().getPackageName()+"."
+					+new SimpleDateFormat("yyyy-MM-dd_HH").format(new Date())
+					+".log";
+//			for (int i = 0; i < files.length; i++) {
+//				if (files[i].getName().equals(fileName)){
+//					mLogWriter = new LogWriter(files[i].getName());
+//				}
+//			}
+//			if (mLogWriter==null){
+				mLogWriter = new LogWriter(fileName);
+//			}
+
 		}
 		File mFile = new File(mPath);
 		mWriter = new BufferedWriter(new FileWriter(mPath,true), 2048);

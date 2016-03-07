@@ -1,14 +1,13 @@
 package com.cy.app;
 
+import android.os.Bundle;
+import android.text.TextUtils;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import android.content.Context;
-import android.os.Bundle;
-import android.text.TextUtils;
 
 /**1、类名为Log方便原有项目的log全部由此类替代<br>
  * 2、allowLog为总开关，allowX为logLevel对应开关<br>
@@ -32,8 +31,6 @@ public class Log {
     public static boolean allowV = true;
     public static boolean allowW = true;
     public static boolean allowWtf = true;
-    /**是否需要写入log*/
-    public static boolean flagNeedWrite=false;
     private static String generateTag(StackTraceElement caller) {
         String tag = "%s.%s(L:%d)";
         String callerClazzName = caller.getClassName();
@@ -74,7 +71,7 @@ public class Log {
 
         void wtf(String tag, Throwable tr);
     }
-    /**eg:			   String path=context.getFilesDir().getAbsolutePath()+"/log.txt";
+    /**eg:			   String path=context.getFilesDir().getAbsolutePath()";
      * @param pathFile
      */
     public static void initWriter(String pathFile){
@@ -85,10 +82,9 @@ public class Log {
 		    } 
     }
     /**data/data/files/log.txt
-     * @param context
      */
-    public static void initWriter(Context context){
-    	initWriter(context.getFilesDir().getAbsolutePath()+"/log.txt");
+    public static void initWriter(){
+    	initWriter(UtilContext.getContext().getFilesDir().getAbsolutePath());
     }
     /**Eclipse 经常显示不出来Log.d，不推荐使用
      * @param content
@@ -104,11 +100,26 @@ public class Log {
         } else {
             android.util.Log.d(tag, content);
         }
-        if(flagNeedWrite){
-        	if(mLogWriter!=null){
-        		mLogWriter.print(tag+" "+content);
-        	}
+    }
+
+    /**Eclipse 经常显示不出来Log.d，不推荐使用
+     * @param content
+     */
+    public static void writeD(String content) {
+        if (!allowLog) return;
+        if (!allowD) return;
+        StackTraceElement caller = getCallerStackTraceElement();
+        String tag = generateTag(caller);
+
+        if (customLogger != null) {
+            customLogger.d(tag, content);
+        } else {
+            android.util.Log.d(tag, content);
         }
+        if (mLogWriter == null) {
+            initWriter();
+        }
+        mLogWriter.print(tag + " " + content);
     }
     /**Eclipse 经常显示不出来Log.d，不推荐使用
      * @param content
@@ -151,11 +162,25 @@ public class Log {
             android.util.Log.e(tag, content);
 //            Toast.makeText(getApplicationContext(), "程序异常，请退出重试", Toast.LENGTH_SHORT).show();
         }
-        if(flagNeedWrite){
-        	if(mLogWriter!=null){
-        		mLogWriter.print(tag+" "+content);
-        	}
+    }
+
+    public static void writeE(String content) {
+        if (!allowLog) return;
+        if (!allowE) return;
+        StackTraceElement caller = getCallerStackTraceElement();
+        String tag = generateTag(caller);
+
+        if (customLogger != null) {
+            customLogger.e(tag, content);
+        } else {
+            android.util.Log.e(tag, content);
+//            Toast.makeText(getApplicationContext(), "程序异常，请退出重试", Toast.LENGTH_SHORT).show();
         }
+
+        if (mLogWriter == null) {
+            initWriter();
+        }
+        mLogWriter.print(tag + " " + content);
     }
     public static void e(String tag,String content) {
         if (!allowLog) return;
@@ -193,12 +218,26 @@ public class Log {
         } else {
             android.util.Log.i(tag, content);
         }
-        if(flagNeedWrite){
-        	if(mLogWriter!=null){
-        		mLogWriter.print(tag+" "+content);
-        	}
-        }
     }
+
+    public static void writeI(String content) {
+        if (!allowLog) return;
+        if (!allowI) return;
+        StackTraceElement caller = getCallerStackTraceElement();
+        String tag = generateTag(caller);
+
+        if (customLogger != null) {
+            customLogger.i(tag, content);
+        } else {
+            android.util.Log.i(tag, content);
+        }
+
+        if (mLogWriter == null) {
+            initWriter();
+        }
+        mLogWriter.print(tag + " " + content);
+    }
+
     public static void i(String tag,String content) {
         if (!allowLog) return;
         if (!allowI) return;
@@ -234,11 +273,24 @@ public class Log {
         } else {
             android.util.Log.v(tag, content);
         }
-        if(flagNeedWrite){
-        	if(mLogWriter!=null){
-        		mLogWriter.print(tag+" "+content);
-        	}
+    }
+
+    public static void writeV(String content) {
+        if (!allowLog) return;
+        if (!allowV) return;
+        StackTraceElement caller = getCallerStackTraceElement();
+        String tag = generateTag(caller);
+
+        if (customLogger != null) {
+            customLogger.v(tag, content);
+        } else {
+            android.util.Log.v(tag, content);
         }
+
+        if (mLogWriter == null) {
+           initWriter();
+        }
+        mLogWriter.print(tag + " " + content);
     }
     public static void v(String tag,String content) {
         if (!allowLog) return;
@@ -275,11 +327,24 @@ public class Log {
         } else {
             android.util.Log.w(tag, content);
         }
-        if(flagNeedWrite){
-        	if(mLogWriter!=null){
-        		mLogWriter.print(tag+" "+content);
-        	}
+
+    }
+
+    public static void writeW(String content) {
+        if (!allowLog) return;
+        if (!allowW) return;
+        StackTraceElement caller = getCallerStackTraceElement();
+        String tag = generateTag(caller);
+
+        if (customLogger != null) {
+            customLogger.w(tag, content);
+        } else {
+            android.util.Log.w(tag, content);
         }
+        if (mLogWriter == null) {
+            initWriter();
+        }
+        mLogWriter.print(tag + " " + content);
     }
     public static void w(String tag,String content) {
         if (!allowLog) return;
@@ -413,4 +478,5 @@ public class Log {
     	}
     	e(sb.toString());
     }
+
 }
