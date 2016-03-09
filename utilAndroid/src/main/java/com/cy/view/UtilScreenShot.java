@@ -1,9 +1,5 @@
 package com.cy.view;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,11 +11,15 @@ import android.widget.ScrollView;
 
 import com.cy.app.Log;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**可以截取scrollview和ListView
  * @author 承影
  *
  */
-public class ScreenShot {
+public class UtilScreenShot {
     // 获取指定Activity的截屏，保存到png文件
     public static Bitmap takeScreenShot(Activity activity) {
         // View是你需要截图的View
@@ -88,12 +88,12 @@ public class ScreenShot {
      * tips:不包含状态栏
      */
     public static void shoot(Activity a) {
-        ScreenShot.savePic(ScreenShot.takeScreenShot(a), "/sdcard/screen_test.png");
+        UtilScreenShot.savePic(UtilScreenShot.takeScreenShot(a), "/sdcard/screen_test.png");
     }
  
     // 程序入口2
     public static void shootView(View view) {
-        ScreenShot.savePic(ScreenShot.convertViewToBitmap(view),
+        UtilScreenShot.savePic(UtilScreenShot.convertViewToBitmap(view),
                 "sdcard/xx.png");
     }
  
