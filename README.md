@@ -6,7 +6,7 @@
     maven { url "https://jitpack.io" }
     }
     
-    compile （'com.github.djun100:UtilAndroid:e7f36de312b1e80c24b5435293c1c005d62f5a2e'）{
+    compile （'com.github.djun100:UtilAndroid:eede0e2fb3a62db4738840fb6f1c5054537cdfc8'）{
     exclude module: 'support-v4'
     exclude module:'eventbus'
     }
