@@ -18,7 +18,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:+'
-    compile files('libs/commons-codec-1.8.jar')
-    compile 'de.greenrobot:eventbus:+'
+    provided 'com.android.support:support-v4:+'
+    provided files('libs/commons-codec-1.8.jar')
+    provided 'org.greenrobot:eventbus:3.0.0'
+    testCompile 'junit:junit:4.12'
 }

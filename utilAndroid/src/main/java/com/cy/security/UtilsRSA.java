@@ -98,14 +98,14 @@ public class UtilsRSA {
      * @throws Exception
      */
     public static String sign(byte[] data, String privateKey) throws Exception {
-    	byte[] keyBytes = UtilsBase64.decode(privateKey);
+    	byte[] keyBytes = UtilBase64_Codec.decode(privateKey);
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PrivateKey privateK = keyFactory.generatePrivate(pkcs8KeySpec);
         Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
         signature.initSign(privateK);
         signature.update(data);
-        return UtilsBase64.encode(signature.sign());
+        return UtilBase64_Codec.encode(signature.sign());
     }
     
     public static void main(String args[]) throws Exception{
@@ -137,14 +137,14 @@ public class UtilsRSA {
      */
     public static boolean verify(byte[] data, String publicKey, String sign)
             throws Exception {
-        byte[] keyBytes = UtilsBase64.decode(publicKey);
+        byte[] keyBytes = UtilBase64_Codec.decode(publicKey);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         PublicKey publicK = keyFactory.generatePublic(keySpec);
         Signature signature = Signature.getInstance(SIGNATURE_ALGORITHM);
         signature.initVerify(publicK);
         signature.update(data);
-        return signature.verify(UtilsBase64.decode(sign));
+        return signature.verify(UtilBase64_Codec.decode(sign));
     }
 
     /** *//**
@@ -159,7 +159,7 @@ public class UtilsRSA {
      */
     public static byte[] decryptByPrivateKey(byte[] encryptedData, String privateKey)
             throws Exception {
-        byte[] keyBytes = UtilsBase64.decode(privateKey);
+        byte[] keyBytes = UtilBase64_Codec.decode(privateKey);
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         Key privateK = keyFactory.generatePrivate(pkcs8KeySpec);
@@ -198,7 +198,7 @@ public class UtilsRSA {
      */
     public static byte[] decryptByPublicKey(byte[] encryptedData, String publicKey)
             throws Exception {
-        byte[] keyBytes = UtilsBase64.decode(publicKey);
+        byte[] keyBytes = UtilBase64_Codec.decode(publicKey);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         Key publicK = keyFactory.generatePublic(x509KeySpec);
@@ -237,7 +237,7 @@ public class UtilsRSA {
      */
     public static byte[] encryptByPublicKey(byte[] data, String publicKey)
             throws Exception {
-        byte[] keyBytes = UtilsBase64.decode(publicKey);
+        byte[] keyBytes = UtilBase64_Codec.decode(publicKey);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         Key publicK = keyFactory.generatePublic(x509KeySpec);
@@ -277,7 +277,7 @@ public class UtilsRSA {
      */
     public static byte[] encryptByPrivateKey(byte[] data, String privateKey)
             throws Exception {
-        byte[] keyBytes = UtilsBase64.decode(privateKey);
+        byte[] keyBytes = UtilBase64_Codec.decode(privateKey);
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
         Key privateK = keyFactory.generatePrivate(pkcs8KeySpec);
@@ -316,7 +316,7 @@ public class UtilsRSA {
     public static String getPrivateKey(Map<String, Object> keyMap)
             throws Exception {
         Key key = (Key) keyMap.get(PRIVATE_KEY);
-        return UtilsBase64.encode(key.getEncoded());
+        return UtilBase64_Codec.encode(key.getEncoded());
     }
 
     /** *//**
@@ -331,7 +331,7 @@ public class UtilsRSA {
     public static String getPublicKey(Map<String, Object> keyMap)
             throws Exception {
         Key key = (Key) keyMap.get(PUBLIC_KEY);
-        return UtilsBase64.encode(key.getEncoded());
+        return UtilBase64_Codec.encode(key.getEncoded());
     }
 
 }

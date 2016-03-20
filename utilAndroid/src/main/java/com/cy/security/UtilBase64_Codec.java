@@ -23,7 +23,7 @@ import java.io.OutputStream;
  * @date 2012-5-19
  * @version 1.0
  */
-public class UtilsBase64 {
+public class UtilBase64_Codec {
 
     /** *//**
      * 文件读取缓冲区大小
