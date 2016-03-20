@@ -5,7 +5,7 @@
     // ...
     maven { url "https://jitpack.io" }
     }
-compile 'com.github.djun100:UtilAndroid:77f7e320fd3a27be3daa2f8536dd3f45b9c9726f'
+compile 'com.github.djun100:UtilAndroid:93ed1e1316ca38eef0e38a64c12f35d4b38fb453'
 
 should compile below:
 
