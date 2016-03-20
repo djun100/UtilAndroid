@@ -14,7 +14,7 @@
     }
 
 
-compile 'com.github.djun100:UtilAndroid:a349dddb825f4f889fe2a8e719b6bf8f45244873'
+compile 'com.github.djun100:UtilAndroid:a349dddb82'
 
 should compile below:
 
