@@ -1,11 +1,6 @@
 # UtilAndroid
 **usage:**
 
-    repositories {
-    	// ...
-    	maven { url "https://jitpack.io" }
-    }
-
     allprojects {
     	repositories {
     		jcenter()
@@ -14,7 +9,7 @@
     }
 
 
-compile 'com.github.djun100:UtilAndroid:677e4bc39055e34a42da7f52424c0ae741c1b387'
+compile 'com.github.djun100:UtilAndroid:1f5e218a1b180cdaeccdb28f7a5fdc043c50b0f5'
 
 should compile below:
 
