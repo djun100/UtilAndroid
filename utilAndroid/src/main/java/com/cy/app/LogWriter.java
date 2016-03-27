@@ -1,7 +1,6 @@
 package com.cy.app;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -22,25 +21,16 @@ public class LogWriter {
 		this.mPath = file_path;
 		this.mWriter = null;
 	}
-	
+	/**生成文件名规则：packageName.yyyy-MM-dd_HH.log<br/>
+	 * 按1小时分割*/
 	public static LogWriter open(String file_path) throws IOException {
 		if (mLogWriter == null) {
-			File file=new File(file_path);
-			File[] files= file.listFiles();
 			String fileName=UtilContext.getContext().getPackageName()+"."
 					+new SimpleDateFormat("yyyy-MM-dd_HH").format(new Date())
 					+".log";
-//			for (int i = 0; i < files.length; i++) {
-//				if (files[i].getName().equals(fileName)){
-//					mLogWriter = new LogWriter(files[i].getName());
-//				}
-//			}
-//			if (mLogWriter==null){
-				mLogWriter = new LogWriter(fileName);
-//			}
+				mLogWriter = new LogWriter(file_path+"/"+fileName);
 
 		}
-		File mFile = new File(mPath);
 		mWriter = new BufferedWriter(new FileWriter(mPath,true), 2048);
 		df = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss]: ");
 		
