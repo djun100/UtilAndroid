@@ -7,7 +7,7 @@ import android.text.style.RelativeSizeSpan;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
-public class ViewUtils {
+public class UtilTextView {
 
     /**
      * @param tip
@@ -29,17 +29,5 @@ public class ViewUtils {
         text.setSpan(colorSpan, start, ended, 0);
         text.setSpan(sizeSpan, start, ended, 0);
         tip.setText(text);
-    }
-
-    /**
-     * 将dip转换成px<br>
-     * tips:<br>
-     * 1、getDimension()函数会自动识别参数为px或dp、sp，如果为后两者，则自动计算为px，无需用转换函数二次转转。<br>
-     * 2、getDimensionPixelOffset ()函数不不会自动计算，需要用转换函数二次转换。<br>
-     * 3、eg: int margin=(int)getResources().getDimension(R.dimen.layout_margin);
-     */
-    public static final int getPixByDip(float dip, Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return (int) (dip * displayMetrics.density);
     }
 }

@@ -22,12 +22,5 @@ public class SysController {
 		PowerManager.WakeLock mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
 		return mWakeLock;
 	}
-	public static  void setFullScreen(Context context){
-		  //隐去标题栏（应用程序的名字）  
-      ((Activity)context).requestWindowFeature(Window.FEATURE_NO_TITLE);
-      //隐去状态栏部分(电池等图标和一切修饰部分)
-      ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-              WindowManager.LayoutParams.FLAG_FULLSCREEN);
-      
-	}
+
 }
