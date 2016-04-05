@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.cy.System.UtilSysInfo;
+import com.cy.app.UtilContext;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -15,20 +16,19 @@ import android.util.Log;
 public class UtilAssets {
 	/**
 	  * 
-	  * @param myContext
 	  * @param ASSETS_NAME 要复制的文件名
 	  * @param savePath 要保存的路径 
 	  * @param saveName 复制后的文件名
-	  *  @see #testCopy(Context context)是一个测试例子。
+	  *  @see #testCopy() 是一个测试例子。
 	  */
-	public static boolean copyFileFromAssets(Context myContext, String ASSETS_NAME, String savePath, String saveName) {
+	public static boolean copyFileFromAssets( String ASSETS_NAME, String savePath, String saveName) {
 		new File(savePath).mkdirs();
 		String filename = savePath +File.separator+ saveName;
 		com.cy.app.Log.w("filename copy to:" + filename);
 		try {
 			// 如果toFile不存在
 			if (!(new File(filename)).exists()) {
-				InputStream is = myContext.getResources().getAssets().open(ASSETS_NAME);
+				InputStream is = UtilContext.getContext().getResources().getAssets().open(ASSETS_NAME);
 				FileOutputStream fos = new FileOutputStream(filename);
 				byte[] buffer = new byte[7168];
 				int count = 0;
@@ -46,14 +46,13 @@ public class UtilAssets {
 	}
 	 
 	 /**
-	 * @param context
 	 * @param path   a   a/b
 	 * @return
 	 */
-	public static String[] getAssetsFiles(Context context,String path){
+	public static String[] getAssetsFiles(String path){
 		 String[] string=null;
 		 try {
-			 string= context.getResources().getAssets().list("pics/channelsPic");
+			 string= UtilContext.getContext().getResources().getAssets().list("pics/channelsPic");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,29 +61,27 @@ public class UtilAssets {
 	 }
 
 		/**复制assets内指定文件夹到指定sdcard内文件夹
-		 * @param context
 		 * @param folderAssets assets文件夹内 a/b
 		 * @param folderDestination sdcard内 /a/b
 		 * @return
 		 */
-		public static boolean copyAssetsToLocal(Context context,String folderAssets,String folderDestination) {
+		public static boolean copyAssetsToLocal(String folderAssets,String folderDestination) {
 //			UtilAssets.copyFileFromAssets(context, "channelsLocal", pathAppFile, "channelsLocal");
-			 String[]  arrayFile=  UtilAssets.getAssetsFiles(context, folderAssets);
+			 String[]  arrayFile=  UtilAssets.getAssetsFiles( folderAssets);
 			 for (int i = 0; i < arrayFile.length; i++) {
-				if(!UtilAssets.copyFileFromAssets(context, folderAssets+"/"+arrayFile[i], folderDestination, arrayFile[i]))
+				if(!UtilAssets.copyFileFromAssets( folderAssets+"/"+arrayFile[i], folderDestination, arrayFile[i]))
 					return false;
 			}
 			 return true;
 		}
 
 	    /** 读取assets里的文本文件
-	     * @param context
 	     * @param fileUrl
 	     * @return
 	     */
-	    public static String getAssetsFileContent(Context context, String fileUrl) {
+	    public static String getAssetsFileContent( String fileUrl) {
 	        String result = null;
-	        AssetManager am = context.getAssets();
+	        AssetManager am = UtilContext.getContext().getAssets();
 	        InputStream is = null;
 	        ByteArrayOutputStream baos = null;
 	        try {
@@ -118,9 +115,9 @@ public class UtilAssets {
 	        return result;
 	    }
 	    
-	    public void testCopy(Context context) {
-	        String path=context.getFilesDir().getAbsolutePath();
+	    public void testCopy() {
+	        String path=UtilContext.getContext().getFilesDir().getAbsolutePath();
 	           String name="test.txt";
-	           copyFileFromAssets(context, name, path, name);
+	           copyFileFromAssets( name, path, name);
 	       }
 }
