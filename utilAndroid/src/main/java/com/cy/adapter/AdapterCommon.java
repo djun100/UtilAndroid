@@ -11,9 +11,10 @@ import com.cy.app.UtilContext;
 import java.util.ArrayList;
 import java.util.List;
 
-/**<b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b><br>
+/**<pre>
+ * 只适用于单layout布局文件情况
+ * <b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b>
  * onItemClick里面，取子view方式eg：item.getChildAt(1)
- * <p>
  * 改变其他item里面的子view：
  *             ViewGroup item;
             for (int i = 0; i < mTtf_profit_types_lv.getCount(); i++) {
@@ -28,6 +29,7 @@ import java.util.List;
             mTtf_profit_types_lv.invalidate();
 
  参考自https://github.com/JoanZapata/base-adapter-helper
+ </pre>
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
  */
 public abstract class AdapterCommon<T>  extends BaseAdapter {
