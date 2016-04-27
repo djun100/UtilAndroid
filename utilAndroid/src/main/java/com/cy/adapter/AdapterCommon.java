@@ -1,14 +1,15 @@
 package com.cy.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.cy.app.UtilContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**<b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b><br>
  * onItemClick里面，取子view方式eg：item.getChildAt(1)
@@ -35,7 +36,8 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
     protected Context mContext; 
     protected int layoutId;
     
-    public AdapterCommon(Context ctx,List<T> lists,int layoutId){
+    public AdapterCommon(List<T> lists,int layoutId){
+		Context ctx= UtilContext.getContext();
     	this.mDatas=lists;
     	mInflater=(LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	this.mContext=ctx;

@@ -4,10 +4,9 @@ import android.content.Context;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.DisplayMetrics;
 import android.widget.TextView;
 
-public class UtilTextView {
+public class UtilTextViewHighLight {
 
     /**
      * @param tip

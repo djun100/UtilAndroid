@@ -1,12 +1,10 @@
 package com.cy.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
@@ -22,8 +20,7 @@ public class Demo4Activity extends Activity{
 //		listView=(ListView)findViewById(R.id.listview);
 		
 		AdapterCommonSingleStyle<DemoBean> mAdapter;
-/*		listView.setAdapter(mAdapter = new AdapterCommonSingleStyle<DemoBean>(
-                getApplicationContext(), getDemoBean(), R.layout.type1)  
+/*		listView.setAdapter(mAdapter = new AdapterCommonSingleStyle<DemoBean>( getDemoBean(), R.layout.type1)
         {
             @Override  
             public void convert(ViewHolder helper, DemoBean item)  
