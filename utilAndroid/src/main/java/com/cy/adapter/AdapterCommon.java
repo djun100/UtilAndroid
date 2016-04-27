@@ -26,7 +26,8 @@ import java.util.List;
                 }
             }
             mTtf_profit_types_lv.invalidate();
-            
+
+ 参考自https://github.com/JoanZapata/base-adapter-helper
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
  */
 public abstract class AdapterCommon<T>  extends BaseAdapter {
@@ -56,18 +57,22 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
     	mDatas=onDealRawList(list);
         notifyDataSetChanged();
     }
-    /**Tips:<p>
-     * 1、must not be null<br>
+    /**Tips:<pre>
+     * 1、must not be null
      * 2、使用非增强for循环来遍历增加删除list元素
-   	     for(int i=0;i<list.size();i++){
+   	     for(int i=0;i &lt list.size();i++){
 	          if(!list.get(i).transStatus.equals("0")){
 	              list.remove(list.get(i));
 	          }
 	     }
+	 </pre>
+	 need to override
      * @param list
      * @return at lest raw list,must not be null
      */
-    public abstract List<T> onDealRawList(List<T> list);
+    public List<T> onDealRawList(List<T> list){
+		return list;
+	};
 
     @Override
 	public int getCount() {
@@ -94,7 +99,7 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
 	abstract protected void convert(ViewHolder vh,T item);*/
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder vh=ViewHolder.getViewHolder(convertView, mContext, parent, layoutId, position);
+		ViewHolder vh=ViewHolder.getViewHolder(convertView, parent, layoutId, position);
 		convert(vh, mDatas,position);
 		return vh.getConvertView();
 	}
