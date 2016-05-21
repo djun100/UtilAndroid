@@ -9,7 +9,7 @@
     }
 
 
-compile 'com.github.djun100:UtilAndroid:1f5e218a1b180cdaeccdb28f7a5fdc043c50b0f5'
+compile 'com.github.djun100:UtilAndroid:f0ef72e6410f0de13ba495fa9f3844e071ea59a7'
 
 should compile below:
 
@@ -18,3 +18,5 @@ should compile below:
 if you use UtilBase64_Codec compile below:
 
     provided 'commons-codec:commons-codec:1.8'
+
+增加测试数据生成功能
