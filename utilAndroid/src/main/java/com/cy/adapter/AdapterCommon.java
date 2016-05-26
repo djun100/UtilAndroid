@@ -1,18 +1,20 @@
 package com.cy.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-/**<b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b><br>
+import com.cy.app.UtilContext;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**<pre>
+ * 只适用于单layout布局文件情况
+ * <b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b>
  * onItemClick里面，取子view方式eg：item.getChildAt(1)
- * <p>
  * 改变其他item里面的子view：
  *             ViewGroup item;
             for (int i = 0; i < mTtf_profit_types_lv.getCount(); i++) {
@@ -25,7 +27,9 @@ import android.widget.BaseAdapter;
                 }
             }
             mTtf_profit_types_lv.invalidate();
-            
+
+ 参考自https://github.com/JoanZapata/base-adapter-helper
+ </pre>
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
  */
 public abstract class AdapterCommon<T>  extends BaseAdapter {
@@ -35,7 +39,8 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
     protected Context mContext; 
     protected int layoutId;
     
-    public AdapterCommon(Context ctx,List<T> lists,int layoutId){
+    public AdapterCommon(List<T> lists,int layoutId){
+		Context ctx= UtilContext.getContext();
     	this.mDatas=lists;
     	mInflater=(LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	this.mContext=ctx;
@@ -54,18 +59,22 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
     	mDatas=onDealRawList(list);
         notifyDataSetChanged();
     }
-    /**Tips:<p>
-     * 1、must not be null<br>
+    /**Tips:<pre>
+     * 1、must not be null
      * 2、使用非增强for循环来遍历增加删除list元素
-   	     for(int i=0;i<list.size();i++){
+   	     for(int i=0;i &lt list.size();i++){
 	          if(!list.get(i).transStatus.equals("0")){
 	              list.remove(list.get(i));
 	          }
 	     }
+	 </pre>
+	 need to override
      * @param list
      * @return at lest raw list,must not be null
      */
-    public abstract List<T> onDealRawList(List<T> list);
+    public List<T> onDealRawList(List<T> list){
+		return list;
+	};
 
     @Override
 	public int getCount() {
@@ -92,7 +101,7 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
 	abstract protected void convert(ViewHolder vh,T item);*/
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder vh=ViewHolder.getViewHolder(convertView, mContext, parent, layoutId, position);
+		ViewHolder vh=ViewHolder.getViewHolder(convertView, parent, layoutId, position);
 		convert(vh, mDatas,position);
 		return vh.getConvertView();
 	}

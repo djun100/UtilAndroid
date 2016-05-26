@@ -2,9 +2,8 @@ package com.cy.adapter;
 
 import java.util.List;
 
-import android.content.Context;
-
-/**<b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b><br>
+/**只适用于单layout布局文件情况
+ * <b>重写onDealRawList方法时一定不能返回null，不处理应返回参数list</b><br>
  * item样式完全一样，不需要position信息加以区别更改指定position的item的样式的AdapterCommon子类
  * 不需要针对不同item进行处理
  * 
@@ -13,8 +12,8 @@ import android.content.Context;
  */
 public abstract class AdapterCommonSingleStyle<T> extends AdapterCommon {
 
-	public AdapterCommonSingleStyle(Context ctx, List<?> lists, int layoutId) {
-		super(ctx, lists, layoutId);
+	public AdapterCommonSingleStyle(List<?> lists, int layoutId) {
+		super(lists, layoutId);
 	}
 
 	@Override
