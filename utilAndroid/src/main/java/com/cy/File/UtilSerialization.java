@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 
 import android.util.Log;
 
-import com.cy.System.UtilSysInfo;
+import com.cy.System.UtilEnv;
 import com.cy.io.IOUtils;
 
 /**1、Java 序列化和反序列化的两个端，被序列化对象的类所处的包名必须一致<br>
@@ -37,7 +37,7 @@ public class UtilSerialization {
 		 }
 
 		try {
-			FileOutputStream fs = new FileOutputStream(UtilSysInfo.pathRoot+ filePathName);
+			FileOutputStream fs = new FileOutputStream(UtilEnv.pathRoot+ filePathName);
 			ObjectOutputStream os = new ObjectOutputStream(fs);
 			os.writeObject(object);
 			
@@ -63,7 +63,7 @@ public class UtilSerialization {
 			 filePathName=filePathName+"/";			
 		}
 //		 String path= UtilFile.getFilePath(SysInfo.pathRoot+ filePathName);
-		 String path= UtilSysInfo.pathRoot+ filePathName;
+		 String path= UtilEnv.pathRoot+ filePathName;
 		 Log.v("", "将要创建的路径："+path);
 		 try {
 //			UtilFile.createMultiLevelFolder(path);
@@ -89,7 +89,7 @@ public class UtilSerialization {
 		Object tempObject = null;
 		 filePathName= UtilFile.addStartPathSeparator(filePathName);
 		try {
-			FileInputStream fin=new FileInputStream(UtilSysInfo.pathRoot+filePathName);
+			FileInputStream fin=new FileInputStream(UtilEnv.pathRoot+filePathName);
 			  ObjectInputStream in=new ObjectInputStream(fin);
 			  tempObject=(Object) in.readObject();
 			  

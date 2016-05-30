@@ -6,12 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.cy.System.UtilSysInfo;
 import com.cy.app.UtilContext;
 
-import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 public class UtilAssets {
 	/**
