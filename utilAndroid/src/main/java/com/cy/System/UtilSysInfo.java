@@ -484,8 +484,7 @@ public class UtilSysInfo {
         }*/
 	}
 	public static boolean hasSDcard() {
-		if (!Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED)) {
+		if (!Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 			return false;
 		} else {
 			return true;
