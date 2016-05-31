@@ -20,7 +20,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -33,7 +32,7 @@ import android.view.WindowManager;
  * @author djun100
  *
  */
-public class UtilSysInfo {
+public class UtilEnv {
 	private static int sArmArchitecture = -1;
 	private static int mHasNeon = 0;
 	public static String pathRoot = Environment.getExternalStorageDirectory().getPath();
@@ -308,7 +307,7 @@ public class UtilSysInfo {
 	/**
 	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
 	 */
-	public static int dip2px(Context context, float dpValue) {
+	public static int dp2px(Context context, float dpValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dpValue * scale + 0.5f);
 	}
@@ -316,30 +315,15 @@ public class UtilSysInfo {
 	/**
 	 * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
 	 */
-	public static int px2dip(Context context, float pxValue) {
+	public static int px2dp(Context context, float pxValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (pxValue / scale + 0.5f);
-	}
-
-	/**
-	 * px转px，根据屏幕密度density动态获取看上去等同大小的px像素
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static int px2px(Activity context, int dp) {
-		DisplayMetrics dm = new DisplayMetrics();
-		context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-		float density = dm.density;
-		int itemWidth = (int) (dp * density);
-		return itemWidth;
 	}
 
 	/**
 	 * 将px值转换为sp值，保证文字大小不变
 	 * 
 	 * @param pxValue
-	 * @param fontScale
 	 *            （DisplayMetrics类中属性scaledDensity）
 	 * @return
 	 */
@@ -352,7 +336,6 @@ public class UtilSysInfo {
 	 * 将sp值转换为px值，保证文字大小不变
 	 * 
 	 * @param spValue
-	 * @param fontScale
 	 *            （DisplayMetrics类中属性scaledDensity）
 	 * @return
 	 */
@@ -442,11 +425,11 @@ public class UtilSysInfo {
 	 * @return
 	 */
 	public static String printxyInfo(Activity context){
-		int x= UtilSysInfo.getScreenSize(context).x;
-		int y= UtilSysInfo.getScreenSize(context).y;
-		int dpx= UtilSysInfo.px2dip(context, x);
-		int dpy= UtilSysInfo.px2dip(context, y);
-		float density=UtilSysInfo.getDensity(context);
+		int x= UtilEnv.getScreenSize(context).x;
+		int y= UtilEnv.getScreenSize(context).y;
+		int dpx= UtilEnv.px2dp(context, x);
+		int dpy= UtilEnv.px2dp(context, y);
+		float density= UtilEnv.getDensity(context);
 		String strOut="x:"+x+
 				"  y:"+y+
 				"  dpx:"+dpx+
