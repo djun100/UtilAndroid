@@ -25,7 +25,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.cy.System.UtilSysInfo;
+
+import com.cy.System.UtilEnv;
 import com.cy.app.Log;
 import com.cy.app.UtilContext;
 
@@ -412,7 +413,7 @@ public class UtilPicture {
 	 * @param picName usually user+System.currentTimeMillis() + ".jpg"
 	 */
 	public static void selectPicFromCamera_step1(String picPath,String picName,Activity activity,Fragment fragment) {
-		if (!UtilSysInfo.hasSDcard()) {
+		if (!UtilEnv.hasSDcard()) {
 			Toast.makeText(UtilContext.getContext(), "SD卡不存在", Toast.LENGTH_LONG).show();
 			return;
 		}
