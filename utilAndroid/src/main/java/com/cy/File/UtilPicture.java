@@ -1,34 +1,41 @@
 
 package com.cy.File;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.cy.app.Log;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
-/**{@link #getDecodeSampledBitmapFromResource(String, int, int)} 高效加载大图<br>
+
+import com.cy.System.UtilEnv;
+import com.cy.app.Log;
+import com.cy.app.UtilContext;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
+/**增加从环信提取出来的拍照选图、相册选图方法
+ * {@link #getDecodeSampledBitmapFromResource(String, int, int)} 高效加载大图<br>
  * {@link #calculateInSampleSize(Options, int, int)} 计算2次幂的缩小比例
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
  */
@@ -357,5 +364,111 @@ public class UtilPicture {
 	   // 得到新的图片
 	   Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, true);
 	    return newbm;
-	} 
+	}
+
+	/**
+	 * 选取图片用
+	 */
+	private static final int  REQUEST_CODE_PIC=1;
+	private static final int  REQUEST_CODE_CAMERA=2;
+
+	/**发起选取图片，如聊天发送图片
+	 * @param activity    是activity传activity，不是传null
+	 * @param fragment
+	 */
+	public static void startActivityForPic_step1(Activity activity, Fragment fragment){
+		Intent intent;
+		if (Build.VERSION.SDK_INT < 19) {
+			intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("image/*");
+
+		} else {
+			intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		}
+		if (activity!=null){
+			activity.startActivityForResult(intent, REQUEST_CODE_PIC);
+		}else if (fragment!=null){
+			fragment.startActivityForResult(intent, REQUEST_CODE_PIC);
+		}
+
+	}
+
+	public static String onActivityResultPic_step2(int requestCode, int resultCode, Intent data){
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == REQUEST_CODE_PIC) { // 发送本地图片
+				if (data != null) {
+					Uri selectedImage = data.getData();
+					if (selectedImage != null) {
+						return getPicPathByUri(selectedImage);
+					}
+				}
+			}
+		}
+		return null;
+	}
+	private static File cameraFile;
+	/**
+	 * 照相获取图片
+	 * @param picPath
+	 * @param picName usually user+System.currentTimeMillis() + ".jpg"
+	 */
+	public static void selectPicFromCamera_step1(String picPath,String picName,Activity activity,Fragment fragment) {
+		if (!UtilEnv.hasSDcard()) {
+			Toast.makeText(UtilContext.getContext(), "SD卡不存在", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		cameraFile = new File(picPath, picName);
+		cameraFile.getParentFile().mkdirs();
+		if (activity!=null){
+			activity.startActivityForResult(
+					new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
+					REQUEST_CODE_CAMERA);
+		}else if(fragment!=null){
+			fragment.startActivityForResult(
+					new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
+					REQUEST_CODE_CAMERA);
+		}
+
+	}
+
+	public static String onActivityResultCamera_step2(int requestCode, int resultCode, Intent data){
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == REQUEST_CODE_CAMERA) { // 发送照片
+				if (cameraFile != null && cameraFile.exists())
+					return cameraFile.getAbsolutePath();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 根据图库图片uri发送图片
+	 *
+	 * @param selectedImage
+	 */
+	private static String getPicPathByUri(Uri selectedImage) {
+		String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		Cursor cursor = UtilContext.getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+		if (cursor != null) {
+			cursor.moveToFirst();
+			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+			String picturePath = cursor.getString(columnIndex);
+			cursor.close();
+			cursor = null;
+
+			if (picturePath == null || picturePath.equals("null")) {
+				return null;
+			}
+			return picturePath;
+		} else {
+			File file = new File(selectedImage.getPath());
+			if (!file.exists()) {
+				return null;
+
+			}
+			return file.getAbsolutePath();
+		}
+
+	}
 }
