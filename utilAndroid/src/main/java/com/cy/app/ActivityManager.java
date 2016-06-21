@@ -46,9 +46,9 @@ public class ActivityManager {
 	}
 
 	/**
-	 * 获取当前Activity，含包名
+	 * 获取当前task的stack的top Activity，含包名
 	 */
-	public String currentActivity(){
+	public static String currentActivity(){
 		android.app.ActivityManager am = (android.app.ActivityManager) UtilContext.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 		ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
 		return cn.toString();
@@ -117,5 +117,12 @@ public class ActivityManager {
 		}
 
 		return false;
+	}
+
+	/**给定activity类名 是否是当前task的stack的top Activity
+	 * @return
+	 */
+	public static boolean isCurrentActivityTop(String className){
+		return currentActivity().contains(className);
 	}
 }
