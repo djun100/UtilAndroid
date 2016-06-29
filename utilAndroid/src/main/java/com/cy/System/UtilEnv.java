@@ -1,13 +1,5 @@
 package com.cy.System;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -17,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.Signature;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,6 +19,22 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+
+import com.cy.app.UtilContext;
+import com.cy.security.UtilMD5;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * print开头函数为探针工具，返回String
@@ -523,5 +532,45 @@ public class UtilEnv {
 		return mWindowManager;
 	}
 
+	private static Signature getSelfSignature(){
+		try {
+			PackageInfo packageInfo = UtilContext.getContext().getPackageManager().getPackageInfo(UtilContext.getContext().getPackageName(), PackageManager.GET_SIGNATURES);
+			Signature[] signs = packageInfo.signatures;
+			return signs[0];
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**得到本app签名md5值
+	 * @return
+	 */
+	public static String getSignatureMD5(){
+		String signMd5 = UtilMD5.getMessageDigest(getSelfSignature().toByteArray());
+		return signMd5;
+	}
+
+	public static HashMap<String ,String> getSignatureInfo() {
+		HashMap<String,String> hashMap=new HashMap<String,String>();
+		try {
+			CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+			X509Certificate cert = (X509Certificate) certFactory
+					.generateCertificate(new ByteArrayInputStream(getSelfSignature().toByteArray()));
+			String pubKey = cert.getPublicKey().toString();
+			String signNumber = cert.getSerialNumber().toString();
+//			com.cy.app.Log.writeW("signName:" + cert.getSigAlgName());//算法名称
+//			com.cy.app.Log.writeW("pubKey:" + pubKey);//很长的一串公钥
+//			com.cy.app.Log.writeW("signNumber:" + signNumber);//签名序列号
+//			com.cy.app.Log.writeW("subjectDN:"+cert.getSubjectDN().toString());//所有者信息
+			hashMap.put("algName",cert.getSigAlgName());//算法名称
+			hashMap.put("pubKey",pubKey);//很长的一串公钥
+			hashMap.put("serialNumber",signNumber);//签名序列号
+			hashMap.put("subjectDN",cert.getSubjectDN().toString());//所有者信息
+		} catch (CertificateException e) {
+			e.printStackTrace();
+		}
+		return hashMap;
+	}
 
 }
