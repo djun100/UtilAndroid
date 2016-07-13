@@ -87,6 +87,13 @@ public class UtilDate {
 		}
 		return calendar.getTime();
 	}
+
+
+	/**增减天数
+	 * @param now
+	 * @param day
+	 * @return
+	 */
 	public static Date addDays(Date now, int day) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(now);
@@ -129,11 +136,10 @@ public class UtilDate {
 	/**
 	 * 获取星期值
 	 */
-	public static String getWeekOfDate() {
+	public static String getWeekOfDate(Date date) {
 		String[] weekDays = { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
 		Calendar cal = Calendar.getInstance();
-		Date curDate = new Date(System.currentTimeMillis());
-		cal.setTime(curDate);
+		cal.setTime(date);
 		int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
 		if (w < 0)
 			w = 0;
@@ -273,5 +279,44 @@ public class UtilDate {
 		} else {
 			return "0秒";
 		}
+	}
+
+	//判断选择的日期是否是 本周
+	public static boolean isThisWeek(long time) {
+		Calendar calendar = Calendar.getInstance();
+		int currentWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+		calendar.setTime(new Date(time));
+		int paramWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+		if (paramWeek == currentWeek) {
+			return true;
+		}
+		return false;
+	}
+
+	//判断选择的日期是否是 今天
+	public static boolean isToday(long time) {
+		return isThisTime(time, "yyyy-MM-dd");
+	}
+
+	//判断选择的日期是否是 昨天
+	public static boolean isYesterday(Date date) {
+		date= addDays(date,-1);
+		return isThisTime(date.getTime(), "yyyy-MM-dd");
+	}
+
+	//判断选择的日期是否是 本月
+	public static boolean isThisMonth(long time) {
+		return isThisTime(time, "yyyy-MM");
+	}
+
+	private static boolean isThisTime(long time, String pattern) {
+		Date date = new Date(time);
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		String param = sdf.format(date);//参数时间
+		String now = sdf.format(new Date());//当前时间
+		if (param.equals(now)) {
+			return true;
+		}
+		return false;
 	}
 }
