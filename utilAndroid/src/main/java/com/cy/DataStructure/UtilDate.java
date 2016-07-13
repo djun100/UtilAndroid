@@ -300,7 +300,7 @@ public class UtilDate {
 
 	//判断选择的日期是否是 昨天
 	public static boolean isYesterday(Date date) {
-		date= addDays(date,-1);
+		date= addDays(date,1);
 		return isThisTime(date.getTime(), "yyyy-MM-dd");
 	}
 
