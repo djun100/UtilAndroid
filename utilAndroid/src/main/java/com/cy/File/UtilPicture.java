@@ -25,12 +25,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-
 import com.cy.System.UtilEnv;
 import com.cy.app.Log;
 import com.cy.app.UtilContext;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -470,5 +471,39 @@ public class UtilPicture {
 			return file.getAbsolutePath();
 		}
 
+	}
+
+	/**bitmap 保存为文件
+	 * @param bitmap
+	 * @param pathNameFile  带文件名的全路径
+	 */
+	public static void bitmap2File(Bitmap bitmap,File pathNameFile){
+		if (pathNameFile.exists()){
+			pathNameFile.delete();
+		}
+		pathNameFile.getParentFile().mkdirs();
+		try {
+			pathNameFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		FileOutputStream fOut = null;
+		try {
+			fOut = new FileOutputStream(pathNameFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+		try {
+			fOut.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			fOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
