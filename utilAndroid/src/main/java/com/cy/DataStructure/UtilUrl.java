@@ -54,7 +54,7 @@ public class UtilUrl {
         String strAllParam = null;
         String[] arrSplit = null;
 
-        strURL = strURL.trim().toLowerCase();
+        strURL = strURL.trim();
 
         arrSplit = strURL.split("[?]");
         if (strURL.length() > 1) {
@@ -78,7 +78,7 @@ public class UtilUrl {
         String strPage=null;
         String[] arrSplit=null;
 
-        strURL=strURL.trim().toLowerCase();
+        strURL=strURL.trim();
 
         arrSplit=strURL.split("[?]");
         if(strURL.length()>0)
