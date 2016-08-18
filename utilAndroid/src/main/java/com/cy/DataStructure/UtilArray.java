@@ -78,7 +78,7 @@ public static  <T> T[] transTowToOne(T[][] channels2,int row){
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Object realloc(Object oldArray, int newSize) {
+	public static Object enlarge(Object oldArray, int newSize) {
 		int oldSize = java.lang.reflect.Array.getLength(oldArray);
 		Class elementType = oldArray.getClass().getComponentType();
 		Object newArray = java.lang.reflect.Array.newInstance(elementType, newSize);
