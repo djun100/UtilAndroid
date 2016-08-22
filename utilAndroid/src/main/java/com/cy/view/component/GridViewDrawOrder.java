@@ -1,4 +1,4 @@
-package com.cy.component;
+package com.cy.view.component;
 
 
 import android.content.Context;

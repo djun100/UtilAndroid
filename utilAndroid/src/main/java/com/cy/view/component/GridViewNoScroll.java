@@ -1,16 +1,15 @@
-package com.cy.component;
-  
+package com.cy.view.component;
 import android.content.Context;  
 import android.util.AttributeSet;  
-import android.widget.ListView;  
+import android.widget.GridView;  
   
 /**  
-* ListViewNoScroll适用于ScrollView与多个ListViewNoScroll嵌套的情况，否则ListView只会显示一二行数据
+* GridViewNoScroll适用于ScrollView与多个GridView嵌套的情况，否则GridView只会显示一行数据
 * 有其他布局在上方的时候，可以使用sv.smoothScrollTo(0, 0);自动滚动到顶部
 */  
-public class ListViewNoScroll extends ListView{  
+public class GridViewNoScroll extends GridView{  
   
-     public ListViewNoScroll(Context context, AttributeSet attrs){  
+     public GridViewNoScroll(Context context, AttributeSet attrs){  
           super(context, attrs);  
      }  
   
@@ -19,3 +18,4 @@ public class ListViewNoScroll extends ListView{
           super.onMeasure(widthMeasureSpec, mExpandSpec);  
      }  
 }  
+  
