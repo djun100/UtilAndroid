@@ -26,12 +26,31 @@ public class UtilList {
         return userList;
     }
 
+    /**会出错
+     * @param list
+     * @param <E>
+     * @return
+     */
     public static <E> E[] convert_listToArray(List<E> list) {
         if (list == null || list.size() == 0) {
             return null;
         }
         E[] array = (E[]) list.toArray();
         return array;
+    }
+
+    /**
+     * @param list  really arraylist
+     * @param contents  eg:  new String[receivers.size()]
+     * @param <E>
+     * @return
+     */
+    public static <E> E[] listToArray(List<E> list,E[] contents){
+        if (list==null || list.size()==0){
+            return null;
+        }
+        ArrayList<E> list1= (ArrayList<E>) list;
+        return list1.toArray(contents);
     }
 
     /**
