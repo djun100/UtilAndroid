@@ -30,4 +30,11 @@ public class UtilThread {
             runnable.run();
         }
     }
+
+    /**
+     * @param runnable
+     */
+    public static void runOnBackground(Runnable runnable){
+        new Thread(runnable).start();
+    }
 }
