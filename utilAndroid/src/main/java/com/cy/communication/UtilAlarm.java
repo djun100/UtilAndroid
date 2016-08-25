@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class UtilAlarm {
     //开启轮询服务
-    public static <V> void controlService(int seconds, Class<?> service, String action, Map<String,V> map, boolean isEnable) {
-        Context context= UtilContext.getContext();
+    public static <V> void controlService(int seconds, Class<?> service, String action, Map<String,V> map, boolean isEnable,boolean isTriggerImmediately) {
+        Context context=UtilContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //需要执行Service的Intent
@@ -27,15 +27,17 @@ public class UtilAlarm {
         if (!TextUtils.isEmpty(action)) {
             intent.setAction(action);
         }
-        for (Map.Entry<String,V> entry : map.entrySet()) {
-            String key= entry.getKey();
-            V v=entry.getValue();
-            if (v instanceof String){
-                intent.putExtra( key, (String)v);
-            }else if (v instanceof Integer){
-                intent.putExtra( key, (Integer) v);
-            }else {
-//                intent.putExtra( key, v);
+        if (map!=null) {
+            for (Map.Entry<String,V> entry : map.entrySet()) {
+                String key= entry.getKey();
+                V v=entry.getValue();
+                if (v instanceof String){
+                    intent.putExtra( key, (String)v);
+                }else if (v instanceof Integer){
+                    intent.putExtra( key, (Integer) v);
+                }else {
+                    //                intent.putExtra( key, v);
+                }
             }
         }
 
@@ -58,7 +60,9 @@ public class UtilAlarm {
             //触发服务的起始时间
 //          long triggerAtSystemTime = SystemClock.elapsedRealtime();
             long triggerAtRealTime = SystemClock.elapsedRealtime();
-
+            if (!isTriggerImmediately){
+                triggerAtRealTime+=seconds * 1000;
+            }
             /**
              * type: 有五个可选值:
              AlarmManager.ELAPSED_REALTIME: 闹钟在手机睡眠状态下不可用，该状态下闹钟使用相对时间（相对于系统启动开始），状态值为3;
@@ -85,8 +89,8 @@ public class UtilAlarm {
         }
     }
 
-    public static void controlActivity(Class<? extends Activity> activity, boolean isCancel, long milliseconds_after) {
-        Context context= UtilContext.getContext();
+    public static void controlActivity(Class<? extends Activity> activity,boolean isCancel,long milliseconds_after) {
+        Context context=UtilContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         long triggerAtTime = SystemClock.elapsedRealtime() + milliseconds_after;
         Intent intent = new Intent(context, activity);
@@ -100,7 +104,7 @@ public class UtilAlarm {
     }
 
     public static void controlBroadcast(boolean isCancel,String action) {
-        Context context= UtilContext.getContext();
+        Context context=UtilContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         // Intent intent = new Intent(context,AlarmReceiver.class);
