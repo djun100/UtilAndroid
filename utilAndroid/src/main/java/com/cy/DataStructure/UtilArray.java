@@ -1,5 +1,8 @@
 package com.cy.DataStructure;
-/** 
+
+import java.lang.reflect.Array;
+
+/**
  * 把一维数组拆分为二维数组。 
  * tips:null也占据数组长度
  *  
@@ -102,5 +105,38 @@ public static  <T> T[] transTowToOne(T[][] channels2,int row){
 			sb.append("["+i+"]").append(list[i]).append("\n");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Description: Array add length
+	 * @param oldArray
+	 * @param addLength
+	 * @return Object
+	 */
+	public static Object arrayAddLength(Object oldArray,int addLength) {
+		Class c = oldArray.getClass();
+		if(!c.isArray())return null;
+		Class componentType = c.getComponentType();
+		int length = Array.getLength(oldArray);
+		int newLength = length + addLength;
+		Object newArray = Array.newInstance(componentType,newLength);
+		System.arraycopy(oldArray,0,newArray,0,length);
+		return newArray;
+	}
+	/**
+	 * Description: Array reduce lenght
+	 * @param oldArray
+	 * @param reduceLength
+	 * @return Object
+	 */
+	public static Object arrayReduceLength(Object oldArray,int reduceLength) {
+		Class c = oldArray.getClass();
+		if(!c.isArray())return null;
+		Class componentType = c.getComponentType();
+		int length = Array.getLength(oldArray);
+		int newLength = length - reduceLength;
+		Object newArray = Array.newInstance(componentType,newLength);
+		System.arraycopy(oldArray,0,newArray,0,newLength);
+		return newArray;
 	}
 }  
