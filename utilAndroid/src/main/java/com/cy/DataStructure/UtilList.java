@@ -53,6 +53,20 @@ public class UtilList {
         return list1.toArray(contents);
     }
 
+    /**list去重
+     * @param list
+     * @param <E>
+     * @return
+     */
+    public static <E> List<E> singleFilter(List<E> list){
+        ArrayList<E> result = new ArrayList<E>();
+
+        for(E e: list){
+            if(Collections.frequency(result, e) < 1) result.add(e);
+        }
+        return result;
+    }
+
     /**
      * based on http://www.cnblogs.com/nayitian/p/3322267.html
      * <p>
