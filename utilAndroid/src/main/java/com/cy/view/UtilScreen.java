@@ -1,9 +1,13 @@
 package com.cy.view;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.cy.app.UtilContext;
 
@@ -59,5 +63,19 @@ public class UtilScreen {
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+    }
+
+    public void showKeyboard(View view) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1 && view.hasFocus()) {
+            view.clearFocus();
+        }
+        view.requestFocus();
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, 0);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
