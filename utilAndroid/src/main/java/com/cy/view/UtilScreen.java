@@ -65,7 +65,7 @@ public class UtilScreen {
 
     }
 
-    public void showKeyboard(View view) {
+    public static void showKeyboard(View view) {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1 && view.hasFocus()) {
             view.clearFocus();
         }
@@ -74,7 +74,7 @@ public class UtilScreen {
         imm.showSoftInput(view, 0);
     }
 
-    public void hideKeyboard(View view) {
+    public static void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
