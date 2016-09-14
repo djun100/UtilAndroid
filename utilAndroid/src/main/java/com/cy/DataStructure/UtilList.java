@@ -93,10 +93,10 @@ public class UtilList {
             public int compare(Object arg1, Object arg2) {
                 int result = 0;
                 try {
-                    Method m1 = ((E) arg1).getClass().getMethod(method, null);
-                    Method m2 = ((E) arg2).getClass().getMethod(method, null);
-                    Object obj1 = m1.invoke(((E) arg1), null);
-                    Object obj2 = m2.invoke(((E) arg2), null);
+                    Method m1 = ((E) arg1).getClass().getMethod(method, new Class[0]);//null会报警告
+                    Method m2 = ((E) arg2).getClass().getMethod(method, new Class[0]);
+                    Object obj1 = m1.invoke(((E) arg1), new Object[]{});//null会报警告
+                    Object obj2 = m2.invoke(((E) arg2), new Object[]{});
                     if (obj1 instanceof String) {
                         // 字符串
                         obj1= UtilHanziToPinyin.getPinYin((String) obj1);
