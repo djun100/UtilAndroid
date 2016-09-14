@@ -23,6 +23,9 @@ public class UtilListTest {
         listMember.add(new Member(1, "wm123", 3, "1992-12-01"));
         listMember.add(new Member(2, "a234", 8, "1995-12-01"));
         listMember.add(new Member(3, "m456", 12, "1990-12-01"));
+        listMember.add(new Member(4, "主任", 13, "1991-12-01"));
+        listMember.add(new Member(5, "元首", 13, "1991-12-01"));
+        listMember.add(new Member(5, "将军", 13, "1991-12-01"));
         System.out.println("listMember当前顺序...");
         System.out.println(listMember);
 

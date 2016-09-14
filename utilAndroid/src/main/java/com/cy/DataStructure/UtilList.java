@@ -99,6 +99,9 @@ public class UtilList {
                     Object obj2 = m2.invoke(((E) arg2), null);
                     if (obj1 instanceof String) {
                         // 字符串
+                        obj1= UtilHanziToPinyin.getPinYin((String) obj1);
+                        obj2= UtilHanziToPinyin.getPinYin((String) obj2);
+
                         result = obj1.toString().compareTo(obj2.toString());
                     } else if (obj1 instanceof Date) {
                         // 日期
