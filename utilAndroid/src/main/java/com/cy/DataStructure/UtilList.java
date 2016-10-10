@@ -93,34 +93,44 @@ public class UtilList {
             public int compare(Object arg1, Object arg2) {
                 int result = 0;
                 try {
-                    Method m1 = ((E) arg1).getClass().getMethod(method, new Class[0]);//null会报警告
+                    Method m1 = ((E) arg1).getClass().getMethod(method, new Class[0]);
                     Method m2 = ((E) arg2).getClass().getMethod(method, new Class[0]);
-                    Object obj1 = m1.invoke(((E) arg1), new Object[]{});//null会报警告
-                    Object obj2 = m2.invoke(((E) arg2), new Object[]{});
-                    if (obj1 instanceof String) {
-                        // 字符串
-                        obj1= UtilHanziToPinyin.getPinYin((String) obj1);
-                        obj2= UtilHanziToPinyin.getPinYin((String) obj2);
-
-                        result = obj1.toString().compareTo(obj2.toString());
-                    } else if (obj1 instanceof Date) {
-                        // 日期
-                        long l = ((Date) obj1).getTime() - ((Date) obj2).getTime();
-                        if (l > 0) {
-                            result = 1;
-                        } else if (l < 0) {
-                            result = -1;
+                    Object obj1 = m1.invoke(((E) arg1), new  Object[]{});
+                    Object obj2 = m2.invoke(((E) arg2), new  Object[]{});
+                    if (obj1!=null&&obj2!=null) {
+                        if (obj1 instanceof String) {
+                            obj1= UtilHanziToPinyin.getPinYin((String) obj1);
+                            obj2= UtilHanziToPinyin.getPinYin((String) obj2);
+                            // 字符串
+                            result = obj1.toString().compareTo(obj2.toString());
+                            //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);
+                        } else if (obj1 instanceof Date) {
+                            // 日期
+                            long l = ((Date) obj1).getTime() - ((Date) obj2).getTime();
+                            if (l > 0) {
+                                result = 1;
+                            } else if (l < 0) {
+                                result = -1;
+                            } else {
+                                result = 0;
+                            }
+                        } else if (obj1 instanceof Integer) {
+                            // 整型（Method的返回参数可以是int的，因为JDK1.5之后，Integer与int可以自动转换了）
+                            result = (Integer) obj1 - (Integer) obj2;
                         } else {
-                            result = 0;
-                        }
-                    } else if (obj1 instanceof Integer) {
-                        // 整型（Method的返回参数可以是int的，因为JDK1.5之后，Integer与int可以自动转换了）
-                        result = (Integer) obj1 - (Integer) obj2;
-                    } else {
-                        // 目前尚不支持的对象，直接转换为String，然后比较，后果未知
-                        result = obj1.toString().compareTo(obj2.toString());
+                            // 目前尚不支持的对象，直接转换为String，然后比较，后果未知
+                            result = obj1.toString().compareTo(obj2.toString());
+                            System.err.println("UtilSortList.sortByMethod方法接受到不可识别的对象类型，转换为字符串后比较返回...");
 
-                        System.err.println("UtilSortList.sortByMethod方法接受到不可识别的对象类型，转换为字符串后比较返回...");
+                        }
+                    } else {
+                        if (obj1==null&&obj2!=null){
+                            result=-1;
+                        }else if (obj1==null&&obj2==null){
+                            result=0;
+                        }else {// obj1 != null && obj2 == null
+                            result=1;
+                        }
                     }
 
                     if (bigToLittle) {
