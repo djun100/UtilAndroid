@@ -330,6 +330,10 @@ public class Log {
 
     }
 
+    public static void w(Object object) {
+        w(object.getClass().getName());
+    }
+
     public static void writeW(String content) {
         if (!allowLog) return;
         if (!allowW) return;
