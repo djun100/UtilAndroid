@@ -191,4 +191,9 @@ public class UtilString {
 				return def;
 			}
 		}
+	public static String nullDeal(String origin){
+		if (origin==null){
+			return "";
+		}else return origin;
+	}
 }
