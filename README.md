@@ -9,7 +9,7 @@
     }
 
 
-compile 'com.github.djun100:UtilAndroid:99a6727c985b0312ab0c1c4130cf1a2fe9535153'
+compile 'com.github.djun100:UtilAndroid:4c40277263dbe187426746ed0180fb263d21b102'
 
 should compile below:
 
