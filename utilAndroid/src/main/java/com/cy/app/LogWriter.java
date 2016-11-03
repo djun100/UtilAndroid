@@ -16,7 +16,15 @@ public class LogWriter {
 	private static Writer mWriter;
 	
 	private static SimpleDateFormat df;
-	
+
+	public static String getmCurrentUseDate() {
+		return mCurrentUseDate;
+	}
+
+	/**
+	 * 格式：yyyy-MM-dd_HH
+	 */
+	private static String mCurrentUseDate;
 	private LogWriter(String file_path) {
 		this.mPath = file_path;
 		this.mWriter = null;
@@ -25,9 +33,9 @@ public class LogWriter {
 	 * 按1小时分割*/
 	public static LogWriter open(String file_path) throws IOException {
 		if (mLogWriter == null) {
+			mCurrentUseDate=getFormatCurrentDate();
 			String fileName=UtilContext.getContext().getPackageName()+"."
-					+new SimpleDateFormat("yyyy-MM-dd_HH").format(new Date())
-					+".log";
+					+mCurrentUseDate +".log";
 				mLogWriter = new LogWriter(file_path+"/"+fileName);
 
 		}
@@ -52,5 +60,8 @@ public class LogWriter {
 			Log.e(e.getMessage());
 		}
 	}
-	
+
+	public static String getFormatCurrentDate(){
+		return new SimpleDateFormat("yyyy-MM-dd_HH").format(new Date());
+	}
 }

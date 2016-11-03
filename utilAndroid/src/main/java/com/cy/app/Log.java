@@ -116,11 +116,24 @@ public class Log {
         } else {
             android.util.Log.d(tag, content);
         }
-        if (mLogWriter == null) {
-            initWriter();
-        }
+        initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
+
+    private static void initWriterIfNeed() {
+        if (mLogWriter == null) {
+            initWriter();
+            //当前LogWritter使用的时间已经不是最新的了，换新文件来写log
+        }else if (!LogWriter.getFormatCurrentDate().equals(mLogWriter.getmCurrentUseDate())){
+            try {
+                mLogWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            initWriter();
+        }
+    }
+
     /**Eclipse 经常显示不出来Log.d，不推荐使用
      * @param content
      */
@@ -177,9 +190,7 @@ public class Log {
 //            Toast.makeText(getApplicationContext(), "程序异常，请退出重试", Toast.LENGTH_SHORT).show();
         }
 
-        if (mLogWriter == null) {
-            initWriter();
-        }
+        initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
     public static void e(String tag,String content) {
@@ -232,9 +243,7 @@ public class Log {
             android.util.Log.i(tag, content);
         }
 
-        if (mLogWriter == null) {
-            initWriter();
-        }
+        initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
 
@@ -287,9 +296,7 @@ public class Log {
             android.util.Log.v(tag, content);
         }
 
-        if (mLogWriter == null) {
-           initWriter();
-        }
+        initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
     public static void v(String tag,String content) {
@@ -345,9 +352,7 @@ public class Log {
         } else {
             android.util.Log.w(tag, content);
         }
-        if (mLogWriter == null) {
-            initWriter();
-        }
+        initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
     public static void w(String tag,String content) {
