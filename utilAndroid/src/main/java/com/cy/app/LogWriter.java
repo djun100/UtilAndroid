@@ -47,6 +47,7 @@ public class LogWriter {
 	
 	public void close() throws IOException {
 		mWriter.close();
+		mLogWriter=null;
 	}
 	
 	public void print(String log) {
