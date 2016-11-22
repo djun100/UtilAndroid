@@ -92,6 +92,7 @@ public class Log {
     public static void d(String content) {
         if (!allowLog) return;
         if (!allowD) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -102,12 +103,21 @@ public class Log {
         }
     }
 
+
+    private static String validateContent(String content) {
+        if (TextUtils.isEmpty(content)){
+            content="avoid exception,content is empty";
+        }
+        return content;
+    }
+
     /**Eclipse 经常显示不出来Log.d，不推荐使用
      * @param content
      */
     public static void writeD(String content) {
         if (!allowLog) return;
         if (!allowD) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -140,6 +150,7 @@ public class Log {
     public static void d(String tag,String content) {
         if (!allowLog) return;
         if (!allowD) return;
+        content = validateContent(content);
         if(isUseInternalTag) tag=generateTag(getCallerStackTraceElement());
         if (customLogger != null) {
             customLogger.d(tag, content);
@@ -153,6 +164,7 @@ public class Log {
     public static void d(String content, Throwable tr) {
         if (!allowLog) return;
         if (!allowD) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -166,6 +178,7 @@ public class Log {
     public static void e(String content) {
         if (!allowLog) return;
         if (!allowE) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -180,6 +193,7 @@ public class Log {
     public static void writeE(String content) {
         if (!allowLog) return;
         if (!allowE) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -196,6 +210,7 @@ public class Log {
     public static void e(String tag,String content) {
         if (!allowLog) return;
         if (!allowE) return;
+        content = validateContent(content);
         if(isUseInternalTag) tag=generateTag(getCallerStackTraceElement());
         if (customLogger != null) {
             customLogger.e(tag, content);
@@ -208,6 +223,7 @@ public class Log {
     public static void e(String content, Throwable tr) {
         if (!allowLog) return;
         if (!allowE) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -221,6 +237,7 @@ public class Log {
     public static void i(String content) {
         if (!allowLog) return;
         if (!allowI) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -234,6 +251,7 @@ public class Log {
     public static void writeI(String content) {
         if (!allowLog) return;
         if (!allowI) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -250,6 +268,7 @@ public class Log {
     public static void i(String tag,String content) {
         if (!allowLog) return;
         if (!allowI) return;
+        content = validateContent(content);
         if(isUseInternalTag) tag=generateTag(getCallerStackTraceElement());
         if (customLogger != null) {
             customLogger.i(tag, content);
@@ -261,6 +280,7 @@ public class Log {
     public static void i(String content, Throwable tr) {
         if (!allowLog) return;
         if (!allowI) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -274,6 +294,7 @@ public class Log {
     public static void v(String content) {
         if (!allowLog) return;
         if (!allowV) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -287,6 +308,7 @@ public class Log {
     public static void writeV(String content) {
         if (!allowLog) return;
         if (!allowV) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -302,6 +324,7 @@ public class Log {
     public static void v(String tag,String content) {
         if (!allowLog) return;
         if (!allowV) return;
+        content = validateContent(content);
         if(isUseInternalTag) tag=generateTag(getCallerStackTraceElement());
         if (customLogger != null) {
             customLogger.v(tag, content);
@@ -313,6 +336,7 @@ public class Log {
     public static void v(String content, Throwable tr) {
         if (!allowLog) return;
         if (!allowV) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -326,6 +350,7 @@ public class Log {
     public static void w(String content) {
         if (!allowLog) return;
         if (!allowW) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -344,6 +369,7 @@ public class Log {
     public static void writeW(String content) {
         if (!allowLog) return;
         if (!allowW) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -358,6 +384,7 @@ public class Log {
     public static void w(String tag,String content) {
         if (!allowLog) return;
         if (!allowW) return;
+        content = validateContent(content);
         if(isUseInternalTag) tag=generateTag(getCallerStackTraceElement());
         if (customLogger != null) {
             customLogger.w(tag, content);
@@ -369,6 +396,7 @@ public class Log {
     public static void w(String content, Throwable tr) {
         if (!allowLog) return;
         if (!allowW) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -396,6 +424,7 @@ public class Log {
     public static void wtf(String content) {
         if (!allowLog) return;
         if (!allowWtf) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
@@ -409,6 +438,7 @@ public class Log {
     public static void wtf(String content, Throwable tr) {
         if (!allowLog) return;
         if (!allowWtf) return;
+        content = validateContent(content);
         StackTraceElement caller = getCallerStackTraceElement();
         String tag = generateTag(caller);
 
