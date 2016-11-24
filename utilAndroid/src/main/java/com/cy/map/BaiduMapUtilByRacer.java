@@ -1,10 +1,13 @@
 //package com.cy.map;
 //
+//import android.app.Activity;
 //import android.app.AlertDialog;
 //import android.content.Context;
 //import android.content.DialogInterface;
 //import android.content.DialogInterface.OnClickListener;
+//import android.content.Intent;
 //import android.graphics.Bitmap;
+//import android.net.Uri;
 //import android.util.Log;
 //import android.view.View;
 //import android.widget.ImageView;
@@ -48,10 +51,10 @@
 //import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 //import com.baidu.mapapi.utils.DistanceUtil;
 //
+//import java.net.URISyntaxException;
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//import cn.vjsp.scg.bean.LocationBean;
 //
 ///**
 // * @ClassName: BaiduMapUtilByRacer
@@ -1074,4 +1077,34 @@
 //		mPoiSearchListener = null;
 //		mPoiDetailSearchListener = null;
 //	}
+//
+//    /**调用百度地图导航
+//     * @param activity
+//     * @param lat
+//     * @param lon
+//     */
+//    public static void callBaiduMapClientNavigation(final Activity activity, long  lat, long  lon){
+//        //这是调起百度地图客户端导航的URL
+//        String strDaoHang = "intent://map/direction?" + "destination=latlng:" + lat + "," + lon + "|name:我的目的地" + "&mode=driving#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end";
+//        //调起百度地图客户端
+////        try {
+////            Intent intent = Intent.getIntent(strDaoHang);
+////            if (isInstallByread("com.baidu.BaiduMap")) {
+////                activity.startActivity(intent); //启动调用
+////                Log.e("GasStation", "百度地图客户端已经安装");
+////            } else {
+////                Log.e("GasStation", "没有安装百度地图客户端");
+////                showMessageQuestion(R.string.no_baidu_map, R.string.yes, R.string.no, new DialogInterface.OnClickListener() {
+////                    @Override
+////                    public void onClick(DialogInterface dialog, int which) {
+////                        Uri uri = Uri.parse("http://map.baidu.com/zt/client/index/");//这是手机百度地图官网
+////                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+////                        activity.startActivity(intent);
+////                    }
+////                });
+////            }
+////        } catch (URISyntaxException e) {
+////            e.printStackTrace();
+////        }
+//    }
 //}
