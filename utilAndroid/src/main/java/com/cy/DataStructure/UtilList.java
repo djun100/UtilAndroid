@@ -14,6 +14,10 @@ public class UtilList {
         return list != null && list.size() > 0;
     }
 
+    public static <E> boolean isEmpty(List<E> list) {
+        return list == null || list.size() == 0;
+    }
+
     public static <E> List<E> convert_arrayToList(E[] array) {
 
         List<E> userList = new ArrayList<E>();

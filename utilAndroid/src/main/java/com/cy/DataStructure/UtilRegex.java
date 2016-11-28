@@ -17,4 +17,15 @@ public class UtilRegex {
         String regx = "(([\u4E00-\u9FA5]{2,4})|([a-zA-Z]{3,10}))";
         return Pattern.matches(regx, name);
     }
+
+    /**是否全为空格
+     * @param key
+     * @return
+     */
+    public static boolean isAllSpace(String key){
+        if (key==null||key.length()==0){
+            return false;
+        }
+        return (key.matches("\\s+"));
+    }
 }
