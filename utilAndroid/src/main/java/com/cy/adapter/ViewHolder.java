@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cy.app.UtilContext;
 
 /**
@@ -161,11 +162,16 @@ public class ViewHolder {
      * @param imageUrl The image URL.
      * @return The ViewHolder for chaining.
      */
-//    public ViewHolder setImageUrl(int viewId, String imageUrl) {
-//        ImageView view = retrieveView(viewId);
-//        Picasso.with(context).load(imageUrl).into(view);
-//        return this;
-//    }
+    public ViewHolder setImageUrl(int viewId, String imageUrl) {
+        ImageView view = retrieveView(viewId);
+        Glide
+                .with(UtilContext.getContext())
+                .load(imageUrl)
+                .override(280, 280)
+                .fitCenter()
+                .into(view);
+        return this;
+    }
 
     /**
      * Will download an image from a URL and put it in an ImageView.<br/>
