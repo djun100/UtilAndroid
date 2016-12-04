@@ -1,1 +1,1 @@
-include ':utilAndroid'/*, ':baidumap_lib'*/
+include ':utilAndroid'

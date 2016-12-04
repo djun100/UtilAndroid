@@ -23,5 +23,4 @@ dependencies {
     provided 'com.github.bumptech.glide:glide:3.7.0'
     //    provided 'com.github.djun100:BaiduMapLib:6c834be'
     testCompile 'junit:junit:4.12'
-    provided project(':baidumap_lib')
 }
