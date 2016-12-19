@@ -8,6 +8,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 1、object compare Java多属性对象比较器
+ */
 public class UtilList {
 
     public static <E> boolean notEmpty(List<E> list) {
