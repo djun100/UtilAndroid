@@ -21,14 +21,12 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.cy.app.UtilContext;
-import com.cy.communication.UtilThread;
 import com.cy.security.UtilMD5;
 import com.cy.utils.Reflect;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
@@ -52,8 +50,9 @@ public class UtilEnv {
 	private static int sArmArchitecture = -1;
 	private static int mHasNeon = 0;
 	public static String pathRoot = Environment.getExternalStorageDirectory().getPath();
-	public static final String OS_MIUI="OS_MIUI";//小米系统
-	public static final String OS_FLYME="OS_FLYME";//魅族系统
+	public static final String OS_XIAOMI ="OS_XIAOMI";//小米系统
+	public static final String OS_MEIZU ="OS_MEIZU";//魅族系统
+	public static final String OS_HUAWEI="OS_HUAWEI";//华为系统
 
 	/**
 	 * 手机型号
@@ -587,20 +586,27 @@ public class UtilEnv {
 	 * @return
 	 */
 	public static String getOsType(){
-		if (isFlyme()){
-			return OS_FLYME;
-		}else if (isMIUI()){
-			return OS_MIUI;
+		if (isMeizu_Flyme()){
+			return OS_MEIZU;
+		}else if (isXiaomi_MIUI()){
+			return OS_XIAOMI;
+		}else if (isHuawei_EMUI()){
+			return OS_HUAWEI;
 		}
 		return "";
 	}
 
-	private static boolean isMIUI(){
+	private static boolean isXiaomi_MIUI(){
 		String versionName=	Reflect.on(android.os.Build.class).call("getString","ro.miui.ui.version.name").toString();
 		return TextUtils.isEmpty(versionName)?false:true;
 	}
 
-	private static boolean isFlyme(){
+	private static boolean isHuawei_EMUI(){
+		String value=	Reflect.on(android.os.Build.class).call("getString","ro.build.hw_emui_api_level").toString();
+		return TextUtils.isEmpty(value)?false:true;
+	}
+
+	private static boolean isMeizu_Flyme(){
 /* 获取魅族系统操作版本标识*/
 		String meizuFlymeOSFlag  = getSystemProperty("ro.build.display.id","");
 		if (TextUtils.isEmpty(meizuFlymeOSFlag)){
