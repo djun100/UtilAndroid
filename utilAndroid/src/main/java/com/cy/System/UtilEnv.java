@@ -21,13 +21,18 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.cy.app.UtilContext;
+import com.cy.communication.UtilThread;
 import com.cy.security.UtilMD5;
+import com.cy.utils.Reflect;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -35,6 +40,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static com.cy.utils.Reflect.on;
 
 /**
  * print开头函数为探针工具，返回String
@@ -45,6 +52,9 @@ public class UtilEnv {
 	private static int sArmArchitecture = -1;
 	private static int mHasNeon = 0;
 	public static String pathRoot = Environment.getExternalStorageDirectory().getPath();
+	public static final String OS_MIUI="OS_MIUI";//小米系统
+	public static final String OS_FLYME="OS_FLYME";//魅族系统
+
 	/**
 	 * 手机型号
 	 */
@@ -573,4 +583,57 @@ public class UtilEnv {
 		return hashMap;
 	}
 
+	/**获取系统种类，MIUI，flyme...
+	 * @return
+	 */
+	public static String getOsType(){
+		if (isFlyme()){
+			return OS_FLYME;
+		}else if (isMIUI()){
+			return OS_MIUI;
+		}
+		return "";
+	}
+
+	private static boolean isMIUI(){
+		String versionName=	Reflect.on(android.os.Build.class).call("getString","ro.miui.ui.version.name").toString();
+		com.cy.app.Log.w(versionName);
+		UtilThread.toast(versionName);
+		return TextUtils.isEmpty(versionName)?false:true;
+	}
+
+	private static boolean isFlyme(){
+/* 获取魅族系统操作版本标识*/
+		String meizuFlymeOSFlag  = getSystemProperty("ro.build.display.id","");
+		if (TextUtils.isEmpty(meizuFlymeOSFlag)){
+			return false;
+		}else if (meizuFlymeOSFlag.contains("flyme") || meizuFlymeOSFlag.toLowerCase().contains("flyme")){
+			return  true;
+		}else {
+			return false;
+		}
+	}
+
+	/**获取系统属性
+	 * @param key
+	 * @param defaultValue
+	 * @return
+	 */
+	private static String getSystemProperty(String key, String defaultValue) {
+		try {
+			Class<?> clz = Class.forName("android.os.SystemProperties");
+			Method get = clz.getMethod("get", String.class, String.class);
+			return (String)get.invoke(clz, key, defaultValue);
+		} catch (ClassNotFoundException e) {
+			return null;
+		} catch (NoSuchMethodException e) {
+			return null;
+		} catch (IllegalAccessException e) {
+			return null;
+		} catch (IllegalArgumentException e) {
+			return null;
+		} catch (InvocationTargetException e) {
+			return null;
+		}
+	}
 }
