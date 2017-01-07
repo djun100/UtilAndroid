@@ -597,8 +597,6 @@ public class UtilEnv {
 
 	private static boolean isMIUI(){
 		String versionName=	Reflect.on(android.os.Build.class).call("getString","ro.miui.ui.version.name").toString();
-		com.cy.app.Log.w(versionName);
-		UtilThread.toast(versionName);
 		return TextUtils.isEmpty(versionName)?false:true;
 	}
 
