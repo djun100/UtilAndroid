@@ -26,7 +26,9 @@ import com.cy.utils.Reflect;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
@@ -639,5 +641,44 @@ public class UtilEnv {
 		} catch (InvocationTargetException e) {
 			return null;
 		}
+	}
+
+	/** 判断手机是否root，不弹出root请求框
+	 * http://www.cnblogs.com/waylife/p/android_root_check.html
+	 * 权限说明
+	 * http://cn.linux.vbird.org/linux_basic/0210filepermission.php
+	 * */
+	public static boolean isRooted() {
+		String binPath = "/system/bin/su";
+		String xBinPath = "/system/xbin/su";
+		if (new File(binPath).exists() && isExecutable(binPath))
+			return true;
+		if (new File(xBinPath).exists() && isExecutable(xBinPath))
+			return true;
+		return false;
+	}
+
+	private static boolean isExecutable(String filePath) {
+		Process p = null;
+		try {
+			p = Runtime.getRuntime().exec("ls -l " + filePath);
+			// 获取返回内容
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String str = in.readLine();
+			com.cy.app.Log.i( str);
+			if (str != null && str.length() >= 4) {
+				char flag = str.charAt(3);
+				//当s权限在文件组 x 权限上时，例如：-rwx--s--x，此时称为Set GID，简称为SGID的特殊权限， 执行者在执行该文件时将具有该文件所属组的权限。
+				if (flag == 's' || flag == 'x')
+					return true;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(p!=null){
+				p.destroy();
+			}
+		}
+		return false;
 	}
 }
