@@ -104,7 +104,19 @@ public class Log {
     }
 
     public static void d(boolean show,String content) {
-        if (show) d(content);
+        if (show){
+            if (!allowLog) return;
+            if (!allowD) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.d(tag, content);
+            } else {
+                android.util.Log.d(tag, content);
+            }
+        }
     }
 
     private static String validateContent(String content) {
@@ -133,7 +145,21 @@ public class Log {
         mLogWriter.print(tag + " " + content);
     }
     public static void writeD(boolean show,String content) {
-        if (show) writeD(content);
+        if (show){
+            if (!allowLog) return;
+            if (!allowD) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.d(tag, content);
+            } else {
+                android.util.Log.d(tag, content);
+            }
+            initWriterIfNeed();
+            mLogWriter.print(tag + " " + content);
+        }
     }
     private static void initWriterIfNeed() {
         if (mLogWriter == null) {
@@ -195,7 +221,20 @@ public class Log {
         }
     }
     public static void e(boolean show,String content) {
-        if (show) e(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowE) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.e(tag, content);
+            } else {
+                android.util.Log.e(tag, content);
+//            Toast.makeText(getApplicationContext(), "程序异常，请退出重试", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     public static void writeE(String content) {
         if (!allowLog) return;
@@ -215,7 +254,23 @@ public class Log {
         mLogWriter.print(tag + " " + content);
     }
     public static void writeE(boolean show,String content) {
-        if (show) writeE(content);
+        if (show){
+            if (!allowLog) return;
+            if (!allowE) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.e(tag, content);
+            } else {
+                android.util.Log.e(tag, content);
+//            Toast.makeText(getApplicationContext(), "程序异常，请退出重试", Toast.LENGTH_SHORT).show();
+            }
+
+            initWriterIfNeed();
+            mLogWriter.print(tag + " " + content);
+        }
     }
     public static void e(String tag,String content) {
         if (!allowLog) return;
@@ -258,7 +313,19 @@ public class Log {
         }
     }
     public static void i(boolean show,String content) {
-        if (show) i(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowI) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.i(tag, content);
+            } else {
+                android.util.Log.i(tag, content);
+            }
+        }
     }
     public static void writeI(String content) {
         if (!allowLog) return;
@@ -277,7 +344,22 @@ public class Log {
         mLogWriter.print(tag + " " + content);
     }
     public static void writeI(boolean show,String content) {
-        if (show) writeI(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowI) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.i(tag, content);
+            } else {
+                android.util.Log.i(tag, content);
+            }
+
+            initWriterIfNeed();
+            mLogWriter.print(tag + " " + content);
+        }
     }
     public static void i(String tag,String content) {
         if (!allowLog) return;
@@ -319,7 +401,19 @@ public class Log {
         }
     }
     public static void v(boolean show,String content) {
-        if (show) v(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowV) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.v(tag, content);
+            } else {
+                android.util.Log.v(tag, content);
+            }
+        }
     }
     public static void writeV(String content) {
         if (!allowLog) return;
@@ -338,7 +432,22 @@ public class Log {
         mLogWriter.print(tag + " " + content);
     }
     public static void writeV(boolean show,String content) {
-        if (show) writeV(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowV) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.v(tag, content);
+            } else {
+                android.util.Log.v(tag, content);
+            }
+
+            initWriterIfNeed();
+            mLogWriter.print(tag + " " + content);
+        }
     }
     public static void v(String tag,String content) {
         if (!allowLog) return;
@@ -381,7 +490,19 @@ public class Log {
 
     }
     public static void w(boolean show,String content) {
-        if (show) w(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowW) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.w(tag, content);
+            } else {
+                android.util.Log.w(tag, content);
+            }
+        }
     }
     public static void w(Object object) {
         w(object.getClass().getName());
@@ -403,7 +524,21 @@ public class Log {
         mLogWriter.print(tag + " " + content);
     }
     public static void writeW(boolean show,String content) {
-        if (show) writeW(content);
+        if (show) {
+            if (!allowLog) return;
+            if (!allowW) return;
+            content = validateContent(content);
+            StackTraceElement caller = getCallerStackTraceElement();
+            String tag = generateTag(caller);
+
+            if (customLogger != null) {
+                customLogger.w(tag, content);
+            } else {
+                android.util.Log.w(tag, content);
+            }
+            initWriterIfNeed();
+            mLogWriter.print(tag + " " + content);
+        }
     }
     public static void w(String tag,String content) {
         if (!allowLog) return;
