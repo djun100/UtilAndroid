@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import static android.R.attr.end;
+
 /**
  * @author json转换时间
  *
@@ -261,8 +263,16 @@ public class UtilDate {
 	 * @param end
 	 * @return
 	 */
-	public static String getDatePassed(Date begin, Date end) {
-		long between = (end.getTime() - begin.getTime()) / 1000;// 除以1000是为了转换成秒
+	public static String getTimeDiff(Date begin, Date end) {
+		return getTimeDiff(begin.getTime(),end.getTime());
+	}
+	/**计算时间差
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public static String getTimeDiff(long begin, long end) {
+		long between = (end - begin) / 1000;// 除以1000是为了转换成秒
 		long day1 = between / (24 * 3600);
 		long hour1 = between % (24 * 3600) / 3600;
 		long minute1 = between % 3600 / 60;
