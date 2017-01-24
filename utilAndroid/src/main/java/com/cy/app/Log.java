@@ -103,6 +103,9 @@ public class Log {
         }
     }
 
+    public static void d(boolean show,String content) {
+        if (show) d(content);
+    }
 
     private static String validateContent(String content) {
         if (TextUtils.isEmpty(content)){
@@ -129,7 +132,9 @@ public class Log {
         initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
-
+    public static void writeD(boolean show,String content) {
+        if (show) writeD(content);
+    }
     private static void initWriterIfNeed() {
         if (mLogWriter == null) {
             initWriter();
@@ -189,7 +194,9 @@ public class Log {
 //            Toast.makeText(getApplicationContext(), "程序异常，请退出重试", Toast.LENGTH_SHORT).show();
         }
     }
-
+    public static void e(boolean show,String content) {
+        if (show) e(content);
+    }
     public static void writeE(String content) {
         if (!allowLog) return;
         if (!allowE) return;
@@ -206,6 +213,9 @@ public class Log {
 
         initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
+    }
+    public static void writeE(boolean show,String content) {
+        if (show) writeE(content);
     }
     public static void e(String tag,String content) {
         if (!allowLog) return;
@@ -247,7 +257,9 @@ public class Log {
             android.util.Log.i(tag, content);
         }
     }
-
+    public static void i(boolean show,String content) {
+        if (show) i(content);
+    }
     public static void writeI(String content) {
         if (!allowLog) return;
         if (!allowI) return;
@@ -264,7 +276,9 @@ public class Log {
         initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
     }
-
+    public static void writeI(boolean show,String content) {
+        if (show) writeI(content);
+    }
     public static void i(String tag,String content) {
         if (!allowLog) return;
         if (!allowI) return;
@@ -304,7 +318,9 @@ public class Log {
             android.util.Log.v(tag, content);
         }
     }
-
+    public static void v(boolean show,String content) {
+        if (show) v(content);
+    }
     public static void writeV(String content) {
         if (!allowLog) return;
         if (!allowV) return;
@@ -320,6 +336,9 @@ public class Log {
 
         initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
+    }
+    public static void writeV(boolean show,String content) {
+        if (show) writeV(content);
     }
     public static void v(String tag,String content) {
         if (!allowLog) return;
@@ -361,7 +380,9 @@ public class Log {
         }
 
     }
-
+    public static void w(boolean show,String content) {
+        if (show) w(content);
+    }
     public static void w(Object object) {
         w(object.getClass().getName());
     }
@@ -380,6 +401,9 @@ public class Log {
         }
         initWriterIfNeed();
         mLogWriter.print(tag + " " + content);
+    }
+    public static void writeW(boolean show,String content) {
+        if (show) writeW(content);
     }
     public static void w(String tag,String content) {
         if (!allowLog) return;
