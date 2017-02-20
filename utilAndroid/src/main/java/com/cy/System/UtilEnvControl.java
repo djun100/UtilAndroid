@@ -1,7 +1,10 @@
 package com.cy.System;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.PowerManager;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**<
  * uses-permission android:name="android.permission.WAKE_LOCK" /> 
@@ -20,4 +23,27 @@ public class UtilEnvControl {
 		return mWakeLock;
 	}
 
+	private static float mNormalBrightness;
+	/**
+	 * 调节屏幕亮度
+	 */
+	public static void turnUpBrightness(Activity activity) {
+		Window window = activity.getWindow();
+		WindowManager.LayoutParams lp = window.getAttributes();
+		mNormalBrightness = lp.screenBrightness;
+		if(lp.screenBrightness < 0.85) {
+			lp.screenBrightness = 0.85f;
+		}
+		window.setAttributes(lp);
+	}
+
+	/**
+	 * 恢复原先的亮度
+	 */
+	public static void turnDownBrightness(Activity activity) {
+		Window window = activity.getWindow();
+		WindowManager.LayoutParams lp = window.getAttributes();
+		lp.screenBrightness = mNormalBrightness;
+		window.setAttributes(lp);
+	}
 }
