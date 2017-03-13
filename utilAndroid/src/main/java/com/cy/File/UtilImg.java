@@ -29,6 +29,7 @@ import com.cy.System.UtilEnv;
 import com.cy.app.Log;
 import com.cy.app.UtilContext;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,8 +41,8 @@ import java.io.InputStream;
  * {@link #calculateInSampleSize(Options, int, int)} 计算2次幂的缩小比例
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
  */
-public class UtilPicture {
-	static final String tag = "UtilPicture";
+public class UtilImg {
+	static final String tag = "UtilImg";
 
 	/**
 	 * 本地文件转bitmap
@@ -142,7 +143,7 @@ public class UtilPicture {
 		Drawable[] drawable = new Drawable[picList.length];
 		for (int i = 0; i < tempPicList.length; i++) {
 			picList[i] = path + tempPicList[i];
-			drawable[i] = UtilPicture.picToDrawable(picList[i]);
+			drawable[i] = UtilImg.picToDrawable(picList[i]);
 		}
 		return drawable;
 	}
@@ -505,5 +506,11 @@ public class UtilPicture {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public byte[] getBytes(Bitmap bm) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		return baos.toByteArray();
 	}
 }
