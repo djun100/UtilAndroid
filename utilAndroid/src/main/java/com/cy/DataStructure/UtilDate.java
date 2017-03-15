@@ -348,4 +348,45 @@ public class UtilDate {
 		}
 		return false;
 	}
+
+	/**
+	 * @param time
+	 * @描述 —— 指定时间距离当前时间的中文信息
+	 */
+	public static String getReadablePassed(long time) {
+		Calendar cal = Calendar.getInstance();
+		long timel = cal.getTimeInMillis() - time;
+		if (timel / 1000 < 60) {
+			return "1分钟以内";
+		} else if (timel / 1000 / 60 < 60) {
+			return timel / 1000 / 60 + "分钟前";
+		} else if (timel / 1000 / 60 / 60 < 24) {
+			return timel / 1000 / 60 / 60 + "小时前";
+		} else {
+			return timel / 1000 / 60 / 60 / 24 + "天前";
+		}
+	}
+
+	/**
+	 * 将Timestamp转化成今天、昨天和具体日期的时间
+	 * @param timestamp
+	 * @return
+	 */
+	public static String getDetailTime(long timestamp) {
+		Calendar nowCal = Calendar.getInstance();
+		Calendar targetCal = Calendar.getInstance();
+		targetCal.setTimeInMillis(timestamp);
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_HH_MM);
+		SimpleDateFormat format2=new SimpleDateFormat(FORMAT_YYYY_MM_DD_HH_MM_CHINA);
+		if(nowCal.get(Calendar.DATE) - targetCal.get(Calendar.DATE) == 0) {
+			//今天
+			return format.format(timestamp);
+		} else if(nowCal.get(Calendar.DATE) - targetCal.get(Calendar.DATE) == 1) {
+			//昨天
+			return "昨天" + format.format(timestamp);
+		} else {
+			//昨天以前
+			return format2.format(timestamp);
+		}
+	}
 }
