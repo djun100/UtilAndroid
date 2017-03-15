@@ -29,9 +29,9 @@ public class UtilDate {
 	public static final String FORMAT_HH_MM = "HH:mm";
 	public static final String FORMAT_YYYY_MM_DD_HH_MM_CHINA = "yyyy年MM月dd日 HH:mm";
 
-	public static String getDateTimeNow(String format){
+	public static String getDateStrNow(String format){
 		format= TextUtils.isEmpty(format)?FORMAT_YYYYMMDDHHMMSS:format;
-		return getDateString(System.currentTimeMillis(),format);
+		return getDateStr(System.currentTimeMillis(),format);
 	}
 
 	public static String getTime(Date date) {
@@ -39,7 +39,7 @@ public class UtilDate {
 		return format.format(date);
 	}
 
-	public static String dateToStrng(Date date) {
+	public static String dateToStr(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat(FORMAT_MM_DD_YYYY_HH_MM_SS_diagonal);
 		return format.format(date);
 	}
@@ -53,13 +53,13 @@ public class UtilDate {
 	 * @param format
 	 * @return
 	 */
-	public static String getDateStrng(Date date, String format) {
+	public static String getDateStr(Date date, String format) {
 		format= TextUtils.isEmpty(format)?FORMAT_YYYY_MM_DD_HH_MM_SS:format;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		return dateFormat.format(date);
 	}
 
-	public static String getDateString(long timestamp, String format) {
+	public static String getDateStr(long timestamp, String format) {
 		format= TextUtils.isEmpty(format)?FORMAT_YYYY_MM_DD_HH_MM_SS:format;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
 		return simpleDateFormat.format(timestamp);
@@ -198,7 +198,7 @@ public class UtilDate {
 		return weekDays[w];
 	}
 
-	public static String getTimeString(int msec) {
+	public static String getTimeStr(int msec) {
 		if (msec < 0) {
 			return String.format("--:--:--");
 		}
@@ -222,19 +222,19 @@ public class UtilDate {
 	}
 
 	/**
-	 * @param time
+	 * @param dateStr
 	 * @param format
 	 *            eg: HH:mm yyyyMMdd
 	 * @return
 	 */
-	public static Date getDateFromString(String time, String format) {
+	public static Date parseDate(String dateStr, String format) {
 		if (format == null) {
 			format = "HH:mm";
 		}
 		java.text.DateFormat format1 = new SimpleDateFormat(format);
 		Date date = null;
 		try {
-			date = format1.parse(time);
+			date = format1.parse(dateStr);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
