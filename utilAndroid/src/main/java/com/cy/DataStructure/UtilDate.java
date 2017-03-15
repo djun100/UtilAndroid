@@ -1,5 +1,7 @@
 package com.cy.DataStructure;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,21 +9,38 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import static android.R.attr.end;
-
 /**
  * @author json转换时间
  *
  */
 public class UtilDate {
 
+	public static final String FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+	public static final String FORMAT_MM_DD_YYYY_HH_MM_SS_diagonal = "MM/dd/yyyy HH:mm:ss";
+	public static final String FORMAT_HH_MM_SS = "HH:mm:ss";
+	public static final String FORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+	public static final String FORMAT_YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+	public static final String FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
+	public static final String FORMAT_YYYY_MM = "yyyy-MM";
+	public static final String FORMAT_MM_DD = "MM-dd";
+	public static final String FORMAT_YYYY = "yyyy";
+	public static final String FORMAT_MM = "MM";
+	public static final String FORMAT_DD = "dd";
+	public static final String FORMAT_HH_MM = "HH:mm";
+	public static final String FORMAT_YYYY_MM_DD_HH_MM_CHINA = "yyyy年MM月dd日 HH:mm";
+
+	public static String getDateTimeNow(String format){
+		format= TextUtils.isEmpty(format)?FORMAT_YYYYMMDDHHMMSS:format;
+		return getDateString(System.currentTimeMillis(),format);
+	}
+
 	public static String getTime(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_HH_MM_SS);
 		return format.format(date);
 	}
 
 	public static String dateToStrng(Date date) {
-		SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_MM_DD_YYYY_HH_MM_SS_diagonal);
 		return format.format(date);
 	}
 	public static Date getDate(long milliseconds){
@@ -34,26 +53,28 @@ public class UtilDate {
 	 * @param format
 	 * @return
 	 */
-	public static String dateToStrng(Date date, String format) {
+	public static String getDateStrng(Date date, String format) {
+		format= TextUtils.isEmpty(format)?FORMAT_YYYY_MM_DD_HH_MM_SS:format;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(format);
 		return dateFormat.format(date);
 	}
 
-	public static String longToDate(long timestamp) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return format.format(timestamp);
+	public static String getDateString(long timestamp, String format) {
+		format= TextUtils.isEmpty(format)?FORMAT_YYYY_MM_DD_HH_MM_SS:format;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		return simpleDateFormat.format(timestamp);
 	}
 
 	public static String getDateMMdd(long starttime) {
 		Date date = new Date(starttime);
-		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_MM_DD);
 		return format.format(date);
 	}
 
 	public static String getDateMMddFuture(int day) {
 		Date date = new Date();
 		date.setDate(date.getDay() + day);
-		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat(FORMAT_MM_DD);
 		return format.format(date);
 	}
 
@@ -228,9 +249,7 @@ public class UtilDate {
 	 * @return
 	 */
 	public static String getDatePassed(String advance, String after, String format) {
-		if (format==null) {
-			format="yyyy-MM-dd HH:mm:ss";
-		}
+		format= TextUtils.isEmpty(format)?FORMAT_YYYY_MM_DD_HH_MM_SS:format;
 		SimpleDateFormat dfs = new SimpleDateFormat(format);
 		Date begin;
 		Date end;
@@ -305,18 +324,18 @@ public class UtilDate {
 
 	//判断选择的日期是否是 今天
 	public static boolean isToday(long time) {
-		return isThisTime(time, "yyyy-MM-dd");
+		return isThisTime(time, FORMAT_YYYY_MM_DD);
 	}
 
 	//判断选择的日期是否是 昨天
 	public static boolean isYesterday(Date date) {
 		date= addDays(date,1);
-		return isThisTime(date.getTime(), "yyyy-MM-dd");
+		return isThisTime(date.getTime(), FORMAT_YYYY_MM_DD);
 	}
 
 	//判断选择的日期是否是 本月
 	public static boolean isThisMonth(long time) {
-		return isThisTime(time, "yyyy-MM");
+		return isThisTime(time, FORMAT_YYYY_MM);
 	}
 
 	private static boolean isThisTime(long time, String pattern) {
