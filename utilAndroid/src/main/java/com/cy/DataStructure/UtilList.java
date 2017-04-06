@@ -21,6 +21,12 @@ public class UtilList {
         return list == null || list.size() == 0;
     }
 
+    /**for short:
+     * mPushMsgListVos.addAll( Arrays.asList(pushMsgListVos));
+     * @param array
+     * @param <E>
+     * @return
+     */
     public static <E> List<E> convert_arrayToList(E[] array) {
 
         List<E> userList = new ArrayList<E>();
