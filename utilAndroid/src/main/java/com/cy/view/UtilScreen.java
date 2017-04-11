@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,12 +20,16 @@ import com.cy.app.UtilContext;
  * <li>{@link UtilScreen#pxToDp(float)}</li>
  * </ul>
  * 
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-2-14
  */
 public class UtilScreen {
 
     private UtilScreen() {
         throw new AssertionError();
+    }
+
+    public static float dp(int px){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,px,
+                UtilContext.getContext().getResources().getDisplayMetrics());
     }
 
     public static float dpToPx( float dp) {
