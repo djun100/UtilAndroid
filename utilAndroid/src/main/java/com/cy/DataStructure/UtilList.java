@@ -1,5 +1,6 @@
 package com.cy.DataStructure;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -156,6 +157,68 @@ public class UtilList {
                     iae.printStackTrace();
                 } catch (InvocationTargetException ite) {
                     ite.printStackTrace();
+                }
+
+                return result;
+            }
+        });
+    }
+
+    public static <E> void sortByField(List<E> list, final String field, final boolean bigToLittle) {
+        Collections.sort(list, new Comparator<Object>() {
+            @SuppressWarnings("unchecked")
+            public int compare(Object arg1, Object arg2) {
+                int result = 0;
+                try {
+                    Field field1 = arg1.getClass().getDeclaredField(field);
+                    field1.setAccessible(true);
+                    Field field2 = arg2.getClass().getDeclaredField(field);
+                    field2.setAccessible(true);
+
+                    Object obj1 = field1.get(arg1);
+                    Object obj2 = field2.get(arg2);
+                    if (obj1!=null&&obj2!=null) {
+                        if (obj1 instanceof String) {
+                            obj1= UtilHanziToPinyin.getPinYin((String) obj1);
+                            obj2= UtilHanziToPinyin.getPinYin((String) obj2);
+                            // 字符串
+                            result = obj1.toString().compareTo(obj2.toString());
+                            //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);
+                        } else if (obj1 instanceof Date) {
+                            // 日期
+                            long l = ((Date) obj1).getTime() - ((Date) obj2).getTime();
+                            if (l > 0) {
+                                result = 1;
+                            } else if (l < 0) {
+                                result = -1;
+                            } else {
+                                result = 0;
+                            }
+                        } else if (obj1 instanceof Integer) {
+                            // 整型（Method的返回参数可以是int的，因为JDK1.5之后，Integer与int可以自动转换了）
+                            result = (Integer) obj1 - (Integer) obj2;
+                        } else {
+                            // 目前尚不支持的对象，直接转换为String，然后比较，后果未知
+                            result = obj1.toString().compareTo(obj2.toString());
+                            System.err.println("UtilSortList.sortByMethod方法接受到不可识别的对象类型，转换为字符串后比较返回...");
+
+                        }
+                    } else {
+                        if (obj1==null&&obj2!=null){
+                            result=-1;
+                        }else if (obj1==null&&obj2==null){
+                            result=0;
+                        }else {// obj1 != null && obj2 == null
+                            result=1;
+                        }
+                    }
+
+                    if (bigToLittle) {
+                        // 倒序
+                        result = -result;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 return result;
