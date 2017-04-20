@@ -1,9 +1,9 @@
 package com.cy.DataStructure;
 
+import com.cy.utils.UReflect;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -48,7 +48,7 @@ public class UtilDummyData {
         ArrayList<T> data=new ArrayList<T>();
 
         for (int i = 0; i < count; i++) {
-            data.add(getDummyInstance(clazz,minLength,maxLength,null
+            data.add(makeDummyInstance(clazz,minLength,maxLength,null
                     ,minSubListLength,maxSubListLength));
         }
         return data;
@@ -59,8 +59,8 @@ public class UtilDummyData {
      * @param maxLength 字段为String时，生成的随机值长度的最小和最大值
      * @param parentInstance 递归写法，当前处理类为子类时必传父类实例，其他时候必须传null
      * */
-    public static <T> T getDummyInstance(Class<T> c, int minLength, int maxLength
-            , Object parentInstance,int minSubListLength,int maxSubListLength) {
+    public static <T> T makeDummyInstance(Class<T> c, int minLength, int maxLength
+            , Object parentInstance, int minSubListLength, int maxSubListLength) {
         T t = null;
         try {
             Constructor<?>[] con = c.getDeclaredConstructors();
@@ -94,23 +94,14 @@ public class UtilDummyData {
                 if (fields[i].getType().toString().equals("interface java.util.List")||
                         fields[i].getType().toString().equals("class java.util.ArrayList")){
                     ArrayList list=new ArrayList();
-                    Type genericFieldType = fields[i].getGenericType();
-
-                    if(genericFieldType instanceof ParameterizedType){
-                        ParameterizedType aType = (ParameterizedType) genericFieldType;
-                        Type[] fieldArgTypes = aType.getActualTypeArguments();
-                        for(Type fieldArgType : fieldArgTypes){
-                            Class fieldArgClass = (Class) fieldArgType;
-                            System.out.println("fieldArgClass = " + fieldArgClass);
-                            int count=URandom.getInt(minSubListLength,maxSubListLength);
-                            for (int j=0;j<count;j++) {
-                                if (fieldArgClass.toString().equals("class java.lang.String")) {
-                                    list.add(makeDummyWord(minLength,maxLength));
-                                }else {
-                                    list.add(getDummyInstance(fieldArgClass,minLength,maxLength,t
-                                            ,minSubListLength,maxSubListLength));
-                                }
-                            }
+                    Class fieldArgClass= UReflect.getGenericClass(fields[i]);
+                    int count=URandom.getInt(minSubListLength,maxSubListLength);
+                    for (int j=0;j<count;j++) {
+                        if (fieldArgClass.toString().equals("class java.lang.String")) {
+                            list.add(makeDummyWord(minLength,maxLength));
+                        }else {
+                            list.add(makeDummyInstance(fieldArgClass,minLength,maxLength,t
+                                    ,minSubListLength,maxSubListLength));
                         }
                     }
                     fields[i].set(t,list);
@@ -126,7 +117,7 @@ public class UtilDummyData {
                         String currentFieldType=fields[i].getType().toString();
 //                        System.out.println("currentFieldType:"+currentFieldType);
                         if (currentFieldType.contains(currentSubClass)){
-                    fields[i].set(t,getDummyInstance(classes[j],minLength,maxLength,t
+                    fields[i].set(t, makeDummyInstance(classes[j],minLength,maxLength,t
                             ,minSubListLength,maxSubListLength));
 //                    fields[i].set(t,classes[j].getDeclaredConstructors()[0].newInstance(t));
                         }
@@ -146,8 +137,8 @@ public class UtilDummyData {
 //        for (BeanTest test:data){
 //            System.out.println(test);
 //        }
-//        getDummyInstance(BeanTest.class);
-        System.out.println(getDummyInstance(com.cy.DataStructure.BeanTest.class,1,10,null,3,5));
+//        makeDummyInstance(BeanTest.class);
+        System.out.println(makeDummyInstance(com.cy.DataStructure.BeanTest.class,1,10,null,3,5));
     }
 
 }
