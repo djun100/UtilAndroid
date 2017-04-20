@@ -20,11 +20,8 @@ public class UtilDummyData {
      */
     public static String makeDummyWord(int min, int max) {
         int count=URandom.getInt(min,max);
-        String str = "";
-        for (int i = 0; i < count; i++) {
-            str += (char) ((int) (Math.random() * 26) + 'a');
-        }
-        return str;
+        return URandom.getChinese(count);
+
     }
 
     /**生成50个实例*/
