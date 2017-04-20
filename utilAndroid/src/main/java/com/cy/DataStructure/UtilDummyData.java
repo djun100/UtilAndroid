@@ -2,6 +2,8 @@ package com.cy.DataStructure;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,7 +19,7 @@ public class UtilDummyData {
      * @return
      */
     public static String makeDummyWord(int min, int max) {
-        int count = (int) (Math.random() * (max - min + 1)) + min;
+        int count=URandom.getInt(min,max);
         String str = "";
         for (int i = 0; i < count; i++) {
             str += (char) ((int) (Math.random() * 26) + 'a');
@@ -32,7 +34,7 @@ public class UtilDummyData {
 
     /**生成的实例字段长度为1-100*/
     public static <T> ArrayList<T> makeDummyData(Class<T> clazz, long count){
-        return makeDummyData(clazz,count,1,100);
+        return makeDummyData(clazz,count,1,100,3,5);
     }
 
     /**生成bean实例列表
@@ -40,10 +42,14 @@ public class UtilDummyData {
      * @param count 生成实例数量
      * @param minLength 实例字段长度限制最小值
      * @param maxLength 实例字段长度限制最大值*/
-    public static <T> ArrayList<T> makeDummyData(Class<T> clazz, long count,int minLength,int maxLength){
+    public static <T> ArrayList<T> makeDummyData(Class<T> clazz, long count
+            ,int minLength,int maxLength,int minSubListLength,int maxSubListLength){
+
         ArrayList<T> data=new ArrayList<T>();
+
         for (int i = 0; i < count; i++) {
-            data.add(getDummyInstance(clazz,minLength,maxLength,null));
+            data.add(getDummyInstance(clazz,minLength,maxLength,null
+                    ,minSubListLength,maxSubListLength));
         }
         return data;
     }
@@ -53,7 +59,8 @@ public class UtilDummyData {
      * @param maxLength 字段为String时，生成的随机值长度的最小和最大值
      * @param parentInstance 递归写法，当前处理类为子类时必传父类实例，其他时候必须传null
      * */
-    public static <T> T getDummyInstance(Class<T> c, int minLength, int maxLength, Object parentInstance) {
+    public static <T> T getDummyInstance(Class<T> c, int minLength, int maxLength
+            , Object parentInstance,int minSubListLength,int maxSubListLength) {
         T t = null;
         try {
             Constructor<?>[] con = c.getDeclaredConstructors();
@@ -84,6 +91,30 @@ public class UtilDummyData {
                     fields[i].set(t,new Random().nextDouble());
                 if (fields[i].getType().toString().equals("long"))
                     fields[i].set(t,new Random().nextLong());
+                if (fields[i].getType().toString().equals("interface java.util.List")||
+                        fields[i].getType().toString().equals("class java.util.ArrayList")){
+                    ArrayList list=new ArrayList();
+                    Type genericFieldType = fields[i].getGenericType();
+
+                    if(genericFieldType instanceof ParameterizedType){
+                        ParameterizedType aType = (ParameterizedType) genericFieldType;
+                        Type[] fieldArgTypes = aType.getActualTypeArguments();
+                        for(Type fieldArgType : fieldArgTypes){
+                            Class fieldArgClass = (Class) fieldArgType;
+                            System.out.println("fieldArgClass = " + fieldArgClass);
+                            int count=URandom.getInt(minSubListLength,maxSubListLength);
+                            for (int j=0;j<count;j++) {
+                                if (fieldArgClass.toString().equals("class java.lang.String")) {
+                                    list.add(makeDummyWord(minLength,maxLength));
+                                }else {
+                                    list.add(getDummyInstance(fieldArgClass,minLength,maxLength,t
+                                            ,minSubListLength,maxSubListLength));
+                                }
+                            }
+                        }
+                    }
+                    fields[i].set(t,list);
+                }
                 if (fields[i].getType().toString().contains("class "+c.getName())){
                     //field current dealing is class type
                     //get all declared sub classes ,not public sub classes
@@ -95,11 +126,13 @@ public class UtilDummyData {
                         String currentFieldType=fields[i].getType().toString();
 //                        System.out.println("currentFieldType:"+currentFieldType);
                         if (currentFieldType.contains(currentSubClass)){
-                    fields[i].set(t,getDummyInstance(classes[j],minLength,maxLength,t));
+                    fields[i].set(t,getDummyInstance(classes[j],minLength,maxLength,t
+                            ,minSubListLength,maxSubListLength));
 //                    fields[i].set(t,classes[j].getDeclaredConstructors()[0].newInstance(t));
                         }
                     }
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -114,7 +147,7 @@ public class UtilDummyData {
 //            System.out.println(test);
 //        }
 //        getDummyInstance(BeanTest.class);
-        System.out.println(getDummyInstance(com.cy.DataStructure.BeanTest.class,1,10,null));
+        System.out.println(getDummyInstance(com.cy.DataStructure.BeanTest.class,1,10,null,3,5));
     }
 
 }
