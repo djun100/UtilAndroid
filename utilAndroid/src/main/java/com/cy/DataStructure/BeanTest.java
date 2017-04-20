@@ -1,11 +1,14 @@
 package com.cy.DataStructure;
 
+import java.util.List;
+
 public class BeanTest{
         private String  field1;
         public String  field2;
         protected String field3;
         protected int field4;
         private BeanTestSub field5;
+        private List<BeanTestSub> field6;
 
     @Override
     public String toString() {
