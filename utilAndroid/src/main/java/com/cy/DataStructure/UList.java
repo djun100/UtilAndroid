@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 1、object compare Java多属性对象比较器
  */
-public class UtilList {
+public class UList {
 
     public static <E> boolean notEmpty(List<E> list) {
         return list != null && list.size() > 0;
@@ -113,8 +113,8 @@ public class UtilList {
                     Object obj2 = m2.invoke(((E) arg2), new  Object[]{});
                     if (obj1!=null&&obj2!=null) {
                         if (obj1 instanceof String) {
-                            obj1= UtilHanziToPinyin.getPinYin((String) obj1);
-                            obj2= UtilHanziToPinyin.getPinYin((String) obj2);
+                            obj1= UHanziToPinyin.getPinYin((String) obj1);
+                            obj2= UHanziToPinyin.getPinYin((String) obj2);
                             // 字符串
                             result = obj1.toString().compareTo(obj2.toString());
                             //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);
@@ -179,8 +179,8 @@ public class UtilList {
                     Object obj2 = field2.get(arg2);
                     if (obj1!=null&&obj2!=null) {
                         if (obj1 instanceof String) {
-                            obj1= UtilHanziToPinyin.getPinYin((String) obj1);
-                            obj2= UtilHanziToPinyin.getPinYin((String) obj2);
+                            obj1= UHanziToPinyin.getPinYin((String) obj1);
+                            obj2= UHanziToPinyin.getPinYin((String) obj2);
                             // 字符串
                             result = obj1.toString().compareTo(obj2.toString());
                             //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);

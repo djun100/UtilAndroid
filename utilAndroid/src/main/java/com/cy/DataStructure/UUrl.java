@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/8/18.
  */
-public class UtilUrl {
+public class UUrl {
     /**
      * 解析出url参数中的键值对
      * 如 "index.jsp?Action=del&id=123"，解析出Action:del,id:123存入map中

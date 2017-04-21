@@ -7,7 +7,7 @@ import java.lang.reflect.Array;
  * tips:null也占据数组长度
  *  
  */  
-public class UtilArray {  
+public class UArray {
   /** 
    * 转化一维数组为二维数组。 
    *  

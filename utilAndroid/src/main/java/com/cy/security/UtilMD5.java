@@ -1,6 +1,6 @@
 package com.cy.security;
 
-import com.cy.DataStructure.UtilsByte;
+import com.cy.DataStructure.UByte;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +45,7 @@ public class UtilMD5 {
 			throw new RuntimeException();
 		}
 		digest.update(s.getBytes());
-		return UtilsByte.byteArray2HexString(digest.digest());
+		return UByte.byteArray2HexString(digest.digest());
 	}
 
 	/**http://blog.csdn.net/u012416914/article/details/50395508

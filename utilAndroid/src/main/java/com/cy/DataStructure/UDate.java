@@ -13,7 +13,7 @@ import java.util.Map.Entry;
  * @author json转换时间
  *
  */
-public class UtilDate {
+public class UDate {
 
 	public static final String FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 	public static final String FORMAT_MM_DD_YYYY_HH_MM_SS_diagonal = "MM/dd/yyyy HH:mm:ss";

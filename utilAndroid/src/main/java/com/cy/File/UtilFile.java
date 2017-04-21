@@ -6,7 +6,7 @@ import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.cy.DataStructure.UtilString;
+import com.cy.DataStructure.UString;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -343,7 +343,7 @@ public class UtilFile {
     }
 
     public static String getUrlExtension(String url) {
-        if (!UtilString.isEmpty(url)) {
+        if (!UString.isEmpty(url)) {
             int i = url.lastIndexOf('.');
             if (i > 0 && i < url.length() - 1) {
                 return url.substring(i + 1).toLowerCase();

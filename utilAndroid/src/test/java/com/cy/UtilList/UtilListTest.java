@@ -1,6 +1,6 @@
 package com.cy.UtilList;
 
-import com.cy.DataStructure.UtilList;
+import com.cy.DataStructure.UList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,15 +39,15 @@ public class UtilListTest {
 
         // 方式二排序输出
 //        UtilSortList<Member> msList = new UtilSortList<Member>();
-        UtilList.sortByMethod(listMember, "getUsername", false);
+        UList.sortByMethod(listMember, "getUsername", false);
         System.out.println("Member按字段用户名排序后...");
         System.out.println(listMember);
 
-        UtilList.sortByMethod(listMember, "getLevel", false);
+        UList.sortByMethod(listMember, "getLevel", false);
         System.out.println("Member按字段级别排序后...");
         System.out.println(listMember);
 
-        UtilList.sortByMethod(listMember, "getBirthday", true);
+        UList.sortByMethod(listMember, "getBirthday", true);
         System.out.println("Member按字段出生日期倒序后...");
         System.out.println(listMember);
     }

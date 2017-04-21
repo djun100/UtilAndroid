@@ -34,8 +34,8 @@ import java.util.Locale;
  * Currently this file is aligned to zh.txt in ICU 4.6
  * 来自android4.2源码
  */
-public class UtilHanziToPinyin {
-    private static final String TAG = "UtilHanziToPinyin";
+public class UHanziToPinyin {
+    private static final String TAG = "UHanziToPinyin";
 
     // Turn on this flag when we want to check internal data structure.
     private static final boolean DEBUG = false;
@@ -346,7 +346,7 @@ public class UtilHanziToPinyin {
 
     private static final Collator COLLATOR = Collator.getInstance(Locale.CHINA);
 
-    private static UtilHanziToPinyin sInstance;
+    private static UHanziToPinyin sInstance;
     private final boolean mHasChinaCollator;
 
     public static class Token {
@@ -383,12 +383,12 @@ public class UtilHanziToPinyin {
         public String target;
     }
 
-    protected UtilHanziToPinyin(boolean hasChinaCollator) {
+    protected UHanziToPinyin(boolean hasChinaCollator) {
         mHasChinaCollator = hasChinaCollator;
     }
 
-    public static UtilHanziToPinyin getInstance() {
-        synchronized (UtilHanziToPinyin.class) {
+    public static UHanziToPinyin getInstance() {
+        synchronized (UHanziToPinyin.class) {
             if (sInstance != null) {
                 return sInstance;
             }
@@ -400,12 +400,12 @@ public class UtilHanziToPinyin {
                     if (DEBUG) {
                         Log.d(TAG, "Self validation. Result: " + doSelfValidation());
                     }
-                    sInstance = new UtilHanziToPinyin(true);
+                    sInstance = new UHanziToPinyin(true);
                     return sInstance;
                 }
             }
-            Log.w(TAG, "There is no Chinese collator, UtilHanziToPinyin is disabled");
-            sInstance = new UtilHanziToPinyin(true);
+            Log.w(TAG, "There is no Chinese collator, UHanziToPinyin is disabled");
+            sInstance = new UHanziToPinyin(true);
             return sInstance;
         }
     }
@@ -560,11 +560,11 @@ public class UtilHanziToPinyin {
 
     //汉字返回拼音，字母原样返回，都转换为小写
     public static String getPinYin(String input) {
-        ArrayList<Token> tokens = UtilHanziToPinyin.getInstance().get(input);
+        ArrayList<Token> tokens = UHanziToPinyin.getInstance().get(input);
         StringBuilder sb = new StringBuilder();
         if (tokens != null && tokens.size() > 0) {
-            for (UtilHanziToPinyin.Token token : tokens) {
-                if (UtilHanziToPinyin.Token.PINYIN == token.type) {
+            for (UHanziToPinyin.Token token : tokens) {
+                if (UHanziToPinyin.Token.PINYIN == token.type) {
                     sb.append(token.target);
                 } else {
                     sb.append(token.source);

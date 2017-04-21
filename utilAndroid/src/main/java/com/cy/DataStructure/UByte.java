@@ -1,6 +1,6 @@
 package com.cy.DataStructure;
 
-public class UtilsByte {
+public class UByte {
 
 	/**
 	 * 十六进制 转换 byte[]
@@ -107,7 +107,7 @@ public class UtilsByte {
 	static public String getBCDString(byte[] data, int start, int end) {
 		byte[] t = new byte[end - start + 1];
 		System.arraycopy(data, start, t, 0, t.length);
-		return UtilsByte.byteArray2HexString(t);
+		return UByte.byteArray2HexString(t);
 	}
 
 	/**
@@ -121,6 +121,6 @@ public class UtilsByte {
 	static public String getHexString(byte[] data, int start, int end) {
 		byte[] t = new byte[end - start + 1];
 		System.arraycopy(data, start, t, 0, t.length);
-		return UtilsByte.byteArray2HexStringWithSpace(t);
+		return UByte.byteArray2HexStringWithSpace(t);
 	}
 }

@@ -46,7 +46,7 @@ import java.util.Map;
  * @author June
  * @version 1.0, 2010-06-17
  */
-public class UtilIdcard {
+public class UIdcard {
 
 	/** 中国公民身份证号码最小长度。 */
 	public static final int CHINA_ID_MIN_LENGTH = 15;
