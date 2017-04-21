@@ -206,7 +206,7 @@ public class UString {
         } else return origin;
     }
 
-    public static String getArgsStr(@StringRes int res, String... args) {
+    public static String getArgsStr(@StringRes int res, Object... args) {
         return UtilContext.getContext().getResources().getString(res, args);
     }
 }
