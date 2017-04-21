@@ -85,7 +85,7 @@ public class UDummyData {
                 if (fields[i].getType().toString().equals("class java.lang.String"))
                 fields[i].set(t, makeDummyWord(minStrLength,maxStrLength));
                 if (fields[i].getType().toString().equals("int"))
-                    fields[i].set(t,new Random().nextInt());
+                    fields[i].set(t,URandom.getInt(0,999));
                 if (fields[i].getType().toString().equals("float"))
                     fields[i].set(t,new Random().nextFloat());
                 if (fields[i].getType().toString().equals("boolean"))
