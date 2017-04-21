@@ -4,6 +4,7 @@ import com.cy.utils.UReflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -59,9 +60,11 @@ public class UtilDummyData {
     public static <T> T makeDummyInstance(Class<T> c, int minLength, int maxLength
             , Object parentInstance, int minSubListLength, int maxSubListLength) {
         T t = null;
+//        System.out.println(c.getName());
+//        System.out.println(c.getModifiers());
         try {
             Constructor<?>[] con = c.getDeclaredConstructors();
-            if (parentInstance!=null){
+            if (parentInstance!=null && c.getModifiers() == Modifier.PUBLIC/**public且非static*/){
                 t = (T) con[0].newInstance(parentInstance);
             }else {
                 t = (T) con[0].newInstance();
@@ -135,7 +138,7 @@ public class UtilDummyData {
 //            System.out.println(test);
 //        }
 //        makeDummyInstance(BeanTest.class);
-        System.out.println(makeDummyInstance(com.cy.DataStructure.BeanTest.class,1,10,null,3,5));
+        System.out.println(makeDummyInstance(BeanTest.class,1,10,null,3,5));
     }
 
 }
