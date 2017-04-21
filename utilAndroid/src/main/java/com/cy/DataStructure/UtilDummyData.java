@@ -53,11 +53,14 @@ public class UtilDummyData {
     }
     /**
      * 生成bean实例
-     * @param minLength
-     * @param maxLength 字段为String时，生成的随机值长度的最小和最大值
+     * @param c
+     * @param minStrLength  字段为String时，生成的随机值长度的最小值
+     * @param maxStrLength 字段为String时，生成的随机值长度的最大值
      * @param parentInstance 递归写法，当前处理类为子类时必传父类实例，其他时候必须传null
-     * */
-    public static <T> T makeDummyInstance(Class<T> c, int minLength, int maxLength
+     * @param minSubListLength  当字段为list类型时，需要生成的最小list长度
+     * @param maxSubListLength  当字段为list类型时，需要生成的最大list长度
+     * @return*/
+    public static <T> T makeDummyInstance(Class<T> c, int minStrLength, int maxStrLength
             , Object parentInstance, int minSubListLength, int maxSubListLength) {
         T t = null;
 //        System.out.println(c.getName());
@@ -80,7 +83,7 @@ public class UtilDummyData {
             System.out.println(fields[i].getType());
             try {
                 if (fields[i].getType().toString().equals("class java.lang.String"))
-                fields[i].set(t, makeDummyWord(minLength,maxLength));
+                fields[i].set(t, makeDummyWord(minStrLength,maxStrLength));
                 if (fields[i].getType().toString().equals("int"))
                     fields[i].set(t,new Random().nextInt());
                 if (fields[i].getType().toString().equals("float"))
@@ -98,9 +101,9 @@ public class UtilDummyData {
                     int count=URandom.getInt(minSubListLength,maxSubListLength);
                     for (int j=0;j<count;j++) {
                         if (fieldArgClass.toString().equals("class java.lang.String")) {
-                            list.add(makeDummyWord(minLength,maxLength));
+                            list.add(makeDummyWord(minStrLength,maxStrLength));
                         }else {
-                            list.add(makeDummyInstance(fieldArgClass,minLength,maxLength,t
+                            list.add(makeDummyInstance(fieldArgClass,minStrLength,maxStrLength,t
                                     ,minSubListLength,maxSubListLength));
                         }
                     }
@@ -117,7 +120,7 @@ public class UtilDummyData {
                         String currentFieldType=fields[i].getType().toString();
 //                        System.out.println("currentFieldType:"+currentFieldType);
                         if (currentFieldType.contains(currentSubClass)){
-                    fields[i].set(t, makeDummyInstance(classes[j],minLength,maxLength,t
+                    fields[i].set(t, makeDummyInstance(classes[j],minStrLength,maxStrLength,t
                             ,minSubListLength,maxSubListLength));
 //                    fields[i].set(t,classes[j].getDeclaredConstructors()[0].newInstance(t));
                         }
