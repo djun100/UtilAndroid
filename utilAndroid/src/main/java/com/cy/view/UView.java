@@ -2,9 +2,11 @@ package com.cy.view;
 
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.cy.app.Log;
+import com.cy.view.UtilColor;
 
-public class UtilView {
+public class UView {
 	/**view获取焦点
 	 * @param v
 	 */
@@ -64,14 +67,22 @@ public class UtilView {
 		listView.setLayoutParams(params);
 	}
 
+	public static void stateLizeBtnRes(Button view, @ColorRes int bgColor, @ColorRes int bgColorDisabled,
+									   @ColorRes int txtColor, @ColorRes int txtColorDisabled,
+									   boolean isRippleColorDeep, int roundRadius){
+		Resources resources=view.getResources();
+		stateLizeBtnInt(view,resources.getColor(bgColor),resources.getColor(bgColorDisabled)
+				,resources.getColor(txtColor),resources.getColor(txtColorDisabled),isRippleColorDeep,roundRadius);
+	}
+
 	/**view添加是否按下可用状态效果
 	 * @param bgColor button背景色,颜色的resource id ,not color value
 	 * @param bgColorDisabled disable状态背景色 resource id ,not color value
 	 * @param isRippleColorDeep ripple效果颜色是否是在原颜色上加深
 	 * @param roundRadius 背景圆角弧度*/
-	public static void stateLizeBtn(Button view, @ColorRes int bgColor, @ColorRes int bgColorDisabled,
-                                    @ColorRes int txtColor, @ColorRes int txtColorDisabled,
-                                    boolean isRippleColorDeep, int roundRadius){
+	public static void stateLizeBtnInt(Button view, @ColorInt int bgColor, @ColorInt int bgColorDisabled,
+									   @ColorInt int txtColor, @ColorInt int txtColorDisabled,
+									   boolean isRippleColorDeep, int roundRadius){
 		if (view==null){
 			Log.e("view cannot be null,ripple error!");
 			return;
@@ -83,13 +94,6 @@ public class UtilView {
 			}
 		}
 		roundRadius=roundRadius>0?roundRadius:0;
-		try {
-			bgColor=view.getContext().getResources().getColor(bgColor);
-			bgColorDisabled=view.getContext().getResources().getColor(bgColorDisabled);
-		} catch (Resources.NotFoundException e) {
-			Log.e("color resource not found,do not apply ripple effect");
-			return;
-		}
 
 		StateListDrawable stateListDrawable=new StateListDrawable();
 
@@ -118,12 +122,10 @@ public class UtilView {
 		stateListDrawable.addState(new int[]{}, normalDrawable);//
 
 		view.setBackgroundDrawable(stateListDrawable);
-//		if (txtColor>0 && txtColorDisabled>0){
-			stateLizeBtnTxtColor(view,txtColor,txtColorDisabled);
-//		}
+		stateLizeBtnTxtColorInt(view, txtColor, txtColorDisabled);
 	}
 
-	private static void  stateLizeBtnTxtColor(Button view, @ColorRes int txtColor, @ColorRes int txtColorDisabled){
+	private static void  stateLizeBtnTxtColorInt(Button view, @ColorInt int txtColor, @ColorInt int txtColorDisabled){
 		int[][] states = new int[][] {
 				new int[] { android.R.attr.state_enabled}, // enabled
 				new int[] {-android.R.attr.state_enabled}, // disabled
@@ -132,8 +134,8 @@ public class UtilView {
 		};
 
 		int[] colors = new int[] {
-				view.getContext().getResources().getColor(txtColor),
-				view.getContext().getResources().getColor(txtColorDisabled)
+				txtColor,
+				txtColorDisabled
 
 //				Color.GREEN,
 //				Color.BLUE
