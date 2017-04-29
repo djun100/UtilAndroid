@@ -7,7 +7,7 @@ import android.widget.EditText;
 /**
  * Created by Administrator on 2016/4/5.
  */
-public class UtilMoneyEditText {
+public class UMoneyEditText {
     /**EditText 只允许输入金额</br>
      * xml需要另外配置：</br>
      android:digits="1234567890."

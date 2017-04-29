@@ -11,7 +11,7 @@ import android.widget.PopupWindow;
  * Created by Administrator on 2016/10/27.
  */
 
-public class UtilPopup {
+public class UPopup {
     PopupWindow pop = null;
     View contentView;
     View anchorView;

@@ -6,7 +6,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.widget.TextView;
 
-public class UtilTextViewHighLight {
+public class UTextViewHighLight {
 
     /**
      * @param tip

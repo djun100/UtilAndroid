@@ -10,7 +10,7 @@ import com.cy.app.UtilContext;
  * Created by Administrator on 2016/12/15.
  */
 
-public class UtilProgressDialog {
+public class UProgressDialog {
     static ProgressDialog pd = null; // 进度条对话框
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)

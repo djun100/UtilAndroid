@@ -10,7 +10,7 @@ import android.os.Looper;
  * @author Lody
  * @version 1.0
  */
-public class UtilRunOnUI {
+public class URunOnUI {
 
     private static Handler sUiHandler;
 
@@ -38,7 +38,7 @@ public class UtilRunOnUI {
 
     private static void initUIHandlerIfNeed() {
         if (sUiHandler == null) {
-            synchronized (UtilRunOnUI.class) {
+            synchronized (URunOnUI.class) {
                 if (sUiHandler == null) {
                     sUiHandler = new Handler(Looper.getMainLooper());
                 }

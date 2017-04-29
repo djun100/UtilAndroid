@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author 承影
  *
  */
-public class UtilScreenShot {
+public class UScreenShot {
     // 获取指定Activity的截屏，保存到png文件
     public static Bitmap takeScreenShot(Activity activity) {
         // View是你需要截图的View
@@ -88,12 +88,12 @@ public class UtilScreenShot {
      * tips:不包含状态栏
      */
     public static void shoot(Activity a) {
-        UtilScreenShot.savePic(UtilScreenShot.takeScreenShot(a), "/sdcard/screen_test.png");
+        UScreenShot.savePic(UScreenShot.takeScreenShot(a), "/sdcard/screen_test.png");
     }
  
     // 程序入口2
     public static void shootView(View view) {
-        UtilScreenShot.savePic(UtilScreenShot.convertViewToBitmap(view),
+        UScreenShot.savePic(UScreenShot.convertViewToBitmap(view),
                 "sdcard/xx.png");
     }
  

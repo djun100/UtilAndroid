@@ -14,7 +14,7 @@ import android.widget.ListView;
 
 import com.cy.app.Log;
 
-public class UtilView {
+public class UView {
 	/**view获取焦点
 	 * @param v
 	 */
@@ -102,11 +102,11 @@ public class UtilView {
 		disabledDrawable.setCornerRadius(roundRadius);
 
 		GradientDrawable colorDownDrawable = new GradientDrawable();
-		colorDownDrawable.setColor(UtilColor.colorLightDown(bgColor));
+		colorDownDrawable.setColor(UColor.colorLightDown(bgColor));
 		colorDownDrawable.setCornerRadius(roundRadius);
 
 		GradientDrawable colorUpDrawable = new GradientDrawable();
-		colorUpDrawable.setColor(UtilColor.colorLightUp(bgColor));
+		colorUpDrawable.setColor(UColor.colorLightUp(bgColor));
 		colorUpDrawable.setCornerRadius(roundRadius);
 
 		stateListDrawable.addState(new int[]{-android.R.attr.state_enabled}, disabledDrawable);//

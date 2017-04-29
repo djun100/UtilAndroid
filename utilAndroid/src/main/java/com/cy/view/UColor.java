@@ -2,7 +2,7 @@ package com.cy.view;
 
 import android.graphics.Color;
 
-public class UtilColor {
+public class UColor {
     /**
      * 颜色加深处理
      * from: http://blog.csdn.net/jdsjlzx/article/details/41441083

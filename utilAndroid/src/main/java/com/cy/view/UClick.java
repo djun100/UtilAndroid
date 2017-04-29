@@ -7,7 +7,7 @@ import android.view.View;
  * Created by <a href="https://github.com/djun100">cy</a> on 2016/5/31.
  */
 
-public class UtilClick {
+public class UClick {
     public interface MultiClickListener{
         void onMultiClickEnd();
     }
