@@ -56,7 +56,7 @@ public class LogWriter {
 			mWriter.write(log);
 			mWriter.write("\n");
 			mWriter.flush();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			Log.e(e.getMessage());
 		}
