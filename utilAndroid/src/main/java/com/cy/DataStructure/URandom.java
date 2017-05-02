@@ -52,5 +52,6 @@ public class URandom {
 
     public static void main(String[] args) {
         System.out.println(getInt(1,3));
+        System.out.println(getChinese(5));
     }
 }
