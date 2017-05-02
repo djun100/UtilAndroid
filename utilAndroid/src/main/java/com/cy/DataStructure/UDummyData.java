@@ -48,7 +48,7 @@ public class UDummyData {
         if (clazz.getName().equals(Integer.class.getName())){
             ArrayList<Integer> dataInt=new ArrayList<>();
             for (int i = 0; i < count; i++) {
-                dataInt.add(URandom.getInt(minStrLength,maxStrLength));
+                dataInt.add(URandom.getInt(minStrLength, (int) (Math.pow(10,maxStrLength)-1)));
             }
             return (ArrayList<T>) dataInt;
 
@@ -158,7 +158,7 @@ public class UDummyData {
 //        }
 //        makeInstance(BeanTest.class);
 //        System.out.println(makeInstance(BeanTest.class,1,10,null,3,5));
-        System.out.println(makeInstance(String.class,1,10,null,3,5));
+        System.out.println(makeData(Integer.class,10,1,10,3,5));
     }
 
 }
