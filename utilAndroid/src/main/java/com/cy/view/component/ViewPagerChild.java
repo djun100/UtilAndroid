@@ -1,4 +1,4 @@
-package com.cy.view;
+package com.cy.view.component;
 
 import android.content.Context;
 import android.graphics.PointF;
