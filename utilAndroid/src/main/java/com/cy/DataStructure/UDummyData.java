@@ -8,6 +8,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static android.R.attr.data;
+
 /**
  * Created by <a href="https://github.com/djun100">cy</a> on 2016/5/21.
  */
@@ -19,37 +21,51 @@ public class UDummyData {
      * @param max
      * @return
      */
-    public static String makeDummyWord(int min, int max) {
+    public static String makeWord(int min, int max) {
         int count=URandom.getInt(min,max);
         return URandom.getChinese(count);
 
     }
 
     /**生成50个实例*/
-    public static <T> ArrayList<T> makeDummyData(Class<T> clazz){
-        return makeDummyData(clazz,50);
+    public static <T> ArrayList<T> makeData(Class<T> clazz){
+        return makeData(clazz,50);
     }
 
     /**生成的实例字段长度为1-100*/
-    public static <T> ArrayList<T> makeDummyData(Class<T> clazz, long count){
-        return makeDummyData(clazz,count,1,100,3,5);
+    public static <T> ArrayList<T> makeData(Class<T> clazz, long count){
+        return makeData(clazz,count,1,100,3,5);
     }
 
     /**生成bean实例列表
      * @param clazz bean class
      * @param count 生成实例数量
-     * @param minLength 实例字段长度限制最小值
-     * @param maxLength 实例字段长度限制最大值*/
-    public static <T> ArrayList<T> makeDummyData(Class<T> clazz, long count
-            ,int minLength,int maxLength,int minSubListLength,int maxSubListLength){
+     * @param minStrLength 实例字段长度限制最小值
+     * @param maxStrLength 实例字段长度限制最大值*/
+    public static <T> ArrayList<T> makeData(Class<T> clazz, long count
+            , int minStrLength, int maxStrLength, int minSubListLength, int maxSubListLength){
 
-        ArrayList<T> data=new ArrayList<T>();
+        if (clazz.getName().equals(Integer.class.getName())){
+            ArrayList<Integer> dataInt=new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                dataInt.add(URandom.getInt(minStrLength,maxStrLength));
+            }
+            return (ArrayList<T>) dataInt;
 
-        for (int i = 0; i < count; i++) {
-            data.add(makeDummyInstance(clazz,minLength,maxLength,null
-                    ,minSubListLength,maxSubListLength));
+        }else if (clazz.getName().equals(String.class.getName())){
+            ArrayList<String> dataStr=new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                dataStr.add(makeWord(minStrLength,maxStrLength));
+            }
+            return (ArrayList<T>) dataStr;
+
+        }else{
+            ArrayList<T> data=new ArrayList<T>();
+            for (int i = 0; i < count; i++) {
+                data.add(makeInstance(clazz,minStrLength,maxStrLength,null,minSubListLength,maxSubListLength));
+            }
+            return data;
         }
-        return data;
     }
     /**
      * 生成bean实例
@@ -60,7 +76,7 @@ public class UDummyData {
      * @param minSubListLength  当字段为list类型时，需要生成的最小list长度
      * @param maxSubListLength  当字段为list类型时，需要生成的最大list长度
      * @return*/
-    public static <T> T makeDummyInstance(Class<T> c, int minStrLength, int maxStrLength
+    public static <T> T makeInstance(Class<T> c, int minStrLength, int maxStrLength
             , Object parentInstance, int minSubListLength, int maxSubListLength) {
         T t = null;
 //        System.out.println(c.getName());
@@ -83,7 +99,7 @@ public class UDummyData {
             System.out.println(fields[i].getType());
             try {
                 if (fields[i].getType().toString().equals("class java.lang.String"))
-                fields[i].set(t, makeDummyWord(minStrLength,maxStrLength));
+                fields[i].set(t, makeWord(minStrLength,maxStrLength));
                 if (fields[i].getType().toString().equals("int"))
                     fields[i].set(t,URandom.getInt(0,999));
                 if (fields[i].getType().toString().equals("float"))
@@ -101,9 +117,9 @@ public class UDummyData {
                     int count=URandom.getInt(minSubListLength,maxSubListLength);
                     for (int j=0;j<count;j++) {
                         if (fieldArgClass.toString().equals("class java.lang.String")) {
-                            list.add(makeDummyWord(minStrLength,maxStrLength));
+                            list.add(makeWord(minStrLength,maxStrLength));
                         }else {
-                            list.add(makeDummyInstance(fieldArgClass,minStrLength,maxStrLength,t
+                            list.add(makeInstance(fieldArgClass,minStrLength,maxStrLength,t
                                     ,minSubListLength,maxSubListLength));
                         }
                     }
@@ -120,7 +136,7 @@ public class UDummyData {
                         String currentFieldType=fields[i].getType().toString();
 //                        System.out.println("currentFieldType:"+currentFieldType);
                         if (currentFieldType.contains(currentSubClass)){
-                    fields[i].set(t, makeDummyInstance(classes[j],minStrLength,maxStrLength,t
+                    fields[i].set(t, makeInstance(classes[j],minStrLength,maxStrLength,t
                             ,minSubListLength,maxSubListLength));
 //                    fields[i].set(t,classes[j].getDeclaredConstructors()[0].newInstance(t));
                         }
@@ -136,12 +152,13 @@ public class UDummyData {
 
 
     public static void main(String[] args) {
-//        ArrayList<BeanTest> data= makeDummyData(BeanTest.class,50,1,10);
+//        ArrayList<BeanTest> data= makeData(BeanTest.class,50,1,10);
 //        for (BeanTest test:data){
 //            System.out.println(test);
 //        }
-//        makeDummyInstance(BeanTest.class);
-        System.out.println(makeDummyInstance(BeanTest.class,1,10,null,3,5));
+//        makeInstance(BeanTest.class);
+//        System.out.println(makeInstance(BeanTest.class,1,10,null,3,5));
+        System.out.println(makeInstance(String.class,1,10,null,3,5));
     }
 
 }
