@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
  * Created by wangxuechao on 2017/5/2.
  */
 
-public class ViewPagerInScrollView extends ViewPager {
+public class ViewPagerInScrollView extends ViewPager{
 
     public ViewPagerInScrollView(Context context) {
         super(context);
@@ -36,7 +36,7 @@ public class ViewPagerInScrollView extends ViewPager {
 
             @Override
             public void onPageSelected(int position) {
-                onGlobalLayoutListen();
+                ajustSelfHeight();
             }
 
             @Override
@@ -54,14 +54,14 @@ public class ViewPagerInScrollView extends ViewPager {
             @Override
             public void onGlobalLayout() {
                 v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                onGlobalLayoutListen();
+                ajustSelfHeight();
             }
         });
     }
 
-    private void onGlobalLayoutListen() {
-        final int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        final int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+    public void ajustSelfHeight() {
+        final int w = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        final int h = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         View view = null;
 
 //        View view = getChildAt(getCurrentItem());//获取的view是错误的，还有可能为空
