@@ -2,13 +2,15 @@ package com.cy.view.component;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
-/**正常情况下scrollview 嵌套viewpager会不显示
+/**
  * Created by wangxuechao on 2017/5/2.
  */
 
@@ -60,12 +62,20 @@ public class ViewPagerInScrollView extends ViewPager {
     private void onGlobalLayoutListen() {
         final int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        View view = null;
 
-        View view = getChildAt(getCurrentItem());
-        view.measure(w, h);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = view.getMeasuredHeight();
-        setLayoutParams(params);
+//        View view = getChildAt(getCurrentItem());//获取的view是错误的，还有可能为空
+        if (getAdapter() instanceof FragmentStatePagerAdapter){
+            view=((FragmentStatePagerAdapter) getAdapter()).getItem(getCurrentItem()).getView();
+        }else if (getAdapter() instanceof FragmentStatePagerAdapter){
+            view=((FragmentPagerAdapter) getAdapter()).getItem(getCurrentItem()).getView();
+        }
+        if (view!=null) {
+            view.measure(w, h);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.height = view.getMeasuredHeight();
+            setLayoutParams(params);
+        }
     }
 }
