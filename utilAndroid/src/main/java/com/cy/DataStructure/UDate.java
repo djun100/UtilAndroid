@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import static android.R.attr.format;
+
 /**
  * @author json转换时间
  *
@@ -78,6 +80,15 @@ public class UDate {
 		return format.format(date);
 	}
 
+	public static long getLong(String strDate,String format){
+		long milliseconds = 0;
+		SimpleDateFormat f = new SimpleDateFormat(format);
+		try {
+			Date d = f.parse(strDate);
+			milliseconds = d.getTime();
+		} catch (ParseException e) {}
+		return milliseconds;
+	}
 	/**
 	 * @param date
 	 * @param addDay
