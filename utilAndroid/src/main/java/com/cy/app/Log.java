@@ -3,6 +3,7 @@ package com.cy.app;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,8 @@ public class Log {
      * @param pathFile
      */
     public static void initWriter(String pathFile){
-		   try {
+		new File(pathFile).mkdirs();
+        try {
 		        mLogWriter = LogWriter.open(pathFile);
 		    } catch (IOException e) {  
 		        Log.e(e.getMessage());  
