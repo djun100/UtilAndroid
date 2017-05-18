@@ -1,5 +1,6 @@
 package com.cy.app;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,6 +43,51 @@ public class UtilApp {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+
+    /**
+     * 启动App
+     */
+    public static void launchApp(String packageName) {
+        Context context=UtilContext.getContext();
+        // 判断是否安装过App，否则去市场下载
+        if (isAppInstalled(packageName)) {
+            Intent intent=context.getPackageManager().getLaunchIntentForPackage(packageName);
+            if (intent!=null) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        } else {
+            goToMarket(context, packageName);
+        }
+    }
+
+    /**
+     * 检测某个应用是否安装
+     *
+     * @param packageName
+     * @return
+     */
+    public static boolean isAppInstalled(String packageName) {
+        try {
+            UtilContext.getContext().getPackageManager().getPackageInfo(packageName, 0);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 去市场下载页面
+     */
+    public static void goToMarket(Context context, String packageName) {
+        Uri uri = Uri.parse("market://details?id=" + packageName);
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            context.startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
         }
     }
 }
