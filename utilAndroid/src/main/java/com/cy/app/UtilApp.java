@@ -4,10 +4,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.app.ActivityManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/15.
@@ -89,5 +93,33 @@ public class UtilApp {
             context.startActivity(goToMarket);
         } catch (ActivityNotFoundException e) {
         }
+    }
+
+    /**将context应用页面bring到前台
+     * 需要权限：<p>
+     <uses-permission android:name="android.permission.GET_TASKS"/>
+     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+     <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO"/>
+     <uses-permission android:name="android.permission.REORDER_TASKS"/>
+     * Android实现微信、QQ的程序前后台切换   http://www.ithtw.com/5684.html
+     */
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public static void bringToFront(Class defaultActToLaunch){
+        Context context=UtilContext.getContext();
+        //获取ActivityManager
+        ActivityManager mAm = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+        //获得当前运行的task
+        List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo rti : taskList) {
+            //找到当前应用的task，并启动task的栈顶activity，达到程序切换到前台
+            if(rti.topActivity.getPackageName().equals(context.getPackageName())) {
+                mAm.moveTaskToFront(rti.id,0);
+                return;
+            }
+        }
+        //若没有找到运行的task，用户结束了task或被系统释放，则重新启动mainactivity
+        Intent resultIntent = new Intent(context, defaultActToLaunch);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(resultIntent);
     }
 }
