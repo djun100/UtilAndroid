@@ -1,5 +1,6 @@
 package com.cy.app;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -121,5 +122,15 @@ public class UtilApp {
         Intent resultIntent = new Intent(context, defaultActToLaunch);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(resultIntent);
+    }
+
+    /**app退到后台
+     * @param activity
+     */
+    public static void gotoBackGround(Activity activity){
+        Intent intent= new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        activity.startActivity(intent);
     }
 }
