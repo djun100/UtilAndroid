@@ -145,4 +145,83 @@ public class UView {
 
 		view.setTextColor(colorList);
 	}
+
+	/**
+	 * @param view
+	 * @param roundRadius
+	 * @param fillColor
+	 */
+	public static void setBg(View view,
+							 int roundRadius,
+							 @ColorInt int fillColor){
+
+		setBg(view, roundRadius, -1, -1, fillColor,false);
+	}
+
+	/**
+	 * @param view
+	 * @param roundRadius
+	 * @param strokeColor
+	 * @param strokeWidth
+	 */
+	public static void setBg(View view,
+							 int roundRadius,
+							 @ColorInt int strokeColor,int strokeWidth){
+
+		setBg(view, roundRadius, strokeColor, strokeWidth, -1,false);
+	}
+
+	/**
+	 * @param view
+	 * @param isRadiusHalfHeight
+	 * @param strokeColor
+	 * @param strokeWidth
+	 * @param fillColor
+	 */
+	public static void setBg(View view,
+							 boolean isRadiusHalfHeight,
+							 @ColorInt int strokeColor,int strokeWidth,
+							 @ColorInt int fillColor){
+		setBg(view, -1, strokeColor, strokeWidth, fillColor,isRadiusHalfHeight);
+	}
+
+	/**
+	 * @param view
+	 * @param roundRadius
+	 * @param strokeColor
+	 * @param strokeWidth
+	 * @param fillColor
+	 */
+	public static void setBg(View view,
+							 int roundRadius,
+							 @ColorInt int strokeColor,int strokeWidth,
+							 @ColorInt int fillColor){
+		setBg(view, roundRadius, strokeColor, strokeWidth, fillColor, false);
+	}
+
+	/**
+	 * @param view
+	 * @param roundRadius
+	 * @param strokeColor
+	 * @param strokeWidth
+	 * @param fillColor
+	 * @param isRadiusHalfHeight
+	 */
+	public static void setBg(View view,
+							 int roundRadius,
+							 @ColorInt int strokeColor,int strokeWidth,
+							 @ColorInt int fillColor,
+							 boolean isRadiusHalfHeight){
+		GradientDrawable gd = new GradientDrawable();//创建drawable
+		gd.setColor(fillColor);
+		if (isRadiusHalfHeight) {
+			gd.setCornerRadius(view.getHeight()/2);
+		}else {
+			gd.setCornerRadius(roundRadius);
+		}
+		if (strokeWidth>0) {
+			gd.setStroke(strokeWidth, strokeColor);
+		}
+		view.setBackgroundDrawable(gd);
+	}
 }
