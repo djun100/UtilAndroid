@@ -3,7 +3,7 @@ package com.cy.container;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-public class UtilFragmentV4 {
+public class UFragmentV4 {
 	/**往容器内填充fragment
 	 * @param container R.id.content_container
 	 * @param fragment

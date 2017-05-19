@@ -36,7 +36,7 @@ import android.os.StatFs;
 /**
  * @author Geek_Soledad (66704238@51uc.com)
  */
-public class IOUtils {
+public class UIO {
 	private static final Charset UTF_8 = Charset.forName("UTF-8");
 
 	/**
@@ -56,7 +56,7 @@ public class IOUtils {
 	 * } catch (Exception e) {
 	 * 	// error handling
 	 * } finally {
-	 * 	IOUtils.closeQuietly(closeable);
+	 * 	UIO.closeQuietly(closeable);
 	 * }
 	 * </pre>
 	 * 

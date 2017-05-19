@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Administrator on 2016/12/15.
  */
 
-public class UtilApp {
+public class UApp {
     /**
      * 安装apk
      *
@@ -56,7 +56,7 @@ public class UtilApp {
      * 启动App
      */
     public static void launchApp(String packageName) {
-        Context context=UtilContext.getContext();
+        Context context= UContext.getContext();
         // 判断是否安装过App，否则去市场下载
         if (isAppInstalled(packageName)) {
             Intent intent=context.getPackageManager().getLaunchIntentForPackage(packageName);
@@ -77,7 +77,7 @@ public class UtilApp {
      */
     public static boolean isAppInstalled(String packageName) {
         try {
-            UtilContext.getContext().getPackageManager().getPackageInfo(packageName, 0);
+            UContext.getContext().getPackageManager().getPackageInfo(packageName, 0);
             return true;
         } catch (Exception e) {
             return false;
@@ -106,7 +106,7 @@ public class UtilApp {
      */
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static void bringToFront(Class defaultActToLaunch){
-        Context context=UtilContext.getContext();
+        Context context= UContext.getContext();
         //获取ActivityManager
         ActivityManager mAm = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
         //获得当前运行的task

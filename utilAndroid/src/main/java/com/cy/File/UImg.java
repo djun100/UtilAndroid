@@ -25,9 +25,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import com.cy.System.UtilEnv;
+import com.cy.System.UEnv;
 import com.cy.app.Log;
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -41,8 +41,8 @@ import java.io.InputStream;
  * {@link #calculateInSampleSize(Options, int, int)} 计算2次幂的缩小比例
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
  */
-public class UtilImg {
-	static final String tag = "UtilImg";
+public class UImg {
+	static final String tag = "UImg";
 
 	/**
 	 * 本地文件转bitmap
@@ -137,13 +137,13 @@ public class UtilImg {
 	 * @return
 	 */
 	public static Drawable[] pathToDrawable(String path) {
-		path = UtilFile.addEndPathSeparator(path);
+		path = UFile.addEndPathSeparator(path);
 		String[] tempPicList = new File(path).list();
 		String[] picList = new String[tempPicList.length];
 		Drawable[] drawable = new Drawable[picList.length];
 		for (int i = 0; i < tempPicList.length; i++) {
 			picList[i] = path + tempPicList[i];
-			drawable[i] = UtilImg.picToDrawable(picList[i]);
+			drawable[i] = UImg.picToDrawable(picList[i]);
 		}
 		return drawable;
 	}
@@ -415,8 +415,8 @@ public class UtilImg {
 	 * @param picName usually user+System.currentTimeMillis() + ".jpg"
 	 */
 	public static void selectPicFromCamera_step1(String picPath,String picName,Activity activity,Fragment fragment) {
-		if (!UtilEnv.hasSDcard()) {
-			Toast.makeText(UtilContext.getContext(), "SD卡不存在", Toast.LENGTH_LONG).show();
+		if (!UEnv.hasSDcard()) {
+			Toast.makeText(UContext.getContext(), "SD卡不存在", Toast.LENGTH_LONG).show();
 			return;
 		}
 
@@ -451,7 +451,7 @@ public class UtilImg {
 	 */
 	private static String getPicPathByUri(Uri selectedImage) {
 		String[] filePathColumn = { MediaStore.Images.Media.DATA };
-		Cursor cursor = UtilContext.getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+		Cursor cursor = UContext.getContext().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);

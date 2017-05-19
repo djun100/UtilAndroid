@@ -6,11 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 import android.content.res.AssetManager;
 
-public class UtilAssets {
+public class UAssets {
 	/**
 	  * 
 	  * @param ASSETS_NAME 要复制的文件名
@@ -25,7 +25,7 @@ public class UtilAssets {
 		try {
 			// 如果toFile不存在
 			if (!(new File(filename)).exists()) {
-				InputStream is = UtilContext.getContext().getResources().getAssets().open(ASSETS_NAME);
+				InputStream is = UContext.getContext().getResources().getAssets().open(ASSETS_NAME);
 				FileOutputStream fos = new FileOutputStream(filename);
 				byte[] buffer = new byte[7168];
 				int count = 0;
@@ -49,7 +49,7 @@ public class UtilAssets {
 	public static String[] getAssetsFiles(String path){
 		 String[] string=null;
 		 try {
-			 string= UtilContext.getContext().getResources().getAssets().list("pics/channelsPic");
+			 string= UContext.getContext().getResources().getAssets().list("pics/channelsPic");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -63,10 +63,10 @@ public class UtilAssets {
 		 * @return
 		 */
 		public static boolean copyAssetsToLocal(String folderAssets,String folderDestination) {
-//			UtilAssets.copyFileFromAssets(context, "channelsLocal", pathAppFile, "channelsLocal");
-			 String[]  arrayFile=  UtilAssets.getAssetsFiles( folderAssets);
+//			UAssets.copyFileFromAssets(context, "channelsLocal", pathAppFile, "channelsLocal");
+			 String[]  arrayFile=  UAssets.getAssetsFiles( folderAssets);
 			 for (int i = 0; i < arrayFile.length; i++) {
-				if(!UtilAssets.copyFileFromAssets( folderAssets+"/"+arrayFile[i], folderDestination, arrayFile[i]))
+				if(!UAssets.copyFileFromAssets( folderAssets+"/"+arrayFile[i], folderDestination, arrayFile[i]))
 					return false;
 			}
 			 return true;
@@ -78,7 +78,7 @@ public class UtilAssets {
 	     */
 	    public static String getAssetsFileContent( String fileUrl) {
 	        String result = null;
-	        AssetManager am = UtilContext.getContext().getAssets();
+	        AssetManager am = UContext.getContext().getAssets();
 	        InputStream is = null;
 	        ByteArrayOutputStream baos = null;
 	        try {
@@ -113,7 +113,7 @@ public class UtilAssets {
 	    }
 	    
 	    public void testCopy() {
-	        String path=UtilContext.getContext().getFilesDir().getAbsolutePath();
+	        String path= UContext.getContext().getFilesDir().getAbsolutePath();
 	           String name="test.txt";
 	           copyFileFromAssets( name, path, name);
 	       }

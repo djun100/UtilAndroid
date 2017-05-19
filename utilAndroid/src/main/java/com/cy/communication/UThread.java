@@ -4,17 +4,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 /**
  * Created by Administrator on 2016/8/24.
  */
-public class UtilThread {
+public class UThread {
 
     public static void toast(final String content){
         Runnable runnable = new Runnable() {
             public void run() {
-                Toast.makeText(UtilContext.getContext(),content, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UContext.getContext(),content, Toast.LENGTH_SHORT).show();
             }
         };
         runOnUIThread(runnable);

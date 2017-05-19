@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public abstract class AdapterCommon<T>  extends BaseAdapter {
     protected int layoutId;
     
     public AdapterCommon(List<T> lists,int layoutId){
-		Context ctx= UtilContext.getContext();
+		Context ctx= UContext.getContext();
     	this.mDatas=lists;
     	mInflater=(LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	this.mContext=ctx;

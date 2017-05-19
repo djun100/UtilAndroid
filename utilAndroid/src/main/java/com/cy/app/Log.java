@@ -86,7 +86,7 @@ public class Log {
     /**data/data/files/log.txt
      */
     public static void initWriter(){
-    	initWriter(UtilContext.getContext().getFilesDir().getAbsolutePath());
+    	initWriter(UContext.getContext().getFilesDir().getAbsolutePath());
     }
     /**Eclipse 经常显示不出来Log.d，不推荐使用
      * @param content

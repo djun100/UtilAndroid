@@ -8,7 +8,7 @@ import android.app.FragmentTransaction;
 import android.os.Build;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class UtilFragment {
+public class UFragment {
 	/**往容器内填充fragment
 	 * @param container R.id.content_container
 	 * @param fragment
