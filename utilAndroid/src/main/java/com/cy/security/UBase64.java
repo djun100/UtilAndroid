@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
  * https://github.com/pengjianbo/ToolsFinal
  * Date:15/9/22 下午7:36
  */
-public class UtilBase64 {
+public class UBase64 {
     /**
      * Default values for encoder/decoder flags.
      */
@@ -50,7 +50,7 @@ public class UtilBase64 {
     // shared code
     // --------------------------------------------------------
 
-    private UtilBase64() {
+    private UBase64() {
     } // don't instantiate
 
     // --------------------------------------------------------

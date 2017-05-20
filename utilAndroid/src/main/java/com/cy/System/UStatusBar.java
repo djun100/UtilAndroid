@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  * Created by Administrator on 2016/11/23.
  */
 
-public class UtilStatusBar {
+public class UStatusBar {
 
     public static void setStatusBarFontDark(Activity activity){
         String manufacturer=android.os.Build.MANUFACTURER;

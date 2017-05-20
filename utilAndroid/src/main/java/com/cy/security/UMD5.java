@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
  * @author 郑心
  *
  */
-public class UtilMD5 {
+public class UMD5 {
 
 	/**from wxapi
 	 * @param buffer

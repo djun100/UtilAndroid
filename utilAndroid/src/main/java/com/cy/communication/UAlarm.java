@@ -9,17 +9,17 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 import java.util.Map;
 
 /**
  * Created by Administrator on 2016/8/22.
  */
-public class UtilAlarm {
+public class UAlarm {
     //开启轮询服务
     public static <V> void controlService(int seconds, Class<?> service, String action, Map<String,V> map, boolean isEnable,boolean isTriggerImmediately) {
-        Context context=UtilContext.getContext();
+        Context context= UContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         //需要执行Service的Intent
@@ -90,7 +90,7 @@ public class UtilAlarm {
     }
 
     public static void controlActivity(Class<? extends Activity> activity,boolean isCancel,long milliseconds_after) {
-        Context context=UtilContext.getContext();
+        Context context= UContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         long triggerAtTime = SystemClock.elapsedRealtime() + milliseconds_after;
         Intent intent = new Intent(context, activity);
@@ -104,7 +104,7 @@ public class UtilAlarm {
     }
 
     public static void controlBroadcast(boolean isCancel,String action) {
-        Context context=UtilContext.getContext();
+        Context context= UContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         // Intent intent = new Intent(context,AlarmReceiver.class);

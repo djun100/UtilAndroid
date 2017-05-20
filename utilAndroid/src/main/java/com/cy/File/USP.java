@@ -2,7 +2,7 @@ package com.cy.File;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 /**
  * SharedPreferences的一个工具类，调用setParam就能保存String, Integer, Boolean, Float, Long类型的参数
@@ -10,7 +10,7 @@ import com.cy.app.UtilContext;
  * @author xiaanming
  *
  */
-public class UtilSP {
+public class USP {
 	/**
 	 * 保存在手机里面的文件名
 	 */
@@ -32,7 +32,7 @@ public class UtilSP {
 	 */
 	public static void setParam(String fileName, String key, Object object){
 		String type = object.getClass().getSimpleName();
-		SharedPreferences sp = UtilContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		SharedPreferences sp = UContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
 		
 		if("String".equals(type)){
@@ -63,7 +63,7 @@ public class UtilSP {
 	 */
 	public static Object getParam(String fileName, String key, Object defaultObject){
 		String type = defaultObject.getClass().getSimpleName();
-		SharedPreferences sp = UtilContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
+		SharedPreferences sp = UContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
 		if("String".equals(type)){
 			return sp.getString(key, (String)defaultObject);

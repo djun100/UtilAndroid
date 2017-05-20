@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @version 创建时间：2012-5-17 上午9:48:35 类说明
  */
 
-public class UtilAES {
+public class UAES {
     public static final String TAG = "AESUtils";
 
     public static String encrypt(String seed, String clearText) {

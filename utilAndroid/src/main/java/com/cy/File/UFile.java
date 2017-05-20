@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @author djun100
  */
-public class UtilFile {
+public class UFile {
 
 
     public static String read_UTF8_FileContent(File file) {

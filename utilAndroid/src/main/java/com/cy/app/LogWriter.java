@@ -34,7 +34,7 @@ public class LogWriter {
 	public static LogWriter open(String file_path) throws IOException {
 		if (mLogWriter == null) {
 			mCurrentUseDate=getFormatCurrentDate();
-			String fileName=UtilContext.getContext().getPackageName()+"."
+			String fileName= UContext.getContext().getPackageName()+"."
 					+mCurrentUseDate +".log";
 				mLogWriter = new LogWriter(file_path+"/"+fileName);
 

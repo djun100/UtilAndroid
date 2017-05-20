@@ -9,7 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 /**将dip转换成px<br>
  * tips:<br>
@@ -34,16 +34,16 @@ public class UScreen {
      */
     public static int dp(float dp){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,
-                UtilContext.getContext().getResources().getDisplayMetrics());
+                UContext.getContext().getResources().getDisplayMetrics());
     }
 
 //    public static float dpToPx( float dp) {
 //
-//        return dp * UtilContext.getContext().getResources().getDisplayMetrics().density;
+//        return dp * UContext.getContext().getResources().getDisplayMetrics().density;
 //    }
 
     public static float pxToDp( int px) {
-        return px / UtilContext.getContext().getResources().getDisplayMetrics().density;
+        return px / UContext.getContext().getResources().getDisplayMetrics().density;
     }
 
     public static  void setFullScreen(Activity activity){

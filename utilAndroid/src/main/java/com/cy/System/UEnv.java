@@ -20,8 +20,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
-import com.cy.app.UtilContext;
-import com.cy.security.UtilMD5;
+import com.cy.app.UContext;
+import com.cy.security.UMD5;
 import com.cy.utils.Reflect;
 
 import java.io.BufferedReader;
@@ -48,7 +48,7 @@ import static com.cy.utils.Reflect.on;
  * @author djun100
  *
  */
-public class UtilEnv {
+public class UEnv {
 	private static int sArmArchitecture = -1;
 	private static int mHasNeon = 0;
 	public static String pathRoot = Environment.getExternalStorageDirectory().getPath();
@@ -445,11 +445,11 @@ public class UtilEnv {
 	 * @return
 	 */
 	public static String printxyInfo(Activity context){
-		int x= UtilEnv.getScreenSize(context).x;
-		int y= UtilEnv.getScreenSize(context).y;
-		int dpx= UtilEnv.px2dp(context, x);
-		int dpy= UtilEnv.px2dp(context, y);
-		float density= UtilEnv.getDensity(context);
+		int x= UEnv.getScreenSize(context).x;
+		int y= UEnv.getScreenSize(context).y;
+		int dpx= UEnv.px2dp(context, x);
+		int dpy= UEnv.px2dp(context, y);
+		float density= UEnv.getDensity(context);
 		String strOut="x:"+x+
 				"  y:"+y+
 				"  dpx:"+dpx+
@@ -545,7 +545,7 @@ public class UtilEnv {
 
 	private static Signature getSelfSignature(){
 		try {
-			PackageInfo packageInfo = UtilContext.getContext().getPackageManager().getPackageInfo(UtilContext.getContext().getPackageName(), PackageManager.GET_SIGNATURES);
+			PackageInfo packageInfo = UContext.getContext().getPackageManager().getPackageInfo(UContext.getContext().getPackageName(), PackageManager.GET_SIGNATURES);
 			Signature[] signs = packageInfo.signatures;
 			return signs[0];
 		} catch (PackageManager.NameNotFoundException e) {
@@ -558,7 +558,7 @@ public class UtilEnv {
 	 * @return
 	 */
 	public static String getSignatureMD5(){
-		String signMd5 = UtilMD5.getMessageDigest(getSelfSignature().toByteArray());
+		String signMd5 = UMD5.getMessageDigest(getSelfSignature().toByteArray());
 		return signMd5;
 	}
 

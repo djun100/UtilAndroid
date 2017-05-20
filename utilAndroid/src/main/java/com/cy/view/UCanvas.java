@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.TypedValue;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 /**
  * Created by wangxuechao on 2017/4/12.
@@ -71,6 +71,6 @@ public class UCanvas {
 
     public static int dp(int dp){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,
-                UtilContext.getContext().getResources().getDisplayMetrics());
+                UContext.getContext().getResources().getDisplayMetrics());
     }
 }

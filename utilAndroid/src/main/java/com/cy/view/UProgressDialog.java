@@ -4,7 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 /**
  * Created by Administrator on 2016/12/15.
@@ -17,7 +17,7 @@ public class UProgressDialog {
     public static void showDownloadProgressDialog(String title, int current, int total){
 
         if (pd==null) {
-            pd = new ProgressDialog(UtilContext.getContext());
+            pd = new ProgressDialog(UContext.getContext());
             pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             pd.setMessage(title);
             pd.setCanceledOnTouchOutside(false);

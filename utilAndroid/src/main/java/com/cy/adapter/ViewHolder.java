@@ -21,7 +21,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 /**
    @author cy <a href="https://github.com/djun100">https://github.com/djun100</a>
@@ -33,7 +33,7 @@ public class ViewHolder {
    
    public ViewHolder( ViewGroup parent, int layoutId, int position){
 	   this.mView=new SparseArray<View>();
-       mConvertView = LayoutInflater.from(UtilContext.getContext()).inflate(layoutId, parent, false);
+       mConvertView = LayoutInflater.from(UContext.getContext()).inflate(layoutId, parent, false);
        mConvertView.setTag(this);
    };
    
@@ -137,7 +137,7 @@ public class ViewHolder {
      */
     public ViewHolder setTextColorRes(int viewId, int textColorRes) {
         TextView view = retrieveView(viewId);
-        view.setTextColor(UtilContext.getContext().getResources().getColor(textColorRes));
+        view.setTextColor(UContext.getContext().getResources().getColor(textColorRes));
         return this;
     }
 
@@ -165,7 +165,7 @@ public class ViewHolder {
     public ViewHolder setImageUrl(int viewId, String imageUrl) {
         ImageView view = retrieveView(viewId);
         Glide
-                .with(UtilContext.getContext())
+                .with(UContext.getContext())
                 .load(imageUrl)
                 .override(280, 280)
                 .fitCenter()

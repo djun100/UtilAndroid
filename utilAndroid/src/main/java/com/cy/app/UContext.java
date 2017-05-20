@@ -9,8 +9,8 @@ import android.content.Context;
  * Created by vilyever on 2015/9/15.
  * Feature:
  */
-public class UtilContext {
-    private final UtilContext self = this;
+public class UContext {
+    private final UContext self = this;
 
     static Context mContext;
 
@@ -27,7 +27,7 @@ public class UtilContext {
                         .getMethod("currentApplication")
                         .invoke(null, (Object[]) null);
                 if (application != null) {
-//                    Log.e(UtilContext.class.getName(), "context gotten by ActivityThread#currentApplication");
+//                    Log.e(UContext.class.getName(), "context gotten by ActivityThread#currentApplication");
                     mContext = application;
                     return application;
                 }
@@ -41,7 +41,7 @@ public class UtilContext {
                         .getMethod("getInitialApplication")
                         .invoke(null, (Object[]) null);
                 if (application != null) {
-//                    Log.e(UtilContext.class.getName(), "context gotten by AppGlobals#getInitialApplication.");
+//                    Log.e(UContext.class.getName(), "context gotten by AppGlobals#getInitialApplication.");
                     mContext = application;
                     return application;
                 }

@@ -2,7 +2,7 @@ package com.cy.DataStructure;
 
 import android.support.annotation.StringRes;
 
-import com.cy.app.UtilContext;
+import com.cy.app.UContext;
 
 import java.util.ArrayList;
 
@@ -207,6 +207,6 @@ public class UString {
     }
 
     public static String getArgsStr(@StringRes int res, Object... args) {
-        return UtilContext.getContext().getResources().getString(res, args);
+        return UContext.getContext().getResources().getString(res, args);
     }
 }
