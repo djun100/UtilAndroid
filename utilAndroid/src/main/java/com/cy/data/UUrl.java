@@ -1,4 +1,4 @@
-package com.cy.DataStructure;
+package com.cy.data;
 
 import java.util.HashMap;
 import java.util.Map;

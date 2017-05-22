@@ -1,4 +1,4 @@
-package com.cy.DataStructure;
+package com.cy.data;
 
 import android.text.TextUtils;
 
@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
-import static android.R.attr.format;
 
 /**
  * @author json转换时间

@@ -6,7 +6,7 @@ import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.cy.DataStructure.UString;
+import com.cy.data.UString;
 
 import java.io.BufferedInputStream;
 import java.io.File;

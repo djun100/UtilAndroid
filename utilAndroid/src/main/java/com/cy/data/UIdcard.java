@@ -14,7 +14,7 @@
  * limitations under the License.
  * @(#) IdcardUtils.java Date: 2010-06-17
  */
-package com.cy.DataStructure;
+package com.cy.data;
 
 /**校验身份证
  * Copyright (C) 2009-2010 Yichuan, Fuchun All rights reserved.

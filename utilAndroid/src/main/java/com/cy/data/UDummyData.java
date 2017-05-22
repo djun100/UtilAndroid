@@ -1,4 +1,4 @@
-package com.cy.DataStructure;
+package com.cy.data;
 
 import com.cy.utils.UReflect;
 
@@ -7,8 +7,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Random;
-
-import static android.R.attr.data;
 
 /**
  * Created by <a href="https://github.com/djun100">cy</a> on 2016/5/21.

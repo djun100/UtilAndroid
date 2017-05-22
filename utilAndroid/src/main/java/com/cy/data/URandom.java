@@ -1,4 +1,4 @@
-package com.cy.DataStructure;
+package com.cy.data;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;

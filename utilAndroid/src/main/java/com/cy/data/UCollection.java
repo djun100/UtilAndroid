@@ -1,4 +1,4 @@
-package com.cy.DataStructure;
+package com.cy.data;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -7,12 +7,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static java.util.Collections.addAll;
 
 /**
  * 1、object compare Java多属性对象比较器
  */
-public class UList {
+public class UCollection {
 
     public static <E> boolean notEmpty(List<E> list) {
         return list != null && list.size() > 0;
@@ -36,7 +40,7 @@ public class UList {
             return userList;
         }
 
-        Collections.addAll(userList, array);
+        addAll(userList, array);
         return userList;
     }
 
@@ -224,5 +228,13 @@ public class UList {
                 return result;
             }
         });
+    }
+
+    public static <T> Set convert(List<T> list){
+        if (isEmpty(list)) return null;
+
+        HashSet hashSet=new HashSet<T>();
+        hashSet.addAll(list);
+        return hashSet;
     }
 }  

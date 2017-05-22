@@ -1,6 +1,6 @@
 package com.cy.security;
 
-import com.cy.DataStructure.UByte;
+import com.cy.data.UByte;
 
 import java.io.File;
 import java.io.FileInputStream;

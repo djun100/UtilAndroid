@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cy.DataStructure;
+package com.cy.data;
 
 import android.text.TextUtils;
 import android.util.Log;
