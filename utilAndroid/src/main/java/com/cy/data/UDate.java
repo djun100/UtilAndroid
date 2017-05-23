@@ -29,6 +29,13 @@ public class UDate {
 	public static final String FORMAT_HH_MM = "HH:mm";
 	public static final String FORMAT_YYYY_MM_DD_HH_MM_CHINA = "yyyy年MM月dd日 HH:mm";
 
+	public static final int TYPE_YEAR=1;
+	public static final int TYPE_MONTH=2;
+	public static final int TYPE_DAY=3;
+	public static final int TYPE_HOUR=4;
+	public static final int TYPE_MINUTE=5;
+	public static final int TYPE_SECOND=6;
+
 	public static String getDateStrNow(String format){
 		format= TextUtils.isEmpty(format)?FORMAT_YYYYMMDDHHMMSS:format;
 		return getDateStr(System.currentTimeMillis(),format);
@@ -92,7 +99,7 @@ public class UDate {
 	 * @param addDay
 	 * @return 未来addDay天指定时间点的date
 	 */
-	public static Date getDateFuture(Date date, int addDay) {
+	public static Date getDayFuture(Date date, int addDay) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DAY_OF_MONTH, addDay);
 		calendar.set(Calendar.HOUR_OF_DAY, date.getHours());
@@ -108,7 +115,7 @@ public class UDate {
 	 * @param timeToAdd eg: use Calendar.Day
 	 * @return
 	 */
-	public static Date getDateFuture(Date date, HashMap<Integer, Integer> timeToAdd) {
+	public static Date getFuture(Date date, HashMap<Integer, Integer> timeToAdd) {
 		if (date==null || timeToAdd==null) {
 			return null;
 		}
@@ -397,5 +404,30 @@ public class UDate {
 			//昨天以前
 			return format2.format(timestamp);
 		}
+	}
+
+	public static Date getFuture(int longth,int type_date) {
+		Date date = new Date();
+		switch (type_date){
+			case TYPE_YEAR:
+				date.setYear(date.getYear() + longth);
+				break;
+			case TYPE_MONTH:
+				date.setMonth(date.getMonth()+longth);
+				break;
+			case TYPE_DAY:
+				date.setDate(date.getDay()+longth);
+				break;
+			case TYPE_HOUR:
+				date.setHours(date.getHours()+longth);
+				break;
+			case TYPE_MINUTE:
+				date.setMinutes(date.getMinutes()+longth);
+				break;
+			case TYPE_SECOND:
+				date.setSeconds(date.getSeconds()+longth);
+				break;
+		}
+		return getDate(date.getTime());
 	}
 }
