@@ -8,6 +8,15 @@ import java.lang.reflect.Array;
  *  
  */  
 public class UArray {
+
+	public static <V> boolean isEmpty(V[] sourceArray) {
+		return (sourceArray == null || sourceArray.length == 0);
+	}
+
+	public static <V> boolean notEmpty(V[] sourceArray){
+		return !isEmpty(sourceArray);
+	}
+
   /** 
    * 转化一维数组为二维数组。 
    *  
