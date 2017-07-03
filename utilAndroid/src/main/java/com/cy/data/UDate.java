@@ -293,20 +293,22 @@ public class UDate {
 			return "0秒";
 		}
 	}
+
 	/**计算时间差
 	 * @param begin
 	 * @param end
 	 * @return
 	 */
-	public static String getTimeDiff(Date begin, Date end) {
-		return getTimeDiff(begin.getTime(),end.getTime());
+	public static String getTimeDiff_cn(Date begin, Date end) {
+		return getTimeDiff_cn(begin.getTime(),end.getTime());
 	}
+
 	/**计算时间差
 	 * @param begin
 	 * @param end
 	 * @return
 	 */
-	public static String getTimeDiff(long begin, long end) {
+	public static String getTimeDiff_cn(long begin, long end) {
 		long between = (end - begin) / 1000;// 除以1000是为了转换成秒
 		long day1 = between / (24 * 3600);
 		long hour1 = between % (24 * 3600) / 3600;
@@ -324,6 +326,34 @@ public class UDate {
 		} else {
 			return "0秒";
 		}
+	}
+
+	/**计算时间差
+	 * @param begin
+	 * @param end
+	 * @return
+	 */
+	public static TimeDiffBean getTimeDiff(Date begin, Date end) {
+		return getTimeDiff(begin.getTime(),end.getTime());
+	}
+
+	/**计算时间差
+	 * @param begin
+	 * @param end
+	 * @return	Date作为Bean来使用
+	 */
+	public static TimeDiffBean getTimeDiff(long begin, long end) {
+		TimeDiffBean date=new TimeDiffBean();
+		long between = (end - begin) / 1000;// 除以1000是为了转换成秒
+		int day1 = (int) (between / (24 * 3600));
+		int hour1 = (int) (between % (24 * 3600) / 3600);
+		int minute1 = (int) (between % 3600 / 60);
+		int second1 = (int) (between % 60 % 60);
+		date.setDays(day1);
+		date.setHours(hour1);
+		date.setMinutes(minute1);
+		date.setSeconds(second1);
+		return date;
 	}
 
 	//判断选择的日期是否是 本周
@@ -429,5 +459,48 @@ public class UDate {
 				break;
 		}
 		return getDate(date.getTime());
+	}
+
+	public static class TimeDiffBean{
+		public long days;
+		public long hours;
+		public long minutes;
+		public long seconds;
+
+		public long getDays() {
+			return days;
+		}
+
+		public TimeDiffBean setDays(long days) {
+			this.days = days;
+			return this;
+		}
+
+		public long getHours() {
+			return hours;
+		}
+
+		public TimeDiffBean setHours(long hours) {
+			this.hours = hours;
+			return this;
+		}
+
+		public long getMinutes() {
+			return minutes;
+		}
+
+		public TimeDiffBean setMinutes(long minutes) {
+			this.minutes = minutes;
+			return this;
+		}
+
+		public long getSeconds() {
+			return seconds;
+		}
+
+		public TimeDiffBean setSeconds(long seconds) {
+			this.seconds = seconds;
+			return this;
+		}
 	}
 }
