@@ -6,6 +6,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -123,6 +126,30 @@ public class UDummyData {
                     }
                     fields[i].set(t,list);
                 }
+                
+                if (fields[i].getType().toString().equals("interface java.util.Map")
+                        || fields[i].getType().toString().equals("class java.util.HashMap")
+                        || fields[i].getType().toString().equals("class java.util.LinkedHashMap")
+                        ){
+                    Map map;
+                    if (fields[i].getType().toString().equals("class java.util.LinkedHashMap")){
+                        map=new LinkedHashMap();
+                    }else {
+                        map=new HashMap();
+                    }
+                    Class fieldArgClass= UReflect.getGenericClass(fields[i]);
+                    int count=URandom.getInt(minSubListLength,maxSubListLength);
+                    for (int j=0;j<count;j++) {
+                        if (fieldArgClass.toString().equals("class java.lang.String")) {
+                            map.put("k"+makeWord(minStrLength,maxStrLength),"v"+makeWord(minStrLength,maxStrLength));
+                        }else {
+                            map.put("k"+makeWord(minStrLength,maxStrLength),"v"+makeInstance(fieldArgClass,minStrLength,maxStrLength,t
+                                    ,minSubListLength,maxSubListLength));
+                        }
+                    }
+                    fields[i].set(t,map);
+                }
+
                 if (fields[i].getType().toString().contains("class "+c.getName())){
                     //field current dealing is class type
                     //get all declared sub classes ,not public sub classes
