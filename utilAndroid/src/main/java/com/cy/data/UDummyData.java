@@ -126,7 +126,7 @@ public class UDummyData {
                     }
                     fields[i].set(t,list);
                 }
-                
+
                 if (fields[i].getType().toString().equals("interface java.util.Map")
                         || fields[i].getType().toString().equals("class java.util.HashMap")
                         || fields[i].getType().toString().equals("class java.util.LinkedHashMap")

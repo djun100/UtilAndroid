@@ -133,19 +133,20 @@ public class UEnv {
 
 	@SuppressLint("NewApi")
 	public static Point getScreenSize(Context context) {
+		WindowManager windowManager=getWindowManager(context);
 		Point size = new Point();
 		if (false) {
 //			if (Build.VERSION.SDK_INT >= 11) {
 			try {
-				size.x=getWindowManager(context).getDefaultDisplay().getWidth();
-				size.y=getWindowManager(context).getDefaultDisplay().getHeight();
+				size.x=windowManager.getDefaultDisplay().getWidth();
+				size.y=windowManager.getDefaultDisplay().getHeight();
 			} catch (NoSuchMethodError e) {
 				Log.i("error", "it can't work");
 			}
 
 		} else {
 			DisplayMetrics metrics = new DisplayMetrics();
-			getWindowManager(context).getDefaultDisplay().getMetrics(metrics);
+			windowManager.getDefaultDisplay().getMetrics(metrics);
 			size.x = metrics.widthPixels;
 			size.y = metrics.heightPixels;
 		}
@@ -523,12 +524,6 @@ public class UEnv {
 		return uniqueId;
 	}
 
-
-
-	/**
-	 * 用于控制在屏幕上添加或移除悬浮窗
-	 */
-	private static WindowManager mWindowManager;
 	/**
 	 * 如果WindowManager还未创建，则创建一个新的WindowManager返回。否则返回当前已创建的WindowManager。
 	 *
@@ -537,10 +532,8 @@ public class UEnv {
 	 * @return WindowManager的实例，用于控制在屏幕上添加或移除悬浮窗。
 	 */
 	private static WindowManager getWindowManager(Context context) {
-		if (mWindowManager == null) {
-			mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		}
-		return mWindowManager;
+		/** 用于控制在屏幕上添加或移除悬浮窗*/
+		return (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 	}
 
 	private static Signature getSelfSignature(){
@@ -643,42 +636,4 @@ public class UEnv {
 		}
 	}
 
-	/** 判断手机是否root，不弹出root请求框
-	 * http://www.cnblogs.com/waylife/p/android_root_check.html
-	 * 权限说明
-	 * http://cn.linux.vbird.org/linux_basic/0210filepermission.php
-	 * */
-	public static boolean isRooted() {
-		String binPath = "/system/bin/su";
-		String xBinPath = "/system/xbin/su";
-		if (new File(binPath).exists() && isExecutable(binPath))
-			return true;
-		if (new File(xBinPath).exists() && isExecutable(xBinPath))
-			return true;
-		return false;
-	}
-
-	private static boolean isExecutable(String filePath) {
-		Process p = null;
-		try {
-			p = Runtime.getRuntime().exec("ls -l " + filePath);
-			// 获取返回内容
-			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String str = in.readLine();
-			com.cy.app.Log.i( str);
-			if (str != null && str.length() >= 4) {
-				char flag = str.charAt(3);
-				//当s权限在文件组 x 权限上时，例如：-rwx--s--x，此时称为Set GID，简称为SGID的特殊权限， 执行者在执行该文件时将具有该文件所属组的权限。
-				if (flag == 's' || flag == 'x')
-					return true;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			if(p!=null){
-				p.destroy();
-			}
-		}
-		return false;
-	}
 }
