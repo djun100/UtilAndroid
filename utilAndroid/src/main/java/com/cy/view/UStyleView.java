@@ -19,7 +19,7 @@ import android.widget.TextView;
  .setStrokeColor(Color.GREEN)
  .setStrokeWidth(1)
  //.setBackgroundPressColor(0xffff0000)
- .setRadiusHalfHeight(true)
+ //.setRadiusHalfHeight(true) //强烈建议使用{@link #setCornerRadius(int)}替代，值设为>=view 高度即可
  .setRippleEnable(true)
  .apply();
 
@@ -63,6 +63,8 @@ public class UStyleView {
         return isRadiusHalfHeight;
     }
 
+    /**设定radius>=height即可，如果使用该函数需要在onGloableLayout中使用，不然获取不到view的高度*/
+    @Deprecated
     public UStyleView setRadiusHalfHeight(boolean radiusHalfHeight) {
         isRadiusHalfHeight = radiusHalfHeight;
         return this;
