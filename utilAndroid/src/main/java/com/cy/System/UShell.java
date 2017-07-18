@@ -1,5 +1,9 @@
 package com.cy.System;
 
+import android.text.TextUtils;
+
+import com.cy.app.Log;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -10,16 +14,16 @@ import java.util.List;
 /**
  * <ul>
  * <strong>Check root</strong>
- * <li>{@link UShell#checkRootPermission()}</li>
+ * <li>{@link com.cy.System.UShell#checkRootPermission()}</li>
  * </ul>
  * <ul>
  * <strong>Execte command</strong>
- * <li>{@link UShell#execCommand(String, boolean)}</li>
- * <li>{@link UShell#execCommand(String, boolean, boolean)}</li>
- * <li>{@link UShell#execCommand(List, boolean)}</li>
- * <li>{@link UShell#execCommand(List, boolean, boolean)}</li>
- * <li>{@link UShell#execCommand(String[], boolean)}</li>
- * <li>{@link UShell#execCommand(String[], boolean, boolean)}</li>
+ * <li>{@link com.cy.System.UShell#execCommand(String, boolean)}</li>
+ * <li>{@link com.cy.System.UShell#execCommand(String, boolean, boolean)}</li>
+ * <li>{@link com.cy.System.UShell#execCommand(List, boolean)}</li>
+ * <li>{@link com.cy.System.UShell#execCommand(List, boolean, boolean)}</li>
+ * <li>{@link com.cy.System.UShell#execCommand(String[], boolean)}</li>
+ * <li>{@link com.cy.System.UShell#execCommand(String[], boolean, boolean)}</li>
  * </ul>
  * @author cy
  */
@@ -83,7 +87,7 @@ public class UShell {
      * @param command command
      * @param isRoot whether need to run with root
      * @return
-     * @see UShell#execCommand(String[], boolean, boolean)
+     * @see com.cy.System.UShell#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(String command, boolean isRoot) {
         return execCommand(new String[] {command}, isRoot, true);
@@ -95,7 +99,7 @@ public class UShell {
      * @param commands command list
      * @param isRoot whether need to run with root
      * @return
-     * @see UShell#execCommand(String[], boolean, boolean)
+     * @see com.cy.System.UShell#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(List<String> commands, boolean isRoot) {
         return execCommand(commands == null ? null : commands.toArray(new String[] {}), isRoot, true);
@@ -107,7 +111,7 @@ public class UShell {
      * @param commands command array
      * @param isRoot whether need to run with root
      * @return
-     * @see UShell#execCommand(String[], boolean, boolean)
+     * @see com.cy.System.UShell#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(String[] commands, boolean isRoot) {
         return execCommand(commands, isRoot, true);
@@ -120,7 +124,7 @@ public class UShell {
      * @param isRoot whether need to run with root
      * @param isNeedResultMsg whether need result msg
      * @return
-     * @see UShell#execCommand(String[], boolean, boolean)
+     * @see com.cy.System.UShell#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(String command, boolean isRoot, boolean isNeedResultMsg) {
         return execCommand(new String[] {command}, isRoot, isNeedResultMsg);
@@ -133,7 +137,7 @@ public class UShell {
      * @param isRoot whether need to run with root
      * @param isNeedResultMsg whether need result msg
      * @return
-     * @see UShell#execCommand(String[], boolean, boolean)
+     * @see com.cy.System.UShell#execCommand(String[], boolean, boolean)
      */
     public static CommandResult execCommand(List<String> commands, boolean isRoot, boolean isNeedResultMsg) {
         return execCommand(commands == null ? null : commands.toArray(new String[] {}), isRoot, isNeedResultMsg);
@@ -161,7 +165,9 @@ public class UShell {
         BufferedReader successResult = null;
         BufferedReader errorResult = null;
         StringBuilder successMsg = null;
+        boolean hasSuccessMsg=false;
         StringBuilder errorMsg = null;
+        boolean hasErrorMsg=false;
 
         DataOutputStream os = null;
         try {
@@ -188,12 +194,25 @@ public class UShell {
                 successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
                 String s;
+
+
                 while ((s = successResult.readLine()) != null) {
-                    successMsg.append(s);
+                    successMsg.append(s).append("\n");
+                    hasSuccessMsg=true;
                 }
+                if (hasSuccessMsg){
+                    successMsg.deleteCharAt(successMsg.length()-1);
+                }
+
+
                 while ((s = errorResult.readLine()) != null) {
-                    errorMsg.append(s);
+                    errorMsg.append(s).append("\n");
+                    hasErrorMsg=true;
                 }
+                if (hasErrorMsg){
+                    errorMsg.deleteCharAt(errorMsg.length()-1);
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,8 +237,21 @@ public class UShell {
                 process.destroy();
             }
         }
-        return new CommandResult(result, successMsg == null ? null : successMsg.toString(), errorMsg == null ? null
-                : errorMsg.toString());
+
+        CommandResult commandResult= new CommandResult(result,
+                successMsg == null ? null : successMsg.toString(),
+                errorMsg == null ? null : errorMsg.toString());
+
+
+        for (int i = 0; i < commands.length; i++) {
+            Log.w((i == 0 ? "cmd:" : "") + commands[i]);
+        }
+        Log.w((!TextUtils.isEmpty(commandResult.errorMsg)?("errorMsg:"+commandResult.errorMsg):"")
+                +(!TextUtils.isEmpty(commandResult.successMsg)?(" successMsg:"+commandResult.successMsg):"")
+                +" result:"+commandResult.result);
+
+
+        return commandResult;
     }
 
     /**
