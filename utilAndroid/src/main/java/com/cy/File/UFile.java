@@ -21,7 +21,9 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * @author djun100
@@ -655,5 +657,46 @@ public class UFile {
         }
         //return size/1048576;
         return size;
+    }
+
+    /**非递归遍历文件夹，有的用linkedlist，在此用stack，由二叉树非递归遍历衍生而来
+     * @param file  文件夹
+     * @param suffix    后缀名
+     */
+    public static ArrayList<File> getFiles(File file, String suffix){
+        if (!TextUtils.isEmpty(suffix)) {
+            if (!suffix.startsWith(".")){
+                suffix="."+suffix;
+            }
+        }
+        ArrayList<File> filesRlt=new ArrayList<>();
+        Stack<File> stack=new Stack<>();
+        stack.push(file);
+        File curr;
+        while (stack.size()>0){
+            curr=stack.pop();
+            if (curr.isFile()){
+                if (curr.getName().endsWith(suffix)){
+                    filesRlt.add(curr);
+//                    System.out.println(curr.getAbsolutePath());
+                }
+            }else {
+                File[] files=curr.listFiles();
+                if (files!=null){
+                    for (int i = 0; i < files.length; i++) {
+                        if (files[i].isFile()){
+                            if (files[i].getName().endsWith(suffix)){
+                                filesRlt.add(files[i]);
+//                                System.out.println(files[i].getAbsolutePath());
+                            }
+                        }else {
+                            stack.push(files[i]);
+                        }
+                    }
+                }
+            }
+
+        }
+        return filesRlt;
     }
 }
