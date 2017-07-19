@@ -283,5 +283,12 @@ public class UShell {
             this.successMsg = successMsg;
             this.errorMsg = errorMsg;
         }
+
+        @Override
+        public String toString() {
+//            return (!TextUtils.isEmpty(errorMsg)?errorMsg:"")
+//                    +(!TextUtils.isEmpty(successMsg)?successMsg:"");
+            return errorMsg+successMsg;
+        }
     }
 }
