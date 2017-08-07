@@ -15,7 +15,7 @@ import android.widget.TextView;
  * extract from https://github.com/H07000223/FlycoRoundView
  * RippleDrawable 知识参考： http://www.jianshu.com/p/0ef14eda6064
  * 使用方法：
- new UStyleView(mbtn).setBackgroundColor(0xff22dd90)
+ new UViewStyle(mbtn).setBackgroundColor(0xff22dd90)
  .setStrokeColor(Color.GREEN)
  .setStrokeWidth(1)
  //.setBackgroundPressColor(0xffff0000)
@@ -26,7 +26,7 @@ import android.widget.TextView;
  * Created by cy on 2017/7/17.
  */
 
-public class UStyleView {
+public class UViewStyle {
 
     private View view;
     private int cornerRadius;
@@ -46,7 +46,7 @@ public class UStyleView {
     private GradientDrawable gd_background = new GradientDrawable();
     private GradientDrawable gd_background_press = new GradientDrawable();
 
-    public UStyleView(View view) {
+    public UViewStyle(View view) {
         this.view = view;
     }
 
@@ -54,7 +54,7 @@ public class UStyleView {
         return cornerRadius;
     }
 
-    public UStyleView setCornerRadius(int cornerRadius) {
+    public UViewStyle setCornerRadius(int cornerRadius) {
         this.cornerRadius = cornerRadius;
         return this;
     }
@@ -65,7 +65,7 @@ public class UStyleView {
 
     /**设定radius>=height即可，如果使用该函数需要在onGloableLayout中使用，不然获取不到view的高度*/
     @Deprecated
-    public UStyleView setRadiusHalfHeight(boolean radiusHalfHeight) {
+    public UViewStyle setRadiusHalfHeight(boolean radiusHalfHeight) {
         isRadiusHalfHeight = radiusHalfHeight;
         return this;
     }
@@ -74,7 +74,7 @@ public class UStyleView {
         return backgroundColor;
     }
 
-    public UStyleView setBackgroundColor(int backgroundColor) {
+    public UViewStyle setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;
     }
@@ -83,7 +83,7 @@ public class UStyleView {
         return backgroundPressColor;
     }
 
-    public UStyleView setBackgroundPressColor(int backgroundPressColor) {
+    public UViewStyle setBackgroundPressColor(int backgroundPressColor) {
         this.backgroundPressColor = backgroundPressColor;
         return this;
     }
@@ -92,7 +92,7 @@ public class UStyleView {
         return cornerRadius_TL;
     }
 
-    public UStyleView setCornerRadius_TL(int cornerRadius_TL) {
+    public UViewStyle setCornerRadius_TL(int cornerRadius_TL) {
         this.cornerRadius_TL = cornerRadius_TL;
         return this;
     }
@@ -101,7 +101,7 @@ public class UStyleView {
         return cornerRadius_TR;
     }
 
-    public UStyleView setCornerRadius_TR(int cornerRadius_TR) {
+    public UViewStyle setCornerRadius_TR(int cornerRadius_TR) {
         this.cornerRadius_TR = cornerRadius_TR;
         return this;
     }
@@ -110,7 +110,7 @@ public class UStyleView {
         return cornerRadius_BL;
     }
 
-    public UStyleView setCornerRadius_BL(int cornerRadius_BL) {
+    public UViewStyle setCornerRadius_BL(int cornerRadius_BL) {
         this.cornerRadius_BL = cornerRadius_BL;
         return this;
     }
@@ -119,7 +119,7 @@ public class UStyleView {
         return cornerRadius_BR;
     }
 
-    public UStyleView setCornerRadius_BR(int cornerRadius_BR) {
+    public UViewStyle setCornerRadius_BR(int cornerRadius_BR) {
         this.cornerRadius_BR = cornerRadius_BR;
         return this;
     }
@@ -128,7 +128,7 @@ public class UStyleView {
         return strokeWidth;
     }
 
-    public UStyleView setStrokeWidth(int strokeWidth) {
+    public UViewStyle setStrokeWidth(int strokeWidth) {
         this.strokeWidth = strokeWidth;
         return this;
     }
@@ -137,7 +137,7 @@ public class UStyleView {
         return strokeColor;
     }
 
-    public UStyleView setStrokeColor(int strokeColor) {
+    public UViewStyle setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
         return this;
     }
@@ -146,7 +146,7 @@ public class UStyleView {
         return strokePressColor;
     }
 
-    public UStyleView setStrokePressColor(int strokePressColor) {
+    public UViewStyle setStrokePressColor(int strokePressColor) {
         this.strokePressColor = strokePressColor;
         return this;
     }
@@ -155,7 +155,7 @@ public class UStyleView {
         return textPressColor;
     }
 
-    public UStyleView setTextPressColor(@ColorInt int textPressColor) {
+    public UViewStyle setTextPressColor(@ColorInt int textPressColor) {
         this.textPressColor = textPressColor;
         return this;
     }
@@ -164,7 +164,7 @@ public class UStyleView {
         return isRippleEnable;
     }
 
-    public UStyleView setRippleEnable(boolean rippleEnable) {
+    public UViewStyle setRippleEnable(boolean rippleEnable) {
         isRippleEnable = rippleEnable;
         return this;
     }

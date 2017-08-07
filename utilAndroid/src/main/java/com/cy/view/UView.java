@@ -2,7 +2,6 @@ package com.cy.view;
 
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -15,7 +14,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.cy.app.Log;
-import com.cy.view.UColor;
 
 public class UView {
 	/**view获取焦点
@@ -147,6 +145,7 @@ public class UView {
 	}
 
 	/**
+	 * @deprecated see {@link UViewStyle}
 	 * @param view
 	 * @param roundRadius
 	 * @param fillColor
@@ -159,6 +158,7 @@ public class UView {
 	}
 
 	/**
+	 * @deprecated see {@link UViewStyle}
 	 * @param view
 	 * @param roundRadius
 	 * @param strokeColor
@@ -172,6 +172,7 @@ public class UView {
 	}
 
 	/**
+	 * @deprecated see {@link UViewStyle}
 	 * @param view
 	 * @param isRadiusHalfHeight
 	 * @param strokeColor
@@ -186,6 +187,7 @@ public class UView {
 	}
 
 	/**
+	 * @deprecated see {@link UViewStyle}
 	 * @param view
 	 * @param roundRadius
 	 * @param strokeColor
@@ -200,6 +202,7 @@ public class UView {
 	}
 
 	/**
+	 * @deprecated see {@link UViewStyle}
 	 * @param view
 	 * @param roundRadius
 	 * @param strokeColor
