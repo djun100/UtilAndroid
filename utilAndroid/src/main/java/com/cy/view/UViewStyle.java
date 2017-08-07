@@ -15,14 +15,14 @@ import android.widget.TextView;
  * extract from https://github.com/H07000223/FlycoRoundView
  * RippleDrawable 知识参考： http://www.jianshu.com/p/0ef14eda6064
  * 使用方法：
- new UViewStyle(mbtn).setBackgroundColor(0xff22dd90)
- .setStrokeColor(Color.GREEN)
- .setStrokeWidth(1)
- //.setBackgroundPressColor(0xffff0000)
- //.setRadiusHalfHeight(true) //强烈建议使用{@link #setCornerRadius(int)}替代，值设为>=view 高度即可
- .setRippleEnable(true)
- .apply();
-
+ * new UViewStyle(mbtn).setBackgroundColor(0xff22dd90)
+ * .setStrokeColor(Color.GREEN)
+ * .setStrokeWidth(1)
+ * //.setBackgroundPressColor(0xffff0000)
+ * //.setRadiusHalfHeight(true) //强烈建议使用{@link #setCornerRadius(int)}替代，值设为>=view 高度即可
+ * .setRippleEnable(true)
+ * .apply();
+ * <p>
  * Created by cy on 2017/7/17.
  */
 
@@ -32,7 +32,7 @@ public class UViewStyle {
     private int cornerRadius;
     private boolean isRadiusHalfHeight;
     private int backgroundColor;
-    private int backgroundPressColor;
+    private int backgroundPressColor = Integer.MAX_VALUE;
     private int cornerRadius_TL;
     private int cornerRadius_TR;
     private int cornerRadius_BL;
@@ -63,7 +63,9 @@ public class UViewStyle {
         return isRadiusHalfHeight;
     }
 
-    /**设定radius>=height即可，如果使用该函数需要在onGloableLayout中使用，不然获取不到view的高度*/
+    /**
+     * 设定radius>=height即可，如果使用该函数需要在onGloableLayout中使用，不然获取不到view的高度
+     */
     @Deprecated
     public UViewStyle setRadiusHalfHeight(boolean radiusHalfHeight) {
         isRadiusHalfHeight = radiusHalfHeight;
