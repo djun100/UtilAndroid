@@ -33,6 +33,7 @@ public class UViewStyle {
     private boolean isRadiusHalfHeight;
     private int backgroundColor;
     private int backgroundPressColor = Integer.MAX_VALUE;
+    private int backgroundDisableColor = Integer.MAX_VALUE;
     private int cornerRadius_TL;
     private int cornerRadius_TR;
     private int cornerRadius_BL;
@@ -41,10 +42,12 @@ public class UViewStyle {
     private int strokeColor;
     private int strokePressColor;
     private int textPressColor = Integer.MAX_VALUE;
+    private int textDisableColor = Integer.MAX_VALUE;
     private boolean isRippleEnable;
     private float[] radiusArr = new float[8];
     private GradientDrawable gd_background = new GradientDrawable();
     private GradientDrawable gd_background_press = new GradientDrawable();
+    private GradientDrawable gd_background_disable = new GradientDrawable();
 
     public UViewStyle(View view) {
         this.view = view;
@@ -87,6 +90,15 @@ public class UViewStyle {
 
     public UViewStyle setBackgroundPressColor(int backgroundPressColor) {
         this.backgroundPressColor = backgroundPressColor;
+        return this;
+    }
+
+    public int getBackgroundDisableColor() {
+        return backgroundDisableColor;
+    }
+
+    public UViewStyle setBackgroundDisableColor(int backgroundDisableColor) {
+        this.backgroundDisableColor = backgroundDisableColor;
         return this;
     }
 
@@ -162,6 +174,15 @@ public class UViewStyle {
         return this;
     }
 
+    public int getTextDisableColor() {
+        return textDisableColor;
+    }
+
+    public UViewStyle setTextDisableColor(int textDisableColor) {
+        this.textDisableColor = textDisableColor;
+        return this;
+    }
+
     public boolean isRippleEnable() {
         return isRippleEnable;
     }
@@ -230,12 +251,25 @@ public class UViewStyle {
 
         } else {
             fillGradientDrawable(gd_background, backgroundColor, strokeColor);
-            bg.addState(new int[]{-android.R.attr.state_pressed}, gd_background);
+            //注意该处的顺序，只要有一个状态与之相配，背景就会被换掉,不要把大范围放在前面
+            bg.addState(new int[]{-android.R.attr.state_pressed,android.R.attr.state_enabled}, gd_background);
+
+            //add press state
             if (backgroundPressColor != Integer.MAX_VALUE || strokePressColor != Integer.MAX_VALUE) {
-                fillGradientDrawable(gd_background_press, backgroundPressColor == Integer.MAX_VALUE ? backgroundColor : backgroundPressColor,
+                fillGradientDrawable(gd_background_press,
+                        backgroundPressColor == Integer.MAX_VALUE ? backgroundColor : backgroundPressColor,
                         strokePressColor == Integer.MAX_VALUE ? strokeColor : strokePressColor);
                 bg.addState(new int[]{android.R.attr.state_pressed}, gd_background_press);
             }
+
+            //add disable state
+            if (backgroundDisableColor != Integer.MAX_VALUE ) {
+                fillGradientDrawable(gd_background_disable,
+                        backgroundDisableColor ,
+                        backgroundDisableColor);
+                bg.addState(new int[]{-android.R.attr.state_enabled}, gd_background_disable);
+            }
+
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {//16
                 view.setBackground(bg);
@@ -246,14 +280,32 @@ public class UViewStyle {
         }
 
         if (view instanceof TextView) {
-            if (textPressColor != Integer.MAX_VALUE) {
-                ColorStateList textColors = ((TextView) view).getTextColors();
-//              Log.d("AAA", textColors.getColorForState(new int[]{-android.R.attr.state_pressed}, -1) + "");
-                ColorStateList colorStateList = new ColorStateList(
-                        new int[][]{new int[]{-android.R.attr.state_pressed}, new int[]{android.R.attr.state_pressed}},
-                        new int[]{textColors.getDefaultColor(), textPressColor});
-                ((TextView) view).setTextColor(colorStateList);
+
+            ColorStateList textColors = ((TextView) view).getTextColors();
+            ColorStateList colorStateList = null;
+            if (textDisableColor != Integer.MAX_VALUE && textPressColor != Integer.MAX_VALUE) {
+                colorStateList = new ColorStateList(
+                        new int[][]{
+                                new int[]{-android.R.attr.state_enabled},
+                                new int[]{-android.R.attr.state_pressed},
+                                new int[]{android.R.attr.state_pressed}
+                        },
+                        new int[]{textDisableColor,
+                                textColors.getDefaultColor(),
+                                textPressColor}
+                );
             }
+
+            else if (textPressColor != Integer.MAX_VALUE) {
+                colorStateList = new ColorStateList(
+                        new int[][]{
+                                new int[]{-android.R.attr.state_pressed},
+                                new int[]{android.R.attr.state_pressed}},
+                        new int[]{textColors.getDefaultColor(),
+                                textPressColor});
+            }
+            ((TextView) view).setTextColor(colorStateList);
+
         }
     }
 }
