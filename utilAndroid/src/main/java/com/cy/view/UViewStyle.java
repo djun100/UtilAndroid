@@ -282,28 +282,22 @@ public class UViewStyle {
         if (view instanceof TextView) {
 
             ColorStateList textColors = ((TextView) view).getTextColors();
-            ColorStateList colorStateList = null;
-            if (textDisableColor != Integer.MAX_VALUE && textPressColor != Integer.MAX_VALUE) {
-                colorStateList = new ColorStateList(
-                        new int[][]{
-                                new int[]{-android.R.attr.state_enabled},
-                                new int[]{-android.R.attr.state_pressed},
-                                new int[]{android.R.attr.state_pressed}
-                        },
-                        new int[]{textDisableColor,
-                                textColors.getDefaultColor(),
-                                textPressColor}
-                );
-            }
+            int defaultColor=textColors.getDefaultColor();
 
-            else if (textPressColor != Integer.MAX_VALUE) {
-                colorStateList = new ColorStateList(
-                        new int[][]{
-                                new int[]{-android.R.attr.state_pressed},
-                                new int[]{android.R.attr.state_pressed}},
-                        new int[]{textColors.getDefaultColor(),
-                                textPressColor});
-            }
+            textDisableColor = textDisableColor == Integer.MAX_VALUE ? defaultColor : textDisableColor;
+            textPressColor = textPressColor == Integer.MAX_VALUE ? defaultColor: textPressColor;
+
+            ColorStateList  colorStateList = new ColorStateList(
+                    new int[][]{
+                            new int[]{-android.R.attr.state_enabled},
+                            new int[]{-android.R.attr.state_pressed},
+                            new int[]{android.R.attr.state_pressed}
+                    },
+                    new int[]{textDisableColor,
+                            defaultColor,
+                            textPressColor}
+            );
+
             ((TextView) view).setTextColor(colorStateList);
 
         }

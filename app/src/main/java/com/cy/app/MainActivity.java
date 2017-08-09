@@ -27,7 +27,7 @@ public class MainActivity extends FragmentActivity {
         new UViewStyle(mtv)
                 .setBackgroundDisableColor(getResources().getColor(android.R.color.darker_gray))
                 .setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright))
-                .setTextDisableColor(getResources().getColor(android.R.color.black))
+//                .setTextDisableColor(getResources().getColor(android.R.color.black))
                 .setCornerRadius(15)
                 .apply();
 
