@@ -8,8 +8,11 @@ import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.view.View;
 import android.widget.TextView;
+
+import com.cy.app.UContext;
 
 /**
  * extract from https://github.com/H07000223/FlycoRoundView
@@ -79,8 +82,13 @@ public class UViewStyle {
         return backgroundColor;
     }
 
-    public UViewStyle setBackgroundColor(int backgroundColor) {
+    public UViewStyle setBackgroundColor(@ColorInt int backgroundColor) {
         this.backgroundColor = backgroundColor;
+        return this;
+    }
+
+    public UViewStyle setBackgroundColorRes(@ColorRes int backgroundColorRes) {
+        this.backgroundColor = UContext.getContext().getResources().getColor(backgroundColorRes);
         return this;
     }
 
@@ -88,8 +96,13 @@ public class UViewStyle {
         return backgroundPressColor;
     }
 
-    public UViewStyle setBackgroundPressColor(int backgroundPressColor) {
+    public UViewStyle setBackgroundPressColor(@ColorInt int backgroundPressColor) {
         this.backgroundPressColor = backgroundPressColor;
+        return this;
+    }
+
+    public UViewStyle setBackgroundPressColorRes(@ColorRes int backgroundPressColorRes) {
+        this.backgroundPressColor = UContext.getContext().getResources().getColor(backgroundPressColorRes);
         return this;
     }
 
@@ -97,8 +110,13 @@ public class UViewStyle {
         return backgroundDisableColor;
     }
 
-    public UViewStyle setBackgroundDisableColor(int backgroundDisableColor) {
+    public UViewStyle setBackgroundDisableColor(@ColorInt int backgroundDisableColor) {
         this.backgroundDisableColor = backgroundDisableColor;
+        return this;
+    }
+
+    public UViewStyle setBackgroundDisableColorRes(@ColorRes int backgroundDisableColorRes) {
+        this.backgroundDisableColor = UContext.getContext().getResources().getColor(backgroundDisableColorRes);
         return this;
     }
 
@@ -151,8 +169,13 @@ public class UViewStyle {
         return strokeColor;
     }
 
-    public UViewStyle setStrokeColor(int strokeColor) {
+    public UViewStyle setStrokeColor(@ColorInt int strokeColor) {
         this.strokeColor = strokeColor;
+        return this;
+    }
+
+    public UViewStyle setStrokeColorRes(@ColorRes int strokeColorRes) {
+        this.strokeColor = UContext.getContext().getResources().getColor(strokeColorRes);
         return this;
     }
 
@@ -160,8 +183,13 @@ public class UViewStyle {
         return strokePressColor;
     }
 
-    public UViewStyle setStrokePressColor(int strokePressColor) {
+    public UViewStyle setStrokePressColor(@ColorInt int strokePressColor) {
         this.strokePressColor = strokePressColor;
+        return this;
+    }
+
+    public UViewStyle setStrokePressColorRes(@ColorRes int strokePressColorRes) {
+        this.strokePressColor = UContext.getContext().getResources().getColor(strokePressColorRes);
         return this;
     }
 
@@ -174,12 +202,22 @@ public class UViewStyle {
         return this;
     }
 
+    public UViewStyle setTextPressColorRes(@ColorRes int textPressColorRes) {
+        this.textPressColor = UContext.getContext().getResources().getColor(textPressColorRes);
+        return this;
+    }
+
     public int getTextDisableColor() {
         return textDisableColor;
     }
 
-    public UViewStyle setTextDisableColor(int textDisableColor) {
+    public UViewStyle setTextDisableColor(@ColorInt int textDisableColor) {
         this.textDisableColor = textDisableColor;
+        return this;
+    }
+
+    public UViewStyle setTextDisableColorRes(@ColorRes int textDisableColorRes) {
+        this.textDisableColor = UContext.getContext().getResources().getColor(textDisableColorRes);
         return this;
     }
 
@@ -241,11 +279,13 @@ public class UViewStyle {
 
 
             fillGradientDrawable(gd_background, backgroundColor, strokeColor);
+
             RippleDrawable rippleDrawable = new RippleDrawable(
                     ColorStateList.valueOf(Color.GRAY),//灰色波纹
 //						getPressedColorSelector(backgroundColor, backgroundPressColor),
                     gd_background,
                     null);
+
             view.setBackground(rippleDrawable);
 
 
@@ -262,13 +302,7 @@ public class UViewStyle {
                 bg.addState(new int[]{android.R.attr.state_pressed}, gd_background_press);
             }
 
-            //add disable state
-            if (backgroundDisableColor != Integer.MAX_VALUE ) {
-                fillGradientDrawable(gd_background_disable,
-                        backgroundDisableColor ,
-                        backgroundDisableColor);
-                bg.addState(new int[]{-android.R.attr.state_enabled}, gd_background_disable);
-            }
+            addDisableState(bg);
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {//16
@@ -300,6 +334,16 @@ public class UViewStyle {
 
             ((TextView) view).setTextColor(colorStateList);
 
+        }
+    }
+
+    private void addDisableState(StateListDrawable bg) {
+        //add disable state
+        if (backgroundDisableColor != Integer.MAX_VALUE ) {
+            fillGradientDrawable(gd_background_disable,
+                    backgroundDisableColor ,
+                    backgroundDisableColor);
+            bg.addState(new int[]{-android.R.attr.state_enabled}, gd_background_disable);
         }
     }
 }

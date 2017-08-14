@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 tools:context="com.cy.app.MainActivity">
 
-    <TextView
+    <Button
         android:textColor="#fff"
         android:id="@+id/mtv"
         android:layout_width="wrap_content"
