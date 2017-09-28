@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static java.util.Collections.addAll;
@@ -24,6 +25,14 @@ public class UCollection {
 
     public static <E> boolean isEmpty(List<E> list) {
         return list == null || list.size() == 0;
+    }
+
+    public static <K,V> boolean notEmpty(Map<K,V> map) {
+        return map != null && map.size() > 0;
+    }
+
+    public static <K,V> boolean isEmpty(Map<K,V> map) {
+        return map == null || map.size() == 0;
     }
 
     /**for short:
@@ -236,5 +245,52 @@ public class UCollection {
         HashSet hashSet=new HashSet<T>();
         hashSet.addAll(list);
         return hashSet;
+    }
+
+    /**
+     * 排列组合
+     * {我，你，他} {zhu，mao，gou} {1，2}
+     * ————————→
+     * {我,zhu,1} {我,zhu,2} {我,mao,1} {我,mao,2} {我,gou,1} {我,gou,2} {你,zhu,1} ...
+     * @param lists
+     * @return
+     */
+    protected static <T> List<List<T>> combination(List<List<T>> lists) {
+        List<List<T>> resultLists = new ArrayList<List<T>>();
+        if (lists.size() == 0) {
+            resultLists.add(new ArrayList<T>());
+            return resultLists;
+        } else {
+            List<T> firstList = lists.get(0);
+            List<List<T>> remainingLists = combination(lists.subList(1, lists.size()));
+            for (T condition : firstList) {
+                for (List<T> remainingList : remainingLists) {
+                    ArrayList<T> resultList = new ArrayList<T>();
+                    resultList.add(condition);
+                    resultList.addAll(remainingList);
+                    resultLists.add(resultList);
+                }
+            }
+        }
+        return resultLists;
+    }
+
+    /**列表内容相同性比较
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public static boolean compare(List<String> list1, List<String> list2) {
+        Set<String> aSet = new HashSet<String>();
+        Set<String> bSet = new HashSet<String>();
+        aSet.addAll(list1);
+        bSet.addAll(list2);
+        if (aSet.size() != bSet.size()) {
+            return false;
+        } else {
+            int tempASetSize = aSet.size();
+            aSet.addAll(list2);
+            return tempASetSize == aSet.size();
+        }
     }
 }  
