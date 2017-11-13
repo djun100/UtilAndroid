@@ -18,6 +18,7 @@ android {
 }
 
 dependencies {
+
     provided 'com.android.support:support-v4:+'
     provided 'com.android.support:recyclerview-v7:+'
     provided 'commons-codec:commons-codec:1.8'

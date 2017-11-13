@@ -24,11 +24,11 @@ public class MainActivity extends FragmentActivity {
         mbtnResult = (Button) findViewById(R.id.mtv);
         mbtn = (Button) findViewById(R.id.mbtn);
         new UViewStyle(mbtnResult)
-                .setRippleEnable(true)
-                .setBackgroundDisableColor(getResources().getColor(android.R.color.darker_gray))
+//                .setRippleEnable(true)
                 .setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright))
+                .setBackgroundDisableColor(getResources().getColor(android.R.color.darker_gray))
                 .setTextDisableColor(getResources().getColor(android.R.color.black))
-                .setCornerRadius(15)
+//                .setCornerRadius(15)
                 .apply();
 
         mOnClickListener = new View.OnClickListener() {
