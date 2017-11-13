@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 
-import com.cy.app.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,7 +30,7 @@ public class UMedida {
             destFile=new File(getSnapPath(filePath));
             bitmap2File(bitmap,destFile);
         } catch(Exception ex) {
-            Log.e(ex.getMessage());
+//            Log.e(ex.getMessage());
         } finally {
             try {
                 retriever.release();

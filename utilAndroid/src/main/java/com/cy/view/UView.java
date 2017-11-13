@@ -13,7 +13,8 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.cy.app.Log;
+import com.cy.io.Log;
+
 
 public class UView {
 	/**view获取焦点

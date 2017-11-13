@@ -5,7 +5,6 @@ import android.os.Environment;
 import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,14 +42,14 @@ import javax.xml.transform.stream.StreamSource;
  *     desc  : 一个精简、全面、方便的AndroidLog库
  * </pre>
  */
-public final class ALog {
+public final class Log {
 
-    public static final int V = Log.VERBOSE;
-    public static final int D = Log.DEBUG;
-    public static final int I = Log.INFO;
-    public static final int W = Log.WARN;
-    public static final int E = Log.ERROR;
-    public static final int A = Log.ASSERT;
+    public static final int V = android.util.Log.VERBOSE;
+    public static final int D = android.util.Log.DEBUG;
+    public static final int I = android.util.Log.INFO;
+    public static final int W = android.util.Log.WARN;
+    public static final int E = android.util.Log.ERROR;
+    public static final int A = android.util.Log.ASSERT;
 
     @IntDef({V, D, I, W, E, A})
     @Retention(RetentionPolicy.SOURCE)
@@ -90,7 +89,7 @@ public final class ALog {
     private static final String ARGS          = "args";
     private static Config sConfig;
 
-    private ALog() {
+    private Log() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
@@ -339,16 +338,16 @@ public final class ALog {
 
     private static void printBorder(final int type, final String tag, boolean isTop) {
         if (sLogBorderSwitch) {
-            Log.println(type, tag, isTop ? TOP_BORDER : BOTTOM_BORDER);
+            android.util.Log.println(type, tag, isTop ? TOP_BORDER : BOTTOM_BORDER);
         }
     }
 
     private static void printHead(final int type, final String tag, final String[] head) {
         if (head != null) {
             for (String aHead : head) {
-                Log.println(type, tag, sLogBorderSwitch ? LEFT_BORDER + aHead : aHead);
+                android.util.Log.println(type, tag, sLogBorderSwitch ? LEFT_BORDER + aHead : aHead);
             }
-            if (sLogBorderSwitch) Log.println(type, tag, SPLIT_BORDER);
+            if (sLogBorderSwitch) android.util.Log.println(type, tag, SPLIT_BORDER);
         }
     }
 
@@ -371,13 +370,13 @@ public final class ALog {
 
     private static void printSubMsg(final int type, final String tag, final String msg) {
         if (!sLogBorderSwitch) {
-            Log.println(type, tag, msg);
+            android.util.Log.println(type, tag, msg);
             return;
         }
         StringBuilder sb = new StringBuilder();
         String[] lines = msg.split(LINE_SEP);
         for (String line : lines) {
-            Log.println(type, tag, LEFT_BORDER + line);
+            android.util.Log.println(type, tag, LEFT_BORDER + line);
         }
     }
 
@@ -388,7 +387,7 @@ public final class ALog {
         String time = format.substring(6);
         final String fullPath = (sDir == null ? sDefaultDir : sDir) + sFilePrefix + "-" + date + ".txt";
         if (!createOrExistsFile(fullPath)) {
-            Log.e(tag, "log to " + fullPath + " failed!");
+            android.util.Log.e(tag, "log to " + fullPath + " failed!");
             return;
         }
         StringBuilder sb = new StringBuilder();
@@ -409,10 +408,10 @@ public final class ALog {
                 try {
                     bw = new BufferedWriter(new FileWriter(fullPath, true));
                     bw.write(content);
-                    Log.d(tag, "log to " + fullPath + " success!");
+                    android.util.Log.d(tag, "log to " + fullPath + " success!");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e(tag, "log to " + fullPath + " failed!");
+                    android.util.Log.e(tag, "log to " + fullPath + " failed!");
                 } finally {
                     try {
                         if (bw != null) {

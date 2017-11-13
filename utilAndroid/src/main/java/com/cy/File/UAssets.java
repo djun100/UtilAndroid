@@ -1,14 +1,15 @@
 package com.cy.File;
 
+import android.content.res.AssetManager;
+
+import com.cy.app.UContext;
+import com.cy.io.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.cy.app.UContext;
-
-import android.content.res.AssetManager;
 
 public class UAssets {
 	/**
@@ -21,7 +22,7 @@ public class UAssets {
 	public static boolean copyFileFromAssets( String ASSETS_NAME, String savePath, String saveName) {
 		new File(savePath).mkdirs();
 		String filename = savePath +File.separator+ saveName;
-		com.cy.app.Log.w("filename copy to:" + filename);
+		Log.w("filename copy to:" + filename);
 		try {
 			// 如果toFile不存在
 			if (!(new File(filename)).exists()) {

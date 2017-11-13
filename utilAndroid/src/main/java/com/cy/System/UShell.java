@@ -2,7 +2,7 @@ package com.cy.System;
 
 import android.text.TextUtils;
 
-import com.cy.app.Log;
+import com.cy.io.Log;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -56,7 +56,7 @@ public class UShell {
             // 获取返回内容
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String str = in.readLine();
-            com.cy.app.Log.i( str);
+            Log.i( str);
             if (str != null && str.length() >= 4) {
                 char flag = str.charAt(3);
                 //当s权限在文件组 x 权限上时，例如：-rwx--s--x，此时称为Set GID，简称为SGID的特殊权限， 执行者在执行该文件时将具有该文件所属组的权限。

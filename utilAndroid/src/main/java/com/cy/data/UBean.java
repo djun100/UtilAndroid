@@ -1,6 +1,7 @@
 package com.cy.data;
 
-import com.cy.app.Log;
+
+import com.cy.io.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

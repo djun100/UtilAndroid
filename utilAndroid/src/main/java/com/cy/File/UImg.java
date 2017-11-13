@@ -26,7 +26,6 @@ import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.cy.System.UEnv;
-import com.cy.app.Log;
 import com.cy.app.UContext;
 
 import java.io.ByteArrayOutputStream;
@@ -326,14 +325,14 @@ public class UImg {
 
 	    // Calculate inSampleSize
 	    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-		Log.i("options.outHeight:"+options.outHeight);
-		Log.i("options.outWidth:"+options.outWidth);
-		Log.i("options.inSampleSize:"+options.inSampleSize);
+//		Log.i("options.outHeight:"+options.outHeight);
+//		Log.i("options.outWidth:"+options.outWidth);
+//		Log.i("options.inSampleSize:"+options.inSampleSize);
 	    // Decode bitmap with inSampleSize set
 	    options.inJustDecodeBounds = false;
 	    Bitmap bitmap=BitmapFactory.decodeFile(pathPic, options);
-		Log.i("bitmap.getHeight():"+bitmap.getHeight());
-		Log.i("bitmap.getWidth():"+bitmap.getWidth());
+//		Log.i("bitmap.getHeight():"+bitmap.getHeight());
+//		Log.i("bitmap.getWidth():"+bitmap.getWidth());
 	    return bitmap;
 	}
 

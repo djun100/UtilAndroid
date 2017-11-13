@@ -9,7 +9,7 @@ import android.view.View.MeasureSpec;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
-import com.cy.app.Log;
+import com.cy.io.Log;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

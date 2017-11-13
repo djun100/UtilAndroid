@@ -43,7 +43,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
-import com.cy.app.Log;
+import com.cy.io.Log;
+
 
 /**usage：
  * in activity:<br>
@@ -88,11 +89,11 @@ public class ReceiverScreenOnOff {
 		    mReceiverScreenOnOff = new BroadcastReceiver() {  
 		        @Override  
 		        public void onReceive(final Context context, final Intent intent) {  
-		            Log.d( "onReceive");  
+		            Log.d( "onReceive");
 		            String action = intent.getAction();  
 		            iReceiver.onScreenEvent(action);
 		            if (Intent.ACTION_SCREEN_ON.equals(action)) {  
-		                Log.d("screen on");  
+		                Log.d("screen on");
 		            } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {  
 		                Log.d("screen off");  
 		            } else if (Intent.ACTION_USER_PRESENT.equals(action)) {  
