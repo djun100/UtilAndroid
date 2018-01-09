@@ -1,6 +1,10 @@
 package com.cy.io;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
@@ -22,9 +26,11 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Formatter;
-import java.util.Locale;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -33,13 +39,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-/**https://github.com/Blankj/ALog
- * compile 'com.blankj:alog:1.5.0'
+/**
  * <pre>
  *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/9/21
  *     desc  : 一个精简、全面、方便的AndroidLog库
+ *     compile 'com.blankj:alog:1.6.1'
+ *
+ *     //fixme 数值不同可以获取不同层次调用的来源
+        StackTraceElement targetElement = stackTrace[3];
  * </pre>
  */
 public final class Log {
@@ -62,32 +71,40 @@ public final class Log {
     private static final int JSON = 0x20;
     private static final int XML  = 0x30;
 
-    private static ExecutorService sExecutor;
-    private static String          sDefaultDir;// log默认存储目录
-    private static String          sDir;       // log存储目录
-    private static String  sFilePrefix        = "util";// log文件前缀
-    private static boolean sLogSwitch         = true;  // log总开关，默认开
-    private static boolean sLog2ConsoleSwitch = true;  // logcat是否打印，默认打印
-    private static String  sGlobalTag         = null;  // log标签
-    private static boolean sTagIsSpace        = true;  // log标签是否为空白
-    private static boolean sLogHeadSwitch     = true;  // log头部开关，默认开
-    private static boolean sLog2FileSwitch    = false; // log写入文件开关，默认关
-    private static boolean sLogBorderSwitch   = true;  // log边框开关，默认开
-    private static int     sConsoleFilter     = V;     // log控制台过滤器
-    private static int     sFileFilter        = V;     // log文件过滤器
-    private static int     sStackDeep         = 1;     // log栈深度
+    private static final String FILE_SEP       = System.getProperty("file.separator");
+    private static final String LINE_SEP       = System.getProperty("line.separator");
+    private static final String TOP_CORNER     = "┌";
+    private static final String MIDDLE_CORNER  = "├";
+    private static final String LEFT_BORDER    = "│ ";
+    private static final String BOTTOM_CORNER  = "└";
+    private static final String SIDE_DIVIDER   = "────────────────────────────────────────────────────────";
+    private static final String MIDDLE_DIVIDER = "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄";
+    private static final String TOP_BORDER     = TOP_CORNER + SIDE_DIVIDER + SIDE_DIVIDER;
+    private static final String MIDDLE_BORDER  = MIDDLE_CORNER + MIDDLE_DIVIDER + MIDDLE_DIVIDER;
+    private static final String BOTTOM_BORDER  = BOTTOM_CORNER + SIDE_DIVIDER + SIDE_DIVIDER;
+    private static final int    MAX_LEN        = 4000;
+    @SuppressLint("SimpleDateFormat")
+    private static final Format FORMAT         = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ");
+    private static final String NOTHING        = "log nothing";
+    private static final String NULL           = "null";
+    private static final String ARGS           = "args";
 
-    private static final String FILE_SEP      = System.getProperty("file.separator");
-    private static final String LINE_SEP      = System.getProperty("line.separator");
-    private static final String TOP_BORDER    = "╔═══════════════════════════════════════════════════════════════════════════════════════════════════";
-    private static final String SPLIT_BORDER  = "╟───────────────────────────────────────────────────────────────────────────────────────────────────";
-    private static final String LEFT_BORDER   = "║ ";
-    private static final String BOTTOM_BORDER = "╚═══════════════════════════════════════════════════════════════════════════════════════════════════";
-    private static final int    MAX_LEN       = 4000;
-    private static final Format FORMAT        = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ", Locale.getDefault());
-    private static final String NULL          = "null";
-    private static final String ARGS          = "args";
-    private static Config sConfig;
+    private static Config          sConfig;
+    private static Context         sAppContext;
+    private static ExecutorService sExecutor;
+    private static String          sDefaultDir;// log 默认存储目录
+    private static String          sDir;       // log 存储目录
+    private static String  sFilePrefix        = "util";// log 文件前缀
+    private static boolean sLogSwitch         = true;  // log 总开关，默认开
+    private static boolean sLog2ConsoleSwitch = true;  // logcat 是否打印，默认打印
+    private static String  sGlobalTag         = null;  // log 标签
+    private static boolean sTagIsSpace        = true;  // log 标签是否为空白
+    private static boolean sLogHeadSwitch     = true;  // log 头部开关，默认开
+    private static boolean sLog2FileSwitch    = false; // log 写入文件开关，默认关
+    private static boolean sLogBorderSwitch   = true;  // log 边框开关，默认开
+    private static int     sConsoleFilter     = V;     // log 控制台过滤器
+    private static int     sFileFilter        = V;     // log 文件过滤器
+    private static int     sStackDeep         = 1;     // log 栈深度
 
     private Log() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -219,10 +236,12 @@ public final class Log {
             tag = sGlobalTag;
         } else {
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+            //fixme 数值不同可以获取不同层次调用的来源
             StackTraceElement targetElement = stackTrace[3];
             String fileName = targetElement.getFileName();
             String className;
-            if (fileName == null) {// 混淆可能会导致获取为空 加-keepattributes SourceFile,LineNumberTable
+            // 混淆可能会导致获取为空 加-keepattributes SourceFile,LineNumberTable
+            if (fileName == null) {
                 className = targetElement.getClassName();
                 String[] classNameInfo = className.split("\\.");
                 if (classNameInfo.length > 0) {
@@ -251,7 +270,8 @@ public final class Log {
                 if (sStackDeep <= 1) {
                     return new TagHead(tag, new String[]{head}, fileHead);
                 } else {
-                    final String[] consoleHead = new String[Math.min(sStackDeep, stackTrace.length - 3)];
+                    final String[] consoleHead =
+                            new String[Math.min(sStackDeep, stackTrace.length - 3)];
                     consoleHead[0] = head;
                     int spaceLen = tName.length() + 2;
                     String space = new Formatter().format("%" + spaceLen + "s", "").toString();
@@ -298,7 +318,7 @@ public final class Log {
                 body = sb.toString();
             }
         }
-        return body;
+        return body.length() == 0 ? NOTHING : body;
     }
 
     private static String formatJson(String json) {
@@ -329,7 +349,10 @@ public final class Log {
         return xml;
     }
 
-    private static void print2Console(final int type, final String tag, final String[] head, final String msg) {
+    private static void print2Console(final int type,
+                                      final String tag,
+                                      final String[] head,
+                                      final String msg) {
         printBorder(type, tag, true);
         printHead(type, tag, head);
         printMsg(type, tag, msg);
@@ -347,7 +370,7 @@ public final class Log {
             for (String aHead : head) {
                 android.util.Log.println(type, tag, sLogBorderSwitch ? LEFT_BORDER + aHead : aHead);
             }
-            if (sLogBorderSwitch) android.util.Log.println(type, tag, SPLIT_BORDER);
+            if (sLogBorderSwitch) android.util.Log.println(type, tag, MIDDLE_BORDER);
         }
     }
 
@@ -385,7 +408,8 @@ public final class Log {
         String format = FORMAT.format(now);
         String date = format.substring(0, 5);
         String time = format.substring(6);
-        final String fullPath = (sDir == null ? sDefaultDir : sDir) + sFilePrefix + "-" + date + ".txt";
+        final String fullPath =
+                (sDir == null ? sDefaultDir : sDir) + sFilePrefix + "-" + date + ".txt";
         if (!createOrExistsFile(fullPath)) {
             android.util.Log.e(tag, "log to " + fullPath + " failed!");
             return;
@@ -398,31 +422,11 @@ public final class Log {
                 .append(msg)
                 .append(LINE_SEP);
         final String content = sb.toString();
-        if (sExecutor == null) {
-            sExecutor = Executors.newSingleThreadExecutor();
+        if (input2File(content, fullPath)) {
+            android.util.Log.d(tag, "log to " + fullPath + " success!");
+        } else {
+            android.util.Log.e(tag, "log to " + fullPath + " failed!");
         }
-        sExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                BufferedWriter bw = null;
-                try {
-                    bw = new BufferedWriter(new FileWriter(fullPath, true));
-                    bw.write(content);
-                    android.util.Log.d(tag, "log to " + fullPath + " success!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    android.util.Log.e(tag, "log to " + fullPath + " failed!");
-                } finally {
-                    try {
-                        if (bw != null) {
-                            bw.close();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
     }
 
     private static boolean createOrExistsFile(final String filePath) {
@@ -430,11 +434,37 @@ public final class Log {
         if (file.exists()) return file.isFile();
         if (!createOrExistsDir(file.getParentFile())) return false;
         try {
-            return file.createNewFile();
+            boolean isCreate = file.createNewFile();
+            if (isCreate) printDeviceInfo(filePath);
+            return isCreate;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private static void printDeviceInfo(final String filePath) {
+        String versionName = "";
+        int versionCode = 0;
+        try {
+            PackageInfo pi = sAppContext.getPackageManager()
+                    .getPackageInfo(sAppContext.getPackageName(), 0);
+            if (pi != null) {
+                versionName = pi.versionName;
+                versionCode = pi.versionCode;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        final String head = "************* Log Head ****************" +
+                "\nDevice Manufacturer: " + Build.MANUFACTURER +// 设备厂商
+                "\nDevice Model       : " + Build.MODEL +// 设备型号
+                "\nAndroid Version    : " + Build.VERSION.RELEASE +// 系统版本
+                "\nAndroid SDK        : " + Build.VERSION.SDK_INT +// SDK 版本
+                "\nApp VersionName    : " + versionName +
+                "\nApp VersionCode    : " + versionCode +
+                "\n************* Log Head ****************\n\n";
+        input2File(head, filePath);
     }
 
     private static boolean createOrExistsDir(final File file) {
@@ -451,14 +481,51 @@ public final class Log {
         return true;
     }
 
+    private static boolean input2File(final String input, final String filePath) {
+        if (sExecutor == null) {
+            sExecutor = Executors.newSingleThreadExecutor();
+        }
+        Future<Boolean> submit = sExecutor.submit(new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                BufferedWriter bw = null;
+                try {
+                    bw = new BufferedWriter(new FileWriter(filePath, true));
+                    bw.write(input);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                } finally {
+                    try {
+                        if (bw != null) {
+                            bw.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        try {
+            return submit.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static class Config {
         private Config(@NonNull Context context) {
+            sAppContext = context.getApplicationContext();
             if (sDefaultDir != null) return;
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
-                    && context.getExternalCacheDir() != null)
-                sDefaultDir = context.getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                    && sAppContext.getExternalCacheDir() != null)
+                sDefaultDir = sAppContext.getExternalCacheDir() + FILE_SEP + "log" + FILE_SEP;
             else {
-                sDefaultDir = context.getCacheDir() + FILE_SEP + "log" + FILE_SEP;
+                sDefaultDir = sAppContext.getCacheDir() + FILE_SEP + "log" + FILE_SEP;
             }
         }
 
