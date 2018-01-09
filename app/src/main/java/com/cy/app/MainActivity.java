@@ -34,7 +34,7 @@ public class MainActivity extends FragmentActivity {
         UtilSP.setParam("key1","a");
         String value = (String) UtilSP.getParam("key1","");
 //        com.cy.io.Log.init(this).setBorderSwitch(false).setLogHeadSwitch(false);
-        com.cy.io.Log.w("呵呵");
+//        com.cy.io.Log.w("呵呵");
         TestLog.showLogUseLogUtil();
 //        TestLog.showLog("呵呵");
     }

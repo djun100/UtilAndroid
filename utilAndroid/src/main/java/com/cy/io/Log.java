@@ -105,6 +105,7 @@ public final class Log {
     private static int     sConsoleFilter     = V;     // log 控制台过滤器
     private static int     sFileFilter        = V;     // log 文件过滤器
     private static int     sStackDeep         = 1;     // log 栈深度
+    private static boolean sShowOuterCaller   = true;  //基类输出的log默认显示成子类
 
     private Log() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -236,8 +237,20 @@ public final class Log {
             tag = sGlobalTag;
         } else {
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-            //fixme 数值不同可以获取不同层次调用的来源
-            StackTraceElement targetElement = stackTrace[3];
+            // 数值不同可以获取不同层次调用的来源
+            StackTraceElement targetElement = null;
+            if (sShowOuterCaller) {
+                for (int i = stackTrace.length - 1; i >= 0; i--) {
+                    if (!stackTrace[i].getClassName().startsWith("android")
+                            && !stackTrace[i].getClassName().startsWith("java")){
+                        targetElement = stackTrace[i];
+                        break;
+                    }
+                }
+            }else {
+                targetElement = stackTrace[3];
+            }
+
             String fileName = targetElement.getFileName();
             String className;
             // 混淆可能会导致获取为空 加-keepattributes SourceFile,LineNumberTable
@@ -600,6 +613,11 @@ public final class Log {
 
         public Config setStackDeep(@IntRange(from = 1) final int stackDeep) {
             sStackDeep = stackDeep;
+            return this;
+        }
+
+        public Config setShowOuterCaller(final boolean showOuterCaller) {
+            sShowOuterCaller = showOuterCaller;
             return this;
         }
 
