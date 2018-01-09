@@ -105,6 +105,11 @@ public final class Log {
     private static int     sConsoleFilter     = V;     // log 控制台过滤器
     private static int     sFileFilter        = V;     // log 文件过滤器
     private static int     sStackDeep         = 1;     // log 栈深度
+
+    /**
+     * 在基类输出log取调用他的子类，需要倒序遍历stackTrace堆栈，为了过滤系统类，需要约定类文件夹
+     * 名称不能以“java“、”android”、“com.android”开头，正常情况下起名不会以这几个开头
+     */
     private static boolean sShowOuterCaller   = true;  //基类输出的log默认显示成子类
 
     private Log() {
@@ -242,7 +247,8 @@ public final class Log {
             if (sShowOuterCaller) {
                 for (int i = stackTrace.length - 1; i >= 0; i--) {
                     if (!stackTrace[i].getClassName().startsWith("android")
-                            && !stackTrace[i].getClassName().startsWith("java")){
+                            && !stackTrace[i].getClassName().startsWith("java")
+                            && !stackTrace[i].getClassName().startsWith("com.android")){
                         targetElement = stackTrace[i];
                         break;
                     }
