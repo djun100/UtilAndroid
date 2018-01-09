@@ -2,7 +2,7 @@ package com.cy;
 
 import android.test.InstrumentationTestCase;
 
-import com.cy.security.URSA;
+import com.cy.security.UtilRSA;
 
 /**
  * Created by cy on 2016/3/10.
@@ -27,7 +27,7 @@ public class Test extends InstrumentationTestCase {
                 "GMDu2WQ=\n" +
                 "-----END CERTIFICATE-----";
         try {
-            byte[] bytes= URSA.encryptByPublicKey(crt.getBytes(),"sadfadf");
+            byte[] bytes= UtilRSA.encryptByPublicKey(crt.getBytes(),"sadfadf");
             System.err.println("bytes lenth:"+bytes.length);
         } catch (Exception e) {
             e.printStackTrace();

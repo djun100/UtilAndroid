@@ -49,7 +49,7 @@ public class ActivityManager {
 	 * 获取当前task的stack的top Activity，含包名
 	 */
 	public static String currentActivity(){
-		android.app.ActivityManager am = (android.app.ActivityManager) UContext.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+		android.app.ActivityManager am = (android.app.ActivityManager) UtilContext.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 		ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
 		return cn.toString();
 	}

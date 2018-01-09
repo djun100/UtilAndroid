@@ -7,7 +7,7 @@ import org.junit.Test;
 public class UtilViewTest {
 
     @Test
-    public void testSaf() throws Exception {
+    public void saf() throws Exception {
         System.err.println("sdff");
     }
 
