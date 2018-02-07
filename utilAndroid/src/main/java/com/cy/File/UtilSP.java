@@ -62,10 +62,12 @@ public class UtilSP {
 	 * @return
 	 */
 	public static Object getParam(String fileName, String key, Object defaultObject){
-		if (defaultObject==null) {
-			defaultObject="";
+		String type;
+		if (defaultObject == null) {
+			type = "String";
+		}else {
+			type = defaultObject.getClass().getSimpleName();
 		}
-		String type = defaultObject.getClass().getSimpleName();
 		SharedPreferences sp = UtilContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
 		if("String".equals(type)){
@@ -84,7 +86,7 @@ public class UtilSP {
 			return sp.getLong(type, (Long)defaultObject);
 		}
 		
-		return null;
+		return defaultObject;
 	}
 	/**
 	 * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
