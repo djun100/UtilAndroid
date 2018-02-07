@@ -62,6 +62,9 @@ public class UtilSP {
 	 * @return
 	 */
 	public static Object getParam(String fileName, String key, Object defaultObject){
+		if (defaultObject==null) {
+			defaultObject="";
+		}
 		String type = defaultObject.getClass().getSimpleName();
 		SharedPreferences sp = UtilContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		
