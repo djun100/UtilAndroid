@@ -27,6 +27,7 @@ import com.cy.app.UtilContext;
  * .apply();
  * <p>
  * Created by cy on 2017/7/17.
+ * fixme xml设置的背景色会被丢失，应获取并设为默认
  */
 
 public class UtilViewStyle {

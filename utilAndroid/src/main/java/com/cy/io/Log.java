@@ -110,7 +110,7 @@ public final class Log {
      * 在基类输出log取调用他的子类，需要倒序遍历stackTrace堆栈，为了过滤系统类，需要约定类文件夹
      * 名称不能以“java“、”android”、“com.android”开头，正常情况下起名不会以这几个开头
      */
-    private static boolean sShowOuterCaller   = true;  //基类输出的log默认显示成子类
+    private static boolean sShowSubClassCaller = true;  //基类输出的log默认显示成子类
 
     private Log() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -244,7 +244,7 @@ public final class Log {
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
             // 数值不同可以获取不同层次调用的来源
             StackTraceElement targetElement = null;
-            if (sShowOuterCaller) {
+            if (sShowSubClassCaller) {
                 for (int i = stackTrace.length - 1; i >= 0; i--) {
                     if (!stackTrace[i].getClassName().startsWith("android")
                             && !stackTrace[i].getClassName().startsWith("java")
@@ -622,8 +622,8 @@ public final class Log {
             return this;
         }
 
-        public Config setShowOuterCaller(final boolean showOuterCaller) {
-            sShowOuterCaller = showOuterCaller;
+        public Config setShowSubClassCaller(final boolean showOuterCaller) {
+            sShowSubClassCaller = showOuterCaller;
             return this;
         }
 
