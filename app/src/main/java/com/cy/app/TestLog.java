@@ -10,6 +10,7 @@ public class TestLog {
 
     public static void showLogUseLogUtil(){
         com.cy.io.Log.w("呵呵");
+        com.cy.io.Log.w(1,"parent stack 呵呵");
     }
 
     public static void showLog(String msg){

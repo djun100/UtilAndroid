@@ -10,6 +10,8 @@ import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
+import com.cy.app.UtilContext;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -102,114 +104,186 @@ public final class Log {
         return sConfig;
     }
 
+    private static void checkInit(){
+        synchronized (Log.class) {
+            if (sAppContext==null){
+                init(UtilContext.getContext());
+            }
+        }
+    }
+
     public static Config getConfig() {
         if (sConfig == null) throw new NullPointerException("U should init first.");
         return sConfig;
     }
 
-    public static void v(final Object... contents) {
-        log(V, sConfig.mGlobalTag, contents);
+    public static void v(final Object content) {
+        checkInit();
+        log(V, sConfig.mGlobalTag,0, content);
     }
 
-    public static void vTag(final String tag, final Object... contents) {
-        log(V, tag, contents);
+    public static void v(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(V, sConfig.mGlobalTag,parentCallStackLevel, content);
     }
 
-    public static void d(final Object... contents) {
-        log(D, sConfig.mGlobalTag, contents);
+    public static void v(final String tag, final Object content) {
+        checkInit();
+        log(V, tag,0, content);
     }
 
-    public static void dTag(final String tag, final Object... contents) {
-        log(D, tag, contents);
+    public static void d(final Object content) {
+        checkInit();
+        log(D, sConfig.mGlobalTag,0, content);
     }
 
-    public static void i(final Object... contents) {
-        log(I, sConfig.mGlobalTag, contents);
+    public static void d(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(D, sConfig.mGlobalTag,parentCallStackLevel, content);
     }
 
-    public static void iTag(final String tag, final Object... contents) {
-        log(I, tag, contents);
+    public static void d(final String tag, final Object content) {
+        checkInit();
+        log(D, tag,0, content);
     }
 
-    public static void w(final Object... contents) {
-        log(W, sConfig.mGlobalTag, contents);
+    public static void i(final Object content) {
+        checkInit();
+        log(I, sConfig.mGlobalTag,0, content);
     }
 
-    public static void wTag(final String tag, final Object... contents) {
-        log(W, tag, contents);
+    public static void i(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(I, sConfig.mGlobalTag,parentCallStackLevel, content);
     }
 
-    public static void e(final Object... contents) {
-        log(E, sConfig.mGlobalTag, contents);
+    public static void i(final String tag, final Object content) {
+        checkInit();
+        log(I, tag,0, content);
     }
 
-    public static void eTag(final String tag, final Object... contents) {
-        log(E, tag, contents);
+    public static void w(final Object content) {
+        checkInit();
+        log(W, sConfig.mGlobalTag,0, content);
     }
 
-    public static void a(final Object... contents) {
-        log(A, sConfig.mGlobalTag, contents);
+    public static void w(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(W, sConfig.mGlobalTag, parentCallStackLevel, content);
     }
 
-    public static void aTag(final String tag, final Object... contents) {
-        log(A, tag, contents);
+    public static void w(final String tag, final Object content) {
+        checkInit();
+        log(W, tag,0, content);
+    }
+
+    public static void e(final Object content) {
+        checkInit();
+        log(E, sConfig.mGlobalTag,0, content);
+    }
+
+    public static void e(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(E, sConfig.mGlobalTag,parentCallStackLevel, content);
+    }
+
+    public static void e(final String tag, final Object content) {
+        checkInit();
+        log(E, tag,0, content);
+    }
+
+    public static void a(final Object content) {
+        checkInit();
+        log(A, sConfig.mGlobalTag,0, content);
+    }
+
+    public static void a(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(A, sConfig.mGlobalTag,parentCallStackLevel, content);
+    }
+
+    public static void a(final String tag, final Object content) {
+        checkInit();
+        log(A, tag,0, content);
     }
 
     public static void file(final Object content) {
-        log(FILE | D, sConfig.mGlobalTag, content);
+        checkInit();
+        log(FILE | D, sConfig.mGlobalTag,0, content);
     }
 
-    public static void file(@TYPE final int type, final Object content) {
-        log(FILE | type, sConfig.mGlobalTag, content);
+    public static void file(int parentCallStackLevel,final Object content) {
+        checkInit();
+        log(FILE | D, sConfig.mGlobalTag,parentCallStackLevel, content);
+    }
+
+    public static void file(@TYPE final int type,int parentCallStackLevel, final Object content) {
+        checkInit();
+        log(FILE | type, sConfig.mGlobalTag,parentCallStackLevel, content);
     }
 
     public static void file(final String tag, final Object content) {
-        log(FILE | D, tag, content);
+        checkInit();
+        log(FILE | D, tag,0, content);
     }
 
     public static void file(@TYPE final int type, final String tag, final Object content) {
-        log(FILE | type, tag, content);
+        checkInit();
+        log(FILE | type, tag,0, content);
     }
 
     public static void json(final String content) {
-        log(JSON | D, sConfig.mGlobalTag, content);
+        checkInit();
+        log(JSON | D, sConfig.mGlobalTag,0, content);
     }
 
-    public static void json(@TYPE final int type, final String content) {
-        log(JSON | type, sConfig.mGlobalTag, content);
+    public static void json(int parentCallStackLevel,final String content) {
+        checkInit();
+        log(JSON | D, sConfig.mGlobalTag,parentCallStackLevel, content);
+    }
+
+    public static void json(@TYPE final int type,int parentCallStackLevel, final String content) {
+        checkInit();
+        log(JSON | type, sConfig.mGlobalTag,parentCallStackLevel, content);
     }
 
     public static void json(final String tag, final String content) {
-        log(JSON | D, tag, content);
+        checkInit();
+        log(JSON | D, tag,0, content);
     }
 
     public static void json(@TYPE final int type, final String tag, final String content) {
-        log(JSON | type, tag, content);
+        checkInit();
+        log(JSON | type, tag,0, content);
     }
 
     public static void xml(final String content) {
-        log(XML | D, sConfig.mGlobalTag, content);
+        checkInit();
+        log(XML | D, sConfig.mGlobalTag,0, content);
     }
 
     public static void xml(@TYPE final int type, final String content) {
-        log(XML | type, sConfig.mGlobalTag, content);
+        checkInit();
+        log(XML | type, sConfig.mGlobalTag,0, content);
     }
 
     public static void xml(final String tag, final String content) {
-        log(XML | D, tag, content);
+        checkInit();
+        log(XML | D, tag,0, content);
     }
 
     public static void xml(@TYPE final int type, final String tag, final String content) {
-        log(XML | type, tag, content);
+        checkInit();
+        log(XML | type, tag,0, content);
     }
 
-    public static void log(final int type, final String tag, final Object... contents) {
+    public static void log(final int type, final String tag,int stackOffset, final Object content) {
         if (!sConfig.mLogSwitch || (!sConfig.mLog2ConsoleSwitch && !sConfig.mLog2FileSwitch))
             return;
         int type_low = type & 0x0f, type_high = type & 0xf0;
         if (type_low < sConfig.mConsoleFilter && type_low < sConfig.mFileFilter) return;
-        final TagHead tagHead = processTagAndHead(tag);
-        String body = processBody(type_high, contents);
+        final TagHead tagHead = processTagAndHead(tag,stackOffset);
+        String body = processBody(type_high, content);
         if (sConfig.mLog2ConsoleSwitch && type_low >= sConfig.mConsoleFilter && type_high != FILE) {
             print2Console(type_low, tagHead.tag, tagHead.consoleHead, body);
         }
@@ -218,12 +292,13 @@ public final class Log {
         }
     }
 
-    private static TagHead processTagAndHead(String tag) {
+    private static TagHead processTagAndHead(String tag,int stackOffset) {
         if (!sConfig.mTagIsSpace && !sConfig.mLogHeadSwitch) {
             tag = sConfig.mGlobalTag;
         } else {
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
-            final int stackIndex = 3 + sConfig.mStackOffset;
+//            final int stackIndex = 3 + sConfig.mStackOffset;
+            final int stackIndex = 3 + stackOffset;
             if (stackIndex >= stackTrace.length) {
                 StackTraceElement targetElement = stackTrace[3];
                 final String fileName = getFileName(targetElement);
@@ -296,31 +371,16 @@ public final class Log {
         return className + ".java";
     }
 
-    private static String processBody(final int type, final Object... contents) {
+    private static String processBody(final int type, final Object object) {
         String body = NULL;
-        if (contents != null) {
-            if (contents.length == 1) {
-                Object object = contents[0];
-                if (object != null) body = object.toString();
+        if (object != null) {
+                body = object.toString();
                 if (type == JSON) {
                     body = formatJson(body);
                 } else if (type == XML) {
                     body = formatXml(body);
                 }
-            } else {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0, len = contents.length; i < len; ++i) {
-                    Object content = contents[i];
-                    sb.append(ARGS)
-                            .append("[")
-                            .append(i)
-                            .append("]")
-                            .append(" = ")
-                            .append(content == null ? NULL : content.toString())
-                            .append(LINE_SEP);
-                }
-                body = sb.toString();
-            }
+
         }
         return body.length() == 0 ? NOTHING : body;
     }
