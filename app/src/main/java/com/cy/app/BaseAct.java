@@ -14,6 +14,6 @@ public class BaseAct extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("");
+        Log.d(1,"");
     }
 }

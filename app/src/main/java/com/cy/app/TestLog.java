@@ -34,6 +34,8 @@ public class TestLog {
 
         Log.w("(" + className + ".java:" + lineNumber + ")", msg);
         Log.w("(" + className + ".java:" + lineNumber + ")"+methodName+"()", msg);
+        Log.w("(" + className + ".java:" + lineNumber + ")", "(" + className + ".java:" + lineNumber + ")"
+                +"(" + className + ".java:" + lineNumber + ")");
 
     }
 }

@@ -122,9 +122,9 @@ public final class Log {
         log(V, sConfig.mGlobalTag,0, content);
     }
 
-    public static void v(int parentCallStackLevel,final Object content) {
+    public static void v(int callStackOffset,final Object content) {
         checkInit();
-        log(V, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(V, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void v(final String tag, final Object content) {
@@ -137,9 +137,9 @@ public final class Log {
         log(D, sConfig.mGlobalTag,0, content);
     }
 
-    public static void d(int parentCallStackLevel,final Object content) {
+    public static void d(int callStackOffset,final Object content) {
         checkInit();
-        log(D, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(D, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void d(final String tag, final Object content) {
@@ -152,9 +152,9 @@ public final class Log {
         log(I, sConfig.mGlobalTag,0, content);
     }
 
-    public static void i(int parentCallStackLevel,final Object content) {
+    public static void i(int callStackOffset,final Object content) {
         checkInit();
-        log(I, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(I, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void i(final String tag, final Object content) {
@@ -167,9 +167,9 @@ public final class Log {
         log(W, sConfig.mGlobalTag,0, content);
     }
 
-    public static void w(int parentCallStackLevel,final Object content) {
+    public static void w(int callStackOffset,final Object content) {
         checkInit();
-        log(W, sConfig.mGlobalTag, parentCallStackLevel, content);
+        log(W, sConfig.mGlobalTag, callStackOffset, content);
     }
 
     public static void w(final String tag, final Object content) {
@@ -182,9 +182,9 @@ public final class Log {
         log(E, sConfig.mGlobalTag,0, content);
     }
 
-    public static void e(int parentCallStackLevel,final Object content) {
+    public static void e(int callStackOffset,final Object content) {
         checkInit();
-        log(E, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(E, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void e(final String tag, final Object content) {
@@ -197,9 +197,9 @@ public final class Log {
         log(A, sConfig.mGlobalTag,0, content);
     }
 
-    public static void a(int parentCallStackLevel,final Object content) {
+    public static void a(int callStackOffset,final Object content) {
         checkInit();
-        log(A, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(A, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void a(final String tag, final Object content) {
@@ -212,14 +212,14 @@ public final class Log {
         log(FILE | D, sConfig.mGlobalTag,0, content);
     }
 
-    public static void file(int parentCallStackLevel,final Object content) {
+    public static void file(int callStackOffset,final Object content) {
         checkInit();
-        log(FILE | D, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(FILE | D, sConfig.mGlobalTag,callStackOffset, content);
     }
 
-    public static void file(@TYPE final int type,int parentCallStackLevel, final Object content) {
+    public static void file(@TYPE final int type,int callStackOffset, final Object content) {
         checkInit();
-        log(FILE | type, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(FILE | type, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void file(final String tag, final Object content) {
@@ -237,14 +237,14 @@ public final class Log {
         log(JSON | D, sConfig.mGlobalTag,0, content);
     }
 
-    public static void json(int parentCallStackLevel,final String content) {
+    public static void json(int callStackOffset,final String content) {
         checkInit();
-        log(JSON | D, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(JSON | D, sConfig.mGlobalTag,callStackOffset, content);
     }
 
-    public static void json(@TYPE final int type,int parentCallStackLevel, final String content) {
+    public static void json(@TYPE final int type,int callStackOffset, final String content) {
         checkInit();
-        log(JSON | type, sConfig.mGlobalTag,parentCallStackLevel, content);
+        log(JSON | type, sConfig.mGlobalTag,callStackOffset, content);
     }
 
     public static void json(final String tag, final String content) {

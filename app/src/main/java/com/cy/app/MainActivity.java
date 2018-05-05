@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseAct {
     private static final String TAG=MainActivity.class.getSimpleName();
     private Button mbtnResult;
     private View.OnClickListener mOnClickListener;
@@ -35,7 +34,7 @@ public class MainActivity extends FragmentActivity {
         String value = (String) UtilSharedPreferences.getParam("key1","");
 //        com.cy.io.Log.init(this).setBorderSwitch(false).setLogHeadSwitch(false);
 //        com.cy.io.Log.w("呵呵");
-        TestLog.showLogUseLogUtil();
+//        TestLog.showLogUseLogUtil();
         TestLog.showLog("呵呵");
     }
 
