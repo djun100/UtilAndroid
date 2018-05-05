@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cy.File.UtilFile;
-import com.cy.File.UtilSP;
+import com.cy.File.UtilSharedPreferences;
 import com.cy.view.UtilViewStyle;
 
 import java.io.File;
@@ -31,12 +31,12 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         initView();
 
-        UtilSP.setParam("key1","a");
-        String value = (String) UtilSP.getParam("key1","");
+        UtilSharedPreferences.setParam("key1","a");
+        String value = (String) UtilSharedPreferences.getParam("key1","");
 //        com.cy.io.Log.init(this).setBorderSwitch(false).setLogHeadSwitch(false);
 //        com.cy.io.Log.w("呵呵");
         TestLog.showLogUseLogUtil();
-//        TestLog.showLog("呵呵");
+        TestLog.showLog("呵呵");
     }
 
 
