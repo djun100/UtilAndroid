@@ -132,6 +132,11 @@ public final class Log {
         log(V, tag,0, content);
     }
 
+    public static void v(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(V, tag,callStackOffset, content);
+    }
+
     public static void d(final Object content) {
         checkInit();
         log(D, sConfig.mGlobalTag,0, content);
@@ -145,6 +150,11 @@ public final class Log {
     public static void d(final String tag, final Object content) {
         checkInit();
         log(D, tag,0, content);
+    }
+
+    public static void d(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(D, tag,callStackOffset, content);
     }
 
     public static void i(final Object content) {
@@ -162,6 +172,11 @@ public final class Log {
         log(I, tag,0, content);
     }
 
+    public static void i(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(I, tag,callStackOffset, content);
+    }
+
     public static void w(final Object content) {
         checkInit();
         log(W, sConfig.mGlobalTag,0, content);
@@ -175,6 +190,11 @@ public final class Log {
     public static void w(final String tag, final Object content) {
         checkInit();
         log(W, tag,0, content);
+    }
+
+    public static void w(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(W, tag,callStackOffset, content);
     }
 
     public static void e(final Object content) {
@@ -192,6 +212,11 @@ public final class Log {
         log(E, tag,0, content);
     }
 
+    public static void e(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(E, tag,callStackOffset, content);
+    }
+
     public static void a(final Object content) {
         checkInit();
         log(A, sConfig.mGlobalTag,0, content);
@@ -207,6 +232,11 @@ public final class Log {
         log(A, tag,0, content);
     }
 
+    public static void a(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(A, tag,callStackOffset, content);
+    }
+
     public static void file(final Object content) {
         checkInit();
         log(FILE | D, sConfig.mGlobalTag,0, content);
@@ -217,7 +247,12 @@ public final class Log {
         log(FILE | D, sConfig.mGlobalTag,callStackOffset, content);
     }
 
-    public static void file(@TYPE final int type,int callStackOffset, final Object content) {
+    public static void fileWithType(@TYPE final int type, final Object content) {
+        checkInit();
+        log(FILE | type, sConfig.mGlobalTag,0, content);
+    }
+
+    public static void fileWithType(@TYPE final int type,int callStackOffset, final Object content) {
         checkInit();
         log(FILE | type, sConfig.mGlobalTag,callStackOffset, content);
     }
@@ -227,9 +262,19 @@ public final class Log {
         log(FILE | D, tag,0, content);
     }
 
+    public static void file(final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(FILE | D, tag,callStackOffset, content);
+    }
+
     public static void file(@TYPE final int type, final String tag, final Object content) {
         checkInit();
         log(FILE | type, tag,0, content);
+    }
+
+    public static void file(@TYPE final int type, final String tag,int callStackOffset, final Object content) {
+        checkInit();
+        log(FILE | type, tag,callStackOffset, content);
     }
 
     public static void json(final String content) {
@@ -242,7 +287,12 @@ public final class Log {
         log(JSON | D, sConfig.mGlobalTag,callStackOffset, content);
     }
 
-    public static void json(@TYPE final int type,int callStackOffset, final String content) {
+    public static void jsonWithType(@TYPE final int type, final String content) {
+        checkInit();
+        log(JSON | type, sConfig.mGlobalTag,0, content);
+    }
+
+    public static void jsonWithType(@TYPE final int type,int callStackOffset, final String content) {
         checkInit();
         log(JSON | type, sConfig.mGlobalTag,callStackOffset, content);
     }
@@ -252,9 +302,19 @@ public final class Log {
         log(JSON | D, tag,0, content);
     }
 
+    public static void json(final String tag,int callStackOffset, final String content) {
+        checkInit();
+        log(JSON | D, tag,callStackOffset, content);
+    }
+
     public static void json(@TYPE final int type, final String tag, final String content) {
         checkInit();
         log(JSON | type, tag,0, content);
+    }
+
+    public static void json(@TYPE final int type, final String tag,int callStackOffset, final String content) {
+        checkInit();
+        log(JSON | type, tag,callStackOffset, content);
     }
 
     public static void xml(final String content) {
