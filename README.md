@@ -9,14 +9,24 @@
     }
 
 
-compile 'com.github.djun100:UtilAndroid:4c40277263dbe187426746ed0180fb263d21b102'
+compile 'com.github.djun100:UtilAndroid:SNAPSHOT'
 
-should compile below:
+depends on which you should compile :
 
-    provided 'com.android.support:support-v4:+'
+    'com.android.support:support-v4:+'
 
-if you use UtilBase64_Codec compile below:
+if you use UtilBase64_Codec,please compile below:
 
-    provided 'commons-codec:commons-codec:1.8'
+    'commons-codec:commons-codec:1.8'
 
 增加测试数据生成功能
+# 附：
+## 1、log工具研究
+
+log显示打印出处只需要这样
+
+Log.w("(" + className + ".java:" + lineNumber + ")", msg);
+
+一次log调用最多显示一次可点击并跳转到源码的链接。
+
+链接可以显示在tag位置。
