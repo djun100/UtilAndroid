@@ -1,6 +1,6 @@
 package com.cy.data;
 
-import com.cy.utils.UtilReflect;
+import com.cy.utils.UtilsReflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -114,7 +114,7 @@ public class UtilDummyData {
                 if (fields[i].getType().toString().equals("interface java.util.List")||
                         fields[i].getType().toString().equals("class java.util.ArrayList")){
                     ArrayList list=new ArrayList();
-                    Class fieldArgClass= UtilReflect.getGenericClass(fields[i]);
+                    Class fieldArgClass= UtilsReflect.getGenericClass(fields[i]);
                     int count= UtilRandom.getInt(minSubListLength,maxSubListLength);
                     for (int j=0;j<count;j++) {
                         if (fieldArgClass.toString().equals("class java.lang.String")) {
@@ -137,7 +137,7 @@ public class UtilDummyData {
                     }else {
                         map=new HashMap();
                     }
-                    Class fieldArgClass= UtilReflect.getGenericClass(fields[i]);
+                    Class fieldArgClass= UtilsReflect.getGenericClass(fields[i]);
                     int count= UtilRandom.getInt(minSubListLength,maxSubListLength);
                     for (int j=0;j<count;j++) {
                         if (fieldArgClass.toString().equals("class java.lang.String")) {
