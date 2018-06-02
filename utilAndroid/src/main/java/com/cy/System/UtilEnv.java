@@ -22,7 +22,7 @@ import android.view.WindowManager;
 
 import com.cy.app.UtilContext;
 import com.cy.security.UtilMD5;
-import com.cy.utils.Reflect;
+import com.cy.utils.UtilReflect;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static com.cy.utils.Reflect.on;
 
 /**
  * print开头函数为探针工具，返回String
@@ -189,10 +188,7 @@ public class UtilEnv {
 	 * 
 	 * @param context
 	 *            上下文
-	 * @return int 网络状态 {@link #NETWORKTYPE_2G},{@link #NETWORKTYPE_3G},          *
-	 *         {@link #NETWORKTYPE_INVALID},{@link #NETWORKTYPE_WAP}*
-	 *         <p>
-	 *         {@link #NETWORKTYPE_WIFI}
+	 * @return int 网络状态
 	 */
 
 	public static String getNetWorkType(Context context) {
@@ -590,12 +586,12 @@ public class UtilEnv {
 	}
 
 	private static boolean isXiaomi_MIUI(){
-		String versionName=	Reflect.on(android.os.Build.class).call("getString","ro.miui.ui.version.name").toString();
+		String versionName=	UtilReflect.reflect(android.os.Build.class).method("getString","ro.miui.ui.version.name").toString();
 		return TextUtils.isEmpty(versionName)?false:true;
 	}
 
 	private static boolean isHuawei_EMUI(){
-		String value=	Reflect.on(android.os.Build.class).call("getString","ro.build.hw_emui_api_level").toString();
+		String value=	UtilReflect.reflect(android.os.Build.class).method("getString","ro.build.hw_emui_api_level").toString();
 		return TextUtils.isEmpty(value)?false:true;
 	}
 

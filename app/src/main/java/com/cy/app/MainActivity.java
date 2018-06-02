@@ -35,7 +35,7 @@ public class MainActivity extends BaseAct {
 //        com.cy.io.Log.init(this).setBorderSwitch(false).setLogHeadSwitch(false);
 //        com.cy.io.Log.w("呵呵");
 //        TestLog.showLogUseLogUtil();
-        TestLog.showLog("呵呵");
+//        TestLog.showLog("呵呵");
     }
 
 
