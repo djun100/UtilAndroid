@@ -26,7 +26,7 @@ public class UtilLog extends Log {
         return sb.toString();
     }
     public static void printBundle(Bundle b){
-        e(bundle2String(b));
+        e(1,bundle2String(b));
     }
     public static <K,T> void printMap(Map<K,T> map){
         if (!allowLog) return;
@@ -37,7 +37,7 @@ public class UtilLog extends Log {
         for (Map.Entry<K, T> entry : map.entrySet()) {
             sb.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
         }
-        e(sb.toString());
+        e(1,sb.toString());
     }
     public static void printArray(Object[] array){
         if (!allowLog) return;
@@ -48,7 +48,7 @@ public class UtilLog extends Log {
         for (int i=0;i<array.length;i++) {
             sb.append("["+i+"]").append(array[i]).append("\n");
         }
-        e(sb.toString());
+        e(1,sb.toString());
     }
     public static void printList(List lists){
         if (!allowLog) return;
@@ -59,6 +59,6 @@ public class UtilLog extends Log {
         for(Object object:lists){
             sb.append(object.toString()).append(";");
         }
-        e(sb.toString());
+        e(1,sb.toString());
     }
 }
