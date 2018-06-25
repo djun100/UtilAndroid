@@ -50,7 +50,7 @@ import javax.xml.transform.stream.StreamSource;
  *     compile 'com.blankj:alog:1.8.0'
  * </pre>
  */
-public final class Log {
+public class Log {
 
     public static final int V = android.util.Log.VERBOSE;
     public static final int D = android.util.Log.DEBUG;
@@ -92,7 +92,7 @@ public final class Log {
     private static Config          sConfig;
     private static ExecutorService sExecutor;
 
-    private Log() {
+    protected Log() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
