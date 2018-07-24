@@ -297,4 +297,8 @@ public class UtilCollection {
             return tempASetSize == aSet.size();
         }
     }
+
+    public static <E> String toString(List<E> list){
+        return list.toString().replaceAll(" ","");
+    }
 }  

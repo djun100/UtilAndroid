@@ -1,5 +1,6 @@
 package com.cy.io;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.List;
@@ -60,5 +61,14 @@ public class UtilLog extends Log {
             sb.append(object.toString()).append(";");
         }
         e(1,sb.toString());
+    }
+
+    public static String intentToString(Intent intent){
+        if (intent == null) return null;
+        if (intent.getExtras()!=null){
+            return intent.toString()+" EXTRA: "+bundle2String(intent.getExtras());
+        }else {
+            return intent.toString();
+        }
     }
 }
