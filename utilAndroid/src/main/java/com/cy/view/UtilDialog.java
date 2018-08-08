@@ -102,7 +102,7 @@ public class UtilDialog {
                 dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
 //            mType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
             } else {
-                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ERROR);
 //            mType = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
             }
 

@@ -61,6 +61,8 @@ import javax.xml.transform.stream.StreamSource;
  *     time  : 2016/09/21
  *     desc  : utils about log
  *     version 1.9.0,去掉类的final和内部变量、方法的可见性，继承后修改，内部不做修改，方便后续升级
+ *     特别的：下面方法改为private，防止子类重载后多增参数和不定参数不可共用的问题
+ *     private static void log(final int type, final String tag, final Object... contents)
  * </pre>
  */
 public class ALog {
@@ -225,7 +227,7 @@ public class ALog {
         log(XML | type, tag, content);
     }
 
-    public static void log(final int type, final String tag, final Object... contents) {
+    private static void log(final int type, final String tag, final Object... contents) {
         if (!sConfig.mLogSwitch || (!sConfig.mLog2ConsoleSwitch && !sConfig.mLog2FileSwitch))
             return;
         int type_low = type & 0x0f, type_high = type & 0xf0;

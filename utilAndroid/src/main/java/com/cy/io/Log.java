@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class UtilLog extends ALog {
+public class Log extends ALog {
     public static boolean allowLog = true;
 
-    private UtilLog() {
+    private Log() {
         super();
     }
 
