@@ -8,8 +8,7 @@
     	}
     }
 
-
-compile 'com.github.djun100:UtilAndroid:SNAPSHOT'
+implementation 'com.github.djun100:UtilAndroid:-SNAPSHOT'
 
 depends on which you should compile :
 

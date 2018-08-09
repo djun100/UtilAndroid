@@ -35,7 +35,7 @@ public class UtilViewStyle {
     private View view;
     private int cornerRadius;
     private boolean isRadiusHalfHeight;
-    private int backgroundColor;
+    private int backgroundColor=Integer.MAX_VALUE;
     private int backgroundPressColor = Integer.MAX_VALUE;
     private int backgroundDisableColor = Integer.MAX_VALUE;
     private int cornerRadius_TL;
@@ -43,15 +43,22 @@ public class UtilViewStyle {
     private int cornerRadius_BL;
     private int cornerRadius_BR;
     private int strokeWidth;
-    private int strokeColor;
+    private int strokeColor=Integer.MAX_VALUE;
     private int strokePressColor = Integer.MAX_VALUE;
     private int textPressColor = Integer.MAX_VALUE;
     private int textDisableColor = Integer.MAX_VALUE;
     private boolean isRippleEnable;
     private float[] radiusArr = new float[8];
-    private GradientDrawable gd_background = new GradientDrawable();
-    private GradientDrawable gd_background_press = new GradientDrawable();
-    private GradientDrawable gd_background_disable = new GradientDrawable();
+    private GradientDrawable.Orientation orientation;
+    private int startColor = Integer.MAX_VALUE;
+    private int endColor = Integer.MAX_VALUE;
+    private GradientDrawable gd_background;
+    private GradientDrawable gd_background_press ;
+    private GradientDrawable gd_background_disable ;
+
+    public static UtilViewStyle view(View view){
+        return new UtilViewStyle(view);
+    }
 
     public UtilViewStyle(View view) {
         this.view = view;
@@ -231,9 +238,37 @@ public class UtilViewStyle {
         return this;
     }
 
+    public GradientDrawable.Orientation getOrientation() {
+        return orientation;
+    }
+
+    public UtilViewStyle setOrientation(GradientDrawable.Orientation orientation) {
+        this.orientation = orientation;
+        return this;
+    }
+
+    public int getStartColor() {
+        return startColor;
+    }
+
+    public UtilViewStyle setStartColor(int startColor) {
+        this.startColor = startColor;
+        return this;
+    }
+
+    public int getEndColor() {
+        return endColor;
+    }
+
+    public UtilViewStyle setEndColor(int endColor) {
+        this.endColor = endColor;
+        return this;
+    }
 
     private void fillGradientDrawable(GradientDrawable gd, int color, int strokeColor) {
-        gd.setColor(color);
+        if (color != Integer.MAX_VALUE) {
+            gd.setColor(color);
+        }
 
         if (cornerRadius_TL > 0 || cornerRadius_TR > 0 || cornerRadius_BR > 0 || cornerRadius_BL > 0) {
             /**The corners are ordered top-left, top-right, bottom-right, bottom-left*/
@@ -277,6 +312,14 @@ public class UtilViewStyle {
         if (strokePressColor == Integer.MAX_VALUE ){
             strokePressColor = strokeColor;
         }
+        if (orientation != null && startColor != Integer.MAX_VALUE &&
+                endColor != Integer.MAX_VALUE) {
+            gd_background = new GradientDrawable(orientation,new int[]{startColor,endColor});
+        }else {
+            gd_background = new GradientDrawable();
+        }
+        gd_background_press = gd_background;
+        gd_background_disable = gd_background;
 
         StateListDrawable bg = new StateListDrawable();
 

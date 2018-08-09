@@ -3,6 +3,7 @@ package com.cy.app;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -42,15 +43,18 @@ public class MainActivity extends BaseAct {
     private void initView() {
         mbtnResult = (Button) findViewById(R.id.mtv);
         mbtn = (Button) findViewById(R.id.mbtn);
-        new UtilViewStyle(mbtnResult)
-//                .setRippleEnable(true)
-                .setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright))
-                .setBackgroundDisableColor(getResources().getColor(android.R.color.darker_gray))
+        UtilViewStyle.view(mbtnResult)
+                .setRippleEnable(true)
+//                .setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright))
+//                .setBackgroundDisableColor(getResources().getColor(android.R.color.darker_gray))
                 .setTextDisableColor(getResources().getColor(android.R.color.black))
                 .setStrokeColorRes(android.R.color.holo_purple)
 //                .setStrokePressColorRes(android.R.color.holo_red_light)
                 .setStrokeWidth(5)
 //                .setCornerRadius(15)
+                .setOrientation(GradientDrawable.Orientation.TOP_BOTTOM)
+                .setStartColor(0xffff0000)
+                .setEndColor(0xff0000ff)
                 .apply();
 
         mOnClickListener = new View.OnClickListener() {
