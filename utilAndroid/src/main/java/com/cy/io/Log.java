@@ -37,7 +37,11 @@ public class Log extends ALog {
     }
 
     public static void printBundle(Bundle b) {
-        e(1, bundle2String(b));
+        w(1, bundle2String(b));
+    }
+
+    public static void printIntent(Intent intent) {
+        w(1, intentToString(intent));
     }
 
     public static <K, T> void printMap(Map<K, T> map) {
@@ -49,7 +53,7 @@ public class Log extends ALog {
         for (Map.Entry<K, T> entry : map.entrySet()) {
             sb.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
         }
-        e(1, sb.toString());
+        w(1, sb.toString());
     }
 
     public static void printArray(Object[] array) {
@@ -61,7 +65,7 @@ public class Log extends ALog {
         for (int i = 0; i < array.length; i++) {
             sb.append("[" + i + "]").append(array[i]).append("\n");
         }
-        e(1, sb.toString());
+        w(1, sb.toString());
     }
 
     public static void printList(List lists) {
@@ -73,7 +77,7 @@ public class Log extends ALog {
         for (Object object : lists) {
             sb.append(object.toString()).append(";");
         }
-        e(1, sb.toString());
+        w(1, sb.toString());
     }
 
     public static String intentToString(Intent intent) {
