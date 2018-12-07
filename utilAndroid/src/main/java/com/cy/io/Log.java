@@ -334,7 +334,7 @@ public class Log extends ALog {
         } else {
             final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
 //            final int stackIndex = 3 + sConfig.mStackOffset;
-            final int stackIndex = 3 + stackOffset;
+            final int stackIndex = 2 + stackOffset;
             if (stackIndex >= stackTrace.length) {
                 StackTraceElement targetElement = stackTrace[3];
                 final String fileName = getFileName(targetElement);
