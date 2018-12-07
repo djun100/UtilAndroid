@@ -37,6 +37,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
@@ -630,4 +631,17 @@ public class UtilEnv {
 		}
 	}
 
+	/**获取系统当前语言下应该使用的values文件夹名称，而不是正在使用的values文件夹资源
+	 * @return
+	 */
+	private String getCurrLanguageValuesFolder() {
+		Locale l = Locale.getDefault();
+		String language = l.getLanguage();
+		String country = l.getCountry().toUpperCase();
+		if (language.equalsIgnoreCase(country)){
+			return "values-"+language;
+		}else {
+			return "values-"+language+"-r"+country;
+		}
+	}
 }
