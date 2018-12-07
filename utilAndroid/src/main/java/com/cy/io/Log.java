@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.cy.app.UtilContext;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +97,19 @@ public class Log extends ALog {
                 init(UtilContext.getContext());
             }
         }
+    }
+
+    /**android 的log中：
+     * String stackTrace = Log.getStackTraceString(exception);
+     * 也是基于此方法，和java通用
+     * reference:https://stackoverflow.com/questions/1149703/how-can-i-convert-a-stack-trace-to-a-string
+     * @param e
+     * @return
+     */
+    public static String getStackTraceStr(Exception e){
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 
     //////////////////////////override parent class start///////////////////////////////////
