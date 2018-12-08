@@ -394,6 +394,7 @@ public class Log extends ALog {
 
     /**改动处：
      *         String date = format.substring(0, 13).replaceAll(" ","-");
+     *         + sConfig.mFilePrefix + "-" + date + "-" + T[type - V] + ".txt";
      * @param type
      * @param tag
      * @param msg
@@ -405,7 +406,7 @@ public class Log extends ALog {
         String time = format.substring(11);
         final String fullPath =
                 (sConfig.mDir == null ? sConfig.mDefaultDir : sConfig.mDir)
-                        + sConfig.mFilePrefix + "-" + date + ".txt";
+                        + sConfig.mFilePrefix + "-" + date + "-" + T[type - V] + ".txt";
         if (!createOrExistsFile(fullPath)) {
             android.util.Log.e("ALog", "create " + fullPath + " failed!");
             return;
