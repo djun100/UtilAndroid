@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -12,9 +11,12 @@ import android.support.annotation.ColorRes;
 import android.view.View;
 import android.widget.TextView;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.cy.app.UtilContext;
 
 /**
+ * 推荐使用 api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'，利于解耦，ui绘制尽量放到xml
+ *
  * extract from https://github.com/H07000223/FlycoRoundView
  * RippleDrawable 知识参考： http://www.jianshu.com/p/0ef14eda6064
  * 使用方法：
@@ -318,27 +320,32 @@ public class UtilViewStyle {
         }else {
             gd_background = new GradientDrawable();
         }
-        gd_background_press = gd_background;
-        gd_background_disable = gd_background;
+        gd_background_press = new GradientDrawable();
+        gd_background_press = new GradientDrawable();
+        gd_background_disable = new GradientDrawable();;
 
+        fillGradientDrawable(gd_background, backgroundColor, strokeColor);
         StateListDrawable bg = new StateListDrawable();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && isRippleEnable) {
+            MaterialRippleLayout.on(view)
+                    .rippleColor(Color.parseColor("#000000"))
+//                    .rippleColor(isRippleColorDeep ? Color.parseColor("#000000") : Color.parseColor("#ffffff"))
+                    .rippleAlpha(0.2f)
+                    .rippleHover(true)
+                    .rippleOverlay(true)
+//                .rippleRoundedCorners(100)//大于某一数值为圆角
+                    .create();
 
 
-            fillGradientDrawable(gd_background, backgroundColor, strokeColor);
-
-            RippleDrawable rippleDrawable = new RippleDrawable(
-                    ColorStateList.valueOf(Color.GRAY),//灰色波纹
-//						getPressedColorSelector(backgroundColor, backgroundPressColor),
-                    gd_background,
-                    null);
-
-            view.setBackground(rippleDrawable);
-
-
-        } else {
-            fillGradientDrawable(gd_background, backgroundColor, strokeColor);
+//            RippleDrawable rippleDrawable = new RippleDrawable(
+//                    ColorStateList.valueOf(Color.GRAY),//灰色波纹
+////						getPressedColorSelector(backgroundColor, backgroundPressColor),
+//                    gd_background,
+//                    null);
+//            view.setBackground(rippleDrawable);
+        }
+//         else {
             //注意该处的顺序，只要有一个状态与之相配，背景就会被换掉,不要把大范围放在前面
             bg.addState(new int[]{-android.R.attr.state_pressed,android.R.attr.state_enabled}, gd_background);
 
@@ -359,7 +366,7 @@ public class UtilViewStyle {
                 //noinspection deprecation
                 view.setBackgroundDrawable(bg);
             }
-        }
+//        }
 
         if (view instanceof TextView) {
 
