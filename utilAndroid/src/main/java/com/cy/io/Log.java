@@ -8,6 +8,7 @@ import com.cy.app.UtilContext;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
@@ -390,5 +391,34 @@ public class Log extends ALog {
         return new TagHead(tag, null, ": ");
     }
 
+
+    /**改动处：
+     *         String date = format.substring(0, 13).replaceAll(" ","-");
+     * @param type
+     * @param tag
+     * @param msg
+     */
+    protected static void print2File(final int type, final String tag, final String msg) {
+        Date now = new Date(System.currentTimeMillis());
+        String format = FORMAT.format(now);
+        String date = format.substring(0, 13).replaceAll(" ","-");
+        String time = format.substring(11);
+        final String fullPath =
+                (sConfig.mDir == null ? sConfig.mDefaultDir : sConfig.mDir)
+                        + sConfig.mFilePrefix + "-" + date + ".txt";
+        if (!createOrExistsFile(fullPath)) {
+            android.util.Log.e("ALog", "create " + fullPath + " failed!");
+            return;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(time)
+                .append(T[type - V])
+                .append("/")
+                .append(tag)
+                .append(msg)
+                .append(LINE_SEP);
+        final String content = sb.toString();
+        input2File(content, fullPath);
+    }
     //////////////////////////override parent class end///////////////////////////////////
 }
