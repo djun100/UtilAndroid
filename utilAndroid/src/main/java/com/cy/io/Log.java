@@ -402,11 +402,11 @@ public class Log extends ALog {
     protected static void print2File(final int type, final String tag, final String msg) {
         Date now = new Date(System.currentTimeMillis());
         String format = FORMAT.format(now);
-        String date = format.substring(0, 13).replaceAll(" ","-");
+        String date = format.substring(0, 13).replaceAll(" ","_");
         String time = format.substring(11);
         final String fullPath =
                 (sConfig.mDir == null ? sConfig.mDefaultDir : sConfig.mDir)
-                        + sConfig.mFilePrefix + "-" + date + "-" + T[type - V] + ".txt";
+                        + sConfig.mFilePrefix + "-" + date + "_" + T[type - V] + ".txt";
         if (!createOrExistsFile(fullPath)) {
             android.util.Log.e("ALog", "create " + fullPath + " failed!");
             return;
