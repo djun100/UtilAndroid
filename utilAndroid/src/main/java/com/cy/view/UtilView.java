@@ -7,6 +7,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +28,15 @@ public class UtilView {
 //		v.requestFocusFromTouch();
 	}
 
+
+	/**只影响颜色，不影响shape等其他设置
+	 * @param view
+	 * @param color
+	 */
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+	public static void setBgColorIgnoreLessShape(View view,@ColorInt int color){
+		view.setBackgroundTintList(ColorStateList.valueOf(color));
+	}
 
 	static long timeLast = 0;
 

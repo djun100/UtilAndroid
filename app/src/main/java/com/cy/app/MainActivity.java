@@ -3,7 +3,9 @@ package com.cy.app;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +15,7 @@ import android.widget.Button;
 
 import com.cy.File.UtilFile;
 import com.cy.File.UtilSharedPreferences;
+import com.cy.view.UtilScreen;
 import com.cy.view.UtilViewStyle;
 
 import java.io.File;
@@ -51,7 +54,7 @@ public class MainActivity extends BaseAct {
                 .setStrokeColorRes(android.R.color.holo_purple)
 //                .setStrokePressColorRes(android.R.color.holo_red_light)
                 .setStrokeWidth(5)
-//                .setCornerRadius(15)
+                .setCornerRadius(UtilScreen.dp(5))
                 .setOrientation(GradientDrawable.Orientation.TOP_BOTTOM)
                 .setStartColor(0xffff0000)
                 .setEndColor(0xff0000ff)
@@ -66,11 +69,15 @@ public class MainActivity extends BaseAct {
 //                    writeFile2();
 //                    TestLog.showLog("呵呵");
 //                    com.cy.io.Log.w("呵呵");
+                }else if (v==mbtnResult){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mbtnResult.setBackgroundTintList(ColorStateList.valueOf(0xffff0000));
+                    }
                 }
             }
         };
         mbtn.setOnClickListener(mOnClickListener);
-
+        mbtnResult.setOnClickListener(mOnClickListener);
     }
 
     public static void writeFile1(){
