@@ -79,14 +79,14 @@ public class ALog {
     public @interface TYPE {
     }
 
-    private static final char[] T = new char[]{'V', 'D', 'I', 'W', 'E', 'A'};
+    protected static final char[] T = new char[]{'V', 'D', 'I', 'W', 'E', 'A'};
 
     protected static final int FILE = 0x10;
     protected static final int JSON = 0x20;
     protected static final int XML  = 0x30;
 
     private static final String FILE_SEP       = System.getProperty("file.separator");
-    private static final String LINE_SEP       = System.getProperty("line.separator");
+    protected static final String LINE_SEP       = System.getProperty("line.separator");
     private static final String TOP_CORNER     = "┌";
     private static final String MIDDLE_CORNER  = "├";
     private static final String LEFT_BORDER    = "│ ";
@@ -99,7 +99,7 @@ public class ALog {
     private static final String MIDDLE_BORDER  = MIDDLE_CORNER + MIDDLE_DIVIDER + MIDDLE_DIVIDER;
     private static final String BOTTOM_BORDER  = BOTTOM_CORNER + SIDE_DIVIDER + SIDE_DIVIDER;
     private static final int    MAX_LEN        = 3000;
-    private static final Format FORMAT         =
+    protected static final Format FORMAT         =
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS ", Locale.getDefault());
     private static final String NOTHING        = "log nothing";
     private static final String NULL           = "null";
@@ -510,7 +510,7 @@ public class ALog {
         input2File(content, fullPath);
     }
 
-    private static boolean createOrExistsFile(final String filePath) {
+    protected static boolean createOrExistsFile(final String filePath) {
         File file = new File(filePath);
         if (file.exists()) return file.isFile();
         if (!createOrExistsDir(file.getParentFile())) return false;
@@ -604,7 +604,7 @@ public class ALog {
         return true;
     }
 
-    private static void input2File(final String input, final String filePath) {
+    protected static void input2File(final String input, final String filePath) {
         EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
