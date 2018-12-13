@@ -634,13 +634,27 @@ public class UtilEnv {
 	/**获取系统当前语言下应该使用的values文件夹名称，而不是正在使用的values文件夹资源
 	 * @return
 	 */
-	private String getCurrLanguageValuesFolder() {
-		Locale l = Locale.getDefault();
-		String language = l.getLanguage();
-		String country = l.getCountry().toUpperCase();
-		if (language.equalsIgnoreCase(country)){
+	public static String getCurrLanguageValuesFolder() {
+		Locale locale = Locale.getDefault();
+		String language = locale.getLanguage().toLowerCase();
+		String country = locale.getCountry().toUpperCase();
+		//如果是英语，应该返回values文件夹
+		if (language.equals("en")){
+			return "values";
+		}else if (language.equals("ar")
+				||language.equals("fa")
+				||language.equals("fr")
+				||language.equals("ha")
+				||language.equals("hi")
+				||language.equals("in")
+				||language.equals("iw")
+				||language.equals("ru")
+				||language.equals("so")
+				||language.equals("sw")
+				||language.equals("tl")
+				||language.equals("tr")){
 			return "values-"+language;
-		}else {
+		} else {
 			return "values-"+language+"-r"+country;
 		}
 	}
