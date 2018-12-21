@@ -1,4 +1,4 @@
-package com.cy.System;
+package com.cy.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

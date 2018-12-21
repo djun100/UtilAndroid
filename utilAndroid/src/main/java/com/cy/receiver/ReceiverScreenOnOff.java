@@ -36,7 +36,7 @@ Log.i("Test", "收到广播");
 </intent-filter>
 </receiver> 
  */
-package com.cy.System;
+package com.cy.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
