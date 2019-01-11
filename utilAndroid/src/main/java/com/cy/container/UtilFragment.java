@@ -1,26 +1,18 @@
 package com.cy.container;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class UtilFragment {
 	/**往容器内填充fragment
 	 * @param container R.id.content_container
 	 * @param fragment
-	 * @param Activity
+	 * @param fragmentActivity
 	 */
-	public static void replaceFragment(int container,Fragment fragment,String tag,Activity activity){
-		FragmentManager mFM =activity.getFragmentManager();
-		FragmentTransaction ft = mFM.beginTransaction();
-		ft.replace(container, fragment,tag);
-		ft.commit();
+	public static void replaceFragment(int container,Fragment fragment,String tag,FragmentActivity fragmentActivity){
+		fragmentActivity.getSupportFragmentManager().beginTransaction().replace(container, fragment,tag).commit();
 	}
-	public static void replaceFragment(int container,Fragment fragment,Activity activity){
-		replaceFragment(container,fragment,"",activity);
+	public static void replaceFragment(int container,Fragment fragment,FragmentActivity fragmentActivity){
+		replaceFragment(container,fragment,"",fragmentActivity);
 	}
 }

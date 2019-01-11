@@ -27,4 +27,9 @@ dependencies {
     implementation 'com.balysv:material-ripple:1.0.2'
     //    provided 'com.github.djun100:BaiduMapLib:6c834be'
     testImplementation 'junit:junit:4.12'
+
+    //    compileOnly 'com.github.djun100:android-Email:48deb660'
+    compileOnly 'com.github.djun100:CommonPullToRefresh:-SNAPSHOT'
+    compileOnly 'org.greenrobot:eventbus:3.0.0'
+    compileOnly 'com.android.support:appcompat-v7:+'
 }
