@@ -3,11 +3,11 @@ package com.cy.host;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.View;
 
 import com.cy.utilandroid.R;
 
@@ -31,42 +31,20 @@ import com.cy.utilandroid.R;
  * DialogFragment还拥有fragment的优点，即可以在一个Activity内部实现回退（因为FragmentManager会管理一个回退栈） 
  * activity 关闭时，dialog不关闭也不会报错，activity自动管理<br>
  *
- *     todo_cy 使用UtilDialog创建dialog
+ *建议使用UtilDialog创建dialog
  @author 承影
  */
-public class BaseDialogFragment extends DialogFragment {
+public abstract class BaseDialogFragment extends DialogFragment {
     protected Dialog dialog;
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = new Dialog(getActivity(), R.style.host_dialog);
-        dialog.setCancelable(true);
+    final public Dialog onCreateDialog(Bundle savedInstanceState) {
+        dialog = onCreateDialog(R.style.host_dialog);
         return dialog;
     }
 
-
-    /**
-     * 设置宽度填充屏幕
-     * 适合在子类的onViewCreated()中调用
-     */
-    public void baseSetWidthFull(){
-    	Window win = dialog.getWindow();
-    	win.getDecorView().setPadding(0, 0, 0, 0);
-    	WindowManager.LayoutParams lp = win.getAttributes();
-    	        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-    	        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-    	        win.setAttributes(lp);
-    }
-
-    /**设置dialog位置<br>
-     * 适合在子类的onViewCreated()中调用
-     * eg:Gravity.LEFT | Gravity.TOP Gravity.BOTTOM
-     * @param gravity
-     */
-    public void baseSetLocation(int gravity){
-    	dialog.getWindow().setGravity(gravity);
-    }
+    protected abstract Dialog onCreateDialog(int defaultStyle);
 
     @Override
     public void show(FragmentManager manager, String tag) {
@@ -76,5 +54,14 @@ public class BaseDialogFragment extends DialogFragment {
             ft.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
         }
+    }
+
+    /**禁止子类重写，因为使用了onCreateDialog的方式，该方法就不会被自动调用
+     * @param view
+     * @param savedInstanceState
+     */
+    @Override
+     final public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }

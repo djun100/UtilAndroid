@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Button;
 
 import com.cy.File.UtilFile;
 import com.cy.File.UtilSharedPreferences;
+import com.cy.host.BaseDialogFragment;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilViewStyle;
 
@@ -34,12 +36,6 @@ public class MainActivity extends BaseAct {
         setContentView(R.layout.activity_main);
         initView();
 
-        UtilSharedPreferences.setParam("key1","a");
-        String value = (String) UtilSharedPreferences.getParam("key1","");
-//        com.cy.io.Log.init(this).setBorderSwitch(false).setLogHeadSwitch(false);
-//        com.cy.io.Log.w("呵呵");
-//        TestLog.showLogUseLogUtil();
-//        TestLog.showLog("呵呵");
     }
 
 
@@ -129,5 +125,9 @@ public class MainActivity extends BaseAct {
 
         return allGarented;
 
+    }
+
+    private void showDialogFragment(){
+        BaseDialogFragment.
     }
 }

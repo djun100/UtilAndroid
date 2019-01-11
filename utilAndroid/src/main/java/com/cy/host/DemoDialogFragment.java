@@ -14,20 +14,14 @@ import com.cy.utilandroid.R;
 public class DemoDialogFragment extends BaseDialogFragment {
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    protected Dialog onCreateDialog(int defaultStyle) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 //        View view = inflater.inflate(R.layout.fragment_upgrade_dialog, null);
-        Dialog dialog = new Dialog(getActivity(), R.style.host_dialog);
+        Dialog dialog = new Dialog(getActivity(), defaultStyle);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        dialog.setContentView(view);
         dialog.setCanceledOnTouchOutside(true);
         return dialog;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        baseSetWidthFull();
     }
 
     public static DemoDialogFragment newInstance(){
