@@ -8,15 +8,12 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.cy.File.UtilFile;
-import com.cy.File.UtilSharedPreferences;
-import com.cy.host.BaseDialogFragment;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilViewStyle;
 
@@ -29,6 +26,7 @@ public class MainActivity extends BaseAct {
     private Button mbtnResult;
     private View.OnClickListener mOnClickListener;
     private Button mbtn;
+    private Button mbtnShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,7 @@ public class MainActivity extends BaseAct {
 
 
     private void initView() {
+        mbtnShow=findViewById(R.id.mbtnShow);
         mbtnResult = (Button) findViewById(R.id.mtv);
         mbtn = (Button) findViewById(R.id.mbtn);
         UtilViewStyle.view(mbtnResult)
@@ -69,11 +68,14 @@ public class MainActivity extends BaseAct {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         mbtnResult.setBackgroundTintList(ColorStateList.valueOf(0xffff0000));
                     }
+                }else if (v==mbtnShow){
+                    showDialogFragment();
                 }
             }
         };
         mbtn.setOnClickListener(mOnClickListener);
         mbtnResult.setOnClickListener(mOnClickListener);
+        mbtnShow.setOnClickListener(mOnClickListener);
     }
 
     public static void writeFile1(){
@@ -128,6 +130,6 @@ public class MainActivity extends BaseAct {
     }
 
     private void showDialogFragment(){
-        BaseDialogFragment.
+        DemoDialogFragment.newInstance().show(getSupportFragmentManager(),"");
     }
 }
