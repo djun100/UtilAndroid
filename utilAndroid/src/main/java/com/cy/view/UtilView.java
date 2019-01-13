@@ -7,13 +7,16 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.RequiresApi;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.cy.app.UtilContext;
 import com.cy.io.Log;
 
 
@@ -237,5 +240,10 @@ public class UtilView {
 			gd.setStroke(strokeWidth, strokeColor);
 		}
 		view.setBackgroundDrawable(gd);
+	}
+
+	public static View inflate(@LayoutRes int layout){
+		View view=LayoutInflater.from(UtilContext.getContext()).inflate(layout,null);
+		return view;
 	}
 }
