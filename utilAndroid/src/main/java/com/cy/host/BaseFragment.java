@@ -6,12 +6,17 @@ import android.support.v4.app.Fragment;
 
 import com.cy.io.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
 
 /**
  * Tips:<><br/>
  * must call super.onCreateView(inflater,container,savedInstanceState);
  */
 public abstract class BaseFragment extends Fragment {
+
+    private boolean enableBusEvent;
+
     public void baseStartActivity(Class activity) {
         startActivity(new Intent(getActivity(), activity));
     }
@@ -39,4 +44,15 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    protected void baseAutoRegisterAndUndoEventBus(){
+        enableBusEvent=true;
+        EventBus.getDefault().register(this);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (enableBusEvent) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 }
