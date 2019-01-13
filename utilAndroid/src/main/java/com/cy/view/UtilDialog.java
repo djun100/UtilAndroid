@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,7 +40,7 @@ public class UtilDialog {
         private int cancelRes;
         private int iconRes;
         private boolean isOutOfActivity;
-        private Integer layout;
+        private View view;
         private DialogInterface.OnClickListener positiveListener;
         private DialogInterface.OnClickListener negativeListener;
         private Boolean canceledOnTouchOutside;
@@ -89,13 +88,13 @@ public class UtilDialog {
             return this;
         }
 
-        public AlertDialogBuilder setLayout(Integer layout) {
-            this.layout = layout;
+        public AlertDialogBuilder setCanceledOnTouchOutside(Boolean canceledOnTouchOutside) {
+            this.canceledOnTouchOutside = canceledOnTouchOutside;
             return this;
         }
 
-        public AlertDialogBuilder setCanceledOnTouchOutside(Boolean canceledOnTouchOutside) {
-            this.canceledOnTouchOutside = canceledOnTouchOutside;
+        public AlertDialogBuilder setView(View view) {
+            this.view = view;
             return this;
         }
 
@@ -116,8 +115,8 @@ public class UtilDialog {
             if (cancelRes>0) {
                 customBuilder.setNegativeButton(cancelRes, negativeListener);
             }
-            if (layout!=null){
-                customBuilder.setView(LayoutInflater.from(context).inflate(layout,null));
+            if (view!=null){
+                customBuilder.setView(view);
             }
 
             AlertDialog dialog = customBuilder.create();
