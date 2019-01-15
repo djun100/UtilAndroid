@@ -1,10 +1,16 @@
 package com.cy.view;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Point;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.cy.System.UtilEnv;
 import com.cy.app.UtilContext;
 
 /**将dip转换成px<br>
@@ -33,22 +39,101 @@ public class UtilScreen {
                 UtilContext.getContext().getResources().getDisplayMetrics());
     }
 
-//    public static float dpToPx( float dp) {
-//
-//        return dp * UtilContext.getContext().getResources().getDisplayMetrics().density;
-//    }
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dp2px(float dpValue) {
+        final float scale = UtilContext.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
     public static float pxToDp( int px) {
         return px / UtilContext.getContext().getResources().getDisplayMetrics().density;
     }
 
-    public static  void setFullScreen(Activity activity){
-        //隐去标题栏（应用程序的名字）
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //隐去状态栏部分(电池等图标和一切修饰部分)
-        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    @SuppressLint("NewApi")
+    public static Point getScreenSize() {
+        WindowManager windowManager= getWindowManager();
+        Point size = new Point();
+        if (false) {
+//			if (Build.VERSION.SDK_INT >= 11) {
+            try {
+                size.x=windowManager.getDefaultDisplay().getWidth();
+                size.y=windowManager.getDefaultDisplay().getHeight();
+            } catch (NoSuchMethodError e) {
+                Log.i("error", "it can't work");
+            }
 
+        } else {
+            DisplayMetrics metrics = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getMetrics(metrics);
+            size.x = metrics.widthPixels;
+            size.y = metrics.heightPixels;
+        }
+        Log.i("ScreenSize", "size.x=" + size.x + "  size.y=" + size.y);
+        return size;
     }
 
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dp(float pxValue) {
+        final float scale = UtilContext.getContext().getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * 将px值转换为sp值，保证文字大小不变
+     *
+     * @param pxValue
+     *            （DisplayMetrics类中属性scaledDensity）
+     * @return
+     */
+    public static int px2sp(float pxValue) {
+        final float fontScale =
+                UtilContext.getContext().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
+    /**
+     * 将sp值转换为px值，保证文字大小不变
+     *
+     * @param spValue
+     *            （DisplayMetrics类中属性scaledDensity）
+     * @return
+     */
+    public static int sp2px(float spValue) {
+        final float fontScale =
+                UtilContext.getContext().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
+    public static float getDensity(){
+        final float scale = UtilContext.getContext().getResources().getDisplayMetrics().density;
+        return scale;
+    }
+
+    /**打印屏幕长宽系列参数
+     * @return
+     */
+    public static String printxyInfo(){
+        int x= getScreenSize().x;
+        int y= getScreenSize().y;
+        int dpx= px2dp(x);
+        int dpy= px2dp(y);
+        float density= getDensity();
+        String strOut="x:"+x+
+                "  y:"+y+
+                "  dpx:"+dpx+
+                "  dpy:"+dpy+
+                "  density:"+density;
+        return strOut;
+    }
+
+    /**
+     * @return WindowManager的实例，用于控制在屏幕上添加或移除悬浮窗。
+     */
+    private static WindowManager getWindowManager() {
+        /** 用于控制在屏幕上添加或移除悬浮窗*/
+        return (WindowManager) UtilContext.getContext().getSystemService(Context.WINDOW_SERVICE);
+    }
 }

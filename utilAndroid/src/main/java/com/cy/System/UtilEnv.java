@@ -129,60 +129,6 @@ public class UtilEnv {
 
 	}
 
-	@SuppressLint("NewApi")
-	public static Point getScreenSize(Context context) {
-		WindowManager windowManager=getWindowManager(context);
-		Point size = new Point();
-		if (false) {
-//			if (Build.VERSION.SDK_INT >= 11) {
-			try {
-				size.x=windowManager.getDefaultDisplay().getWidth();
-				size.y=windowManager.getDefaultDisplay().getHeight();
-			} catch (NoSuchMethodError e) {
-				Log.i("error", "it can't work");
-			}
-
-		} else {
-			DisplayMetrics metrics = new DisplayMetrics();
-			windowManager.getDefaultDisplay().getMetrics(metrics);
-			size.x = metrics.widthPixels;
-			size.y = metrics.heightPixels;
-		}
-		Log.i("ScreenSize", "size.x=" + size.x + "  size.y=" + size.y);
-		return size;
-	}
-
-	/**
-	 * 返回当前程序版本名 android:versionName="flyTV 0.5.0"
-	 */
-	public static String getAppVersionName(Context context) {
-		String versionName = "";
-		int versioncode;
-		try {
-			// ---get the package info---
-			PackageManager pm = context.getPackageManager();
-			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-			versionName = pi.versionName;
-			versioncode = pi.versionCode;
-			if (versionName == null || versionName.length() <= 0) {
-				return "";
-			}
-		} catch (Exception e) {
-			Log.e("VersionInfo", "Exception", e);
-		}
-		return versionName;
-	}
-
-	public static String getVersionName(Activity context) throws Exception {
-		// 获取packagemanager的实例
-		PackageManager packageManager = context.getPackageManager();
-		// getPackageName()是你当前类的包名，0代表是获取版本信息
-		PackageInfo packInfo = packageManager.getPackageInfo(
-				context.getPackageName(), 0);
-		String version = packInfo.versionName;
-		return version;
-	}
-
 	/**
 	 * 获取网络状态，wifi,wap,2g,3g. 需要权限 <br>
 	 * uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -287,28 +233,6 @@ public class UtilEnv {
 	}
 
 	/**
-	 * 得到包含系统程序在内的所有应用程序名称，如 联系人，日历
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static List<String> getAppNameList(Context context) {
-		List<String> listResult = new ArrayList<String>();
-		PackageManager pm = context.getPackageManager();
-		Intent intent = new Intent(Intent.ACTION_MAIN, null);
-		intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-		List<ResolveInfo> list = pm.queryIntentActivities(intent,
-				PackageManager.PERMISSION_GRANTED);
-
-		for (ResolveInfo rInfo : list) {
-			listResult.add(rInfo.activityInfo.applicationInfo.loadLabel(pm)
-					.toString());
-		}
-		return listResult;
-	}
-
-	/**
 	 * 获取设备imei号<br>
 	 * < uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	 * 
@@ -320,49 +244,7 @@ public class UtilEnv {
 				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
 	}
 
-	/**
-	 * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-	 */
-	public static int dp2px(Context context, float dpValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (dpValue * scale + 0.5f);
-	}
 
-	/**
-	 * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-	 */
-	public static int px2dp(Context context, float pxValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (pxValue / scale + 0.5f);
-	}
-
-	/**
-	 * 将px值转换为sp值，保证文字大小不变
-	 * 
-	 * @param pxValue
-	 *            （DisplayMetrics类中属性scaledDensity）
-	 * @return
-	 */
-	public static int px2sp(Context context, float pxValue) {
-		final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-		return (int) (pxValue / fontScale + 0.5f);
-	}
-
-	/**
-	 * 将sp值转换为px值，保证文字大小不变
-	 * 
-	 * @param spValue
-	 *            （DisplayMetrics类中属性scaledDensity）
-	 * @return
-	 */
-	public static int sp2px(Context context, float spValue) {
-		final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-		return (int) (spValue * fontScale + 0.5f);
-	}
-	public static float getDensity(Context context){
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return scale;
-	}
 	/**
 	 * 获取CPU的架构 ARMV7还是ARMV6
 	 * @return
@@ -436,23 +318,7 @@ public class UtilEnv {
 		}
 		return mHasNeon;
 	}
-	/**打印屏幕长宽系列参数
-	 * @param context 这里必须是activity实例
-	 * @return
-	 */
-	public static String printxyInfo(Activity context){
-		int x= UtilEnv.getScreenSize(context).x;
-		int y= UtilEnv.getScreenSize(context).y;
-		int dpx= UtilEnv.px2dp(context, x);
-		int dpy= UtilEnv.px2dp(context, y);
-		float density= UtilEnv.getDensity(context);
-		String strOut="x:"+x+
-				"  y:"+y+
-				"  dpx:"+dpx+
-				"  dpy:"+dpy+
-				"  density:"+density;
-		return strOut;
-	}
+
 	public static void gotoWiFiSetPage(Context context){
 		 //直接调用系统自带的WIFI设置界面与Android的版本有关系
 		//在Android版本10以下，调用的是：ACTION_WIRELESS_SETTINGS，版本在10以上的调用：ACTION_SETTINGS。
@@ -465,30 +331,13 @@ public class UtilEnv {
 		}
 
 	}
-	/**获取正在运行的进程<br>
-	 * use:<br>
-	 * List<RunningAppProcessInfo> progresses= SysInfo.getProgressList(this);<br>
-	 *  for(RunningAppProcessInfo progress:runningProgresses){<br>
-     	   com.k.app.Log.w(progress.processName);<br>
-        }<br>
-	 * @param context
-	 * @return List RunningAppProcessInfo
-	 */
-	public static List<RunningAppProcessInfo> getProgressList(Context context){
-		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<RunningAppProcessInfo> runningProgresses = manager.getRunningAppProcesses();
-        return runningProgresses;
-/*        for(RunningAppProcessInfo progress:runningProgresses){
-     	   com.k.app.Log.w(progress.processName);
-        }*/
-	}
+
 	public static boolean hasSDcard() {
-		if (!Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+		if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 			return false;
 		} else {
 			return true;
 		}
-
 	}
 
 	/**< uses-permission android:name="android.permission.READ_PHONE_STATE" /><br>
@@ -517,59 +366,6 @@ public class UtilEnv {
 		UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
 		String uniqueId = deviceUuid.toString();
 		return uniqueId;
-	}
-
-	/**
-	 * 如果WindowManager还未创建，则创建一个新的WindowManager返回。否则返回当前已创建的WindowManager。
-	 *
-	 * @param context
-	 *            必须为应用程序的Context.
-	 * @return WindowManager的实例，用于控制在屏幕上添加或移除悬浮窗。
-	 */
-	private static WindowManager getWindowManager(Context context) {
-		/** 用于控制在屏幕上添加或移除悬浮窗*/
-		return (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-	}
-
-	private static Signature getSelfSignature(){
-		try {
-			PackageInfo packageInfo = UtilContext.getContext().getPackageManager().getPackageInfo(UtilContext.getContext().getPackageName(), PackageManager.GET_SIGNATURES);
-			Signature[] signs = packageInfo.signatures;
-			return signs[0];
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**得到本app签名md5值
-	 * @return
-	 */
-	public static String getSignatureMD5(){
-		String signMd5 = UtilMD5.getMessageDigest(getSelfSignature().toByteArray());
-		return signMd5;
-	}
-
-	public static HashMap<String ,String> getSignatureInfo() {
-		HashMap<String,String> hashMap=new HashMap<String,String>();
-		try {
-			CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-			X509Certificate cert = (X509Certificate) certFactory
-					.generateCertificate(new ByteArrayInputStream(getSelfSignature().toByteArray()));
-			String pubKey = cert.getPublicKey().toString();
-			String signNumber = cert.getSerialNumber().toString();
-//			com.cy.app.Log.writeW("signName:" + cert.getSigAlgName());//算法名称
-//			com.cy.app.Log.writeW("pubKey:" + pubKey);//很长的一串公钥
-//			com.cy.app.Log.writeW("signNumber:" + signNumber);//签名序列号
-//			com.cy.app.Log.writeW("subjectDN:"+cert.getSubjectDN().toString());//所有者信息
-			hashMap.put("algName",cert.getSigAlgName());//算法名称
-			hashMap.put("pubKey",pubKey);//很长的一串公钥
-			hashMap.put("serialNumber",signNumber);//签名序列号
-			hashMap.put("subjectDN",cert.getSubjectDN().toString());//所有者信息
-		} catch (CertificateException e) {
-			e.printStackTrace();
-		}
-		return hashMap;
 	}
 
 	/**获取系统种类，MIUI，flyme...
@@ -657,5 +453,45 @@ public class UtilEnv {
 		} else {
 			return "values-"+language+"-r"+country;
 		}
+	}
+
+	/**获取正在运行的进程<br>
+	 * use:<br>
+	 * List<RunningAppProcessInfo> progresses= SysInfo.getProgressList(this);<br>
+	 *  for(RunningAppProcessInfo progress:runningProgresses){<br>
+	 com.k.app.Log.w(progress.processName);<br>
+	 }<br>
+	 * @param context
+	 * @return List RunningAppProcessInfo
+	 */
+	public static List<ActivityManager.RunningAppProcessInfo> getProgressList(Context context){
+		ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> runningProgresses = manager.getRunningAppProcesses();
+		return runningProgresses;
+/*        for(RunningAppProcessInfo progress:runningProgresses){
+     	   com.k.app.Log.w(progress.processName);
+        }*/
+	}
+
+	/**
+	 * 得到包含系统程序在内的所有应用程序名称，如 联系人，日历
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static List<String> getAppNameList(Context context) {
+		List<String> listResult = new ArrayList<String>();
+		PackageManager pm = context.getPackageManager();
+		Intent intent = new Intent(Intent.ACTION_MAIN, null);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+		List<ResolveInfo> list = pm.queryIntentActivities(intent,
+				PackageManager.PERMISSION_GRANTED);
+
+		for (ResolveInfo rInfo : list) {
+			listResult.add(rInfo.activityInfo.applicationInfo.loadLabel(pm)
+					.toString());
+		}
+		return listResult;
 	}
 }

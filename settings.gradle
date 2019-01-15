@@ -1,2 +1,2 @@
 include ':utilAndroid'
-include ':app'
+//include ':app'

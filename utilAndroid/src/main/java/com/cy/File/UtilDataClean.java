@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * Created by Administrator on 2016/7/14.
  * 获得缓存
  */
-public class DataCleanManager {
+public class UtilDataClean {
 
     public static long getTotalCacheSize(Context context) throws Exception {
         long cacheSize = getFolderSize(context.getCacheDir());
