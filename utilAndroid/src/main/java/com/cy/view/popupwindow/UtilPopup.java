@@ -39,10 +39,10 @@ arrowView.setBackground(new TriangleDrawable(TriangleDrawable.TOP, Color.parseCo
  mQQPop.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, offsetX, offsetY);
  }
  */
-public class UtilPopup extends EasyPopup {
+public class UtilPopup extends EasyPopup<UtilPopup> {
 
     private List<PopupItem> mPopupItems=new ArrayList<>();
-
+    private PopUpAdapter.OnItemClickListener mOnItemClickListener;
     private UtilPopup() {
     }
 
@@ -63,6 +63,11 @@ public class UtilPopup extends EasyPopup {
     }
     private List<PopupItem> getPopupItems() {
         return mPopupItems;
+    }
+
+    public UtilPopup setOnItemClickListener(PopUpAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+        return this;
     }
 
     public static UtilPopup create() {

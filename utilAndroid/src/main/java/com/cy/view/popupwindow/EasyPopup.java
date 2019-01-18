@@ -3,20 +3,11 @@ package com.cy.view.popupwindow;
 import android.content.Context;
 import android.view.View;
 
-public class EasyPopup extends BasePopup<EasyPopup> {
+public abstract class EasyPopup<T extends EasyPopup> extends BasePopup<T> {
 
     private OnViewListener mOnViewListener;
 
-    public static EasyPopup create() {
-        return new EasyPopup();
-    }
-
-    public static EasyPopup create(Context context) {
-        return new EasyPopup(context);
-    }
-
     public EasyPopup() {
-
     }
 
     public EasyPopup(Context context) {
@@ -35,9 +26,9 @@ public class EasyPopup extends BasePopup<EasyPopup> {
         }
     }
 
-    public EasyPopup setOnViewListener(OnViewListener listener) {
+    public T setOnViewListener(OnViewListener listener) {
         this.mOnViewListener = listener;
-        return this;
+        return (T) this;
     }
 
     public interface OnViewListener {
