@@ -40,7 +40,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @NonNull
     @Override
     final public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = onCreateDialog(R.style.host_dialog);
+        dialog = onCreateDialog(R.style.base_dialog);
         return dialog;
     }
 

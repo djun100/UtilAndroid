@@ -3,6 +3,7 @@ package com.cy.view;
 import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.cy.app.UtilContext;
 
-/**
+/**注意：最后一定要调用apply();容易忘记调用，不调用不生效
  * 推荐使用 api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'，利于解耦，ui绘制尽量放到xml
  *
  * extract from https://github.com/H07000223/FlycoRoundView
@@ -35,7 +36,7 @@ import com.cy.app.UtilContext;
 public class UtilViewStyle {
 
     private View view;
-    private int cornerRadius;
+    private float cornerRadius;
     private boolean isRadiusHalfHeight;
     private int backgroundColor=Integer.MAX_VALUE;
     private int backgroundPressColor = Integer.MAX_VALUE;
@@ -66,7 +67,7 @@ public class UtilViewStyle {
         this.view = view;
     }
 
-    public int getCornerRadius() {
+    public float getCornerRadius() {
         return cornerRadius;
     }
 
@@ -79,12 +80,8 @@ public class UtilViewStyle {
         return isRadiusHalfHeight;
     }
 
-    /**
-     * 设定radius>=height即可，如果使用该函数需要在onGloableLayout中使用，不然获取不到view的高度
-     */
-    @Deprecated
-    public UtilViewStyle setRadiusHalfHeight(boolean radiusHalfHeight) {
-        isRadiusHalfHeight = radiusHalfHeight;
+    public UtilViewStyle setCornerRadiusHalfHeight() {
+        isRadiusHalfHeight = true;
         return this;
     }
 
@@ -286,7 +283,7 @@ public class UtilViewStyle {
         } else if (cornerRadius > 0) {
             gd.setCornerRadius(cornerRadius);
         } else if (isRadiusHalfHeight) {
-            gd.setCornerRadius(view.getHeight() / 2);
+            gd.setCornerRadius(Float.MAX_VALUE);
         }
 
         gd.setStroke(strokeWidth, strokeColor);
@@ -322,8 +319,19 @@ public class UtilViewStyle {
         }
         gd_background_press = new GradientDrawable();
         gd_background_press = new GradientDrawable();
-        gd_background_disable = new GradientDrawable();;
+        gd_background_disable = new GradientDrawable();
 
+        try {
+            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
+            if (colorDrawable!=null){
+                backgroundColor = colorDrawable.getColor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (backgroundPressColor == Integer.MAX_VALUE) {
+            backgroundPressColor = backgroundColor;
+        }
         fillGradientDrawable(gd_background, backgroundColor, strokeColor);
         StateListDrawable bg = new StateListDrawable();
 

@@ -74,7 +74,7 @@ public class UtilPopup extends EasyPopup<UtilPopup> {
         UtilPopup easyPopup= new UtilPopup(UtilContext.getContext());
         View view= LayoutInflater.from(UtilContext.getContext()).inflate(R.layout.popupwindow,null);
         RecyclerView recyclerView=view.findViewById(R.id.mRecyclerView);
-        recyclerView.addItemDecoration(new HorizontalItemDecoration.Builder(UtilContext.getContext()).build());
+        recyclerView.addItemDecoration(HorizontalItemDecoration.Builder.create().build());
         new PopUpAdapter(recyclerView,easyPopup.getPopupItems());
         easyPopup.setContentView(view);
         return easyPopup;

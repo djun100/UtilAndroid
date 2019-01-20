@@ -148,7 +148,7 @@ public class UtilDialog {
         private Integer gravity;
         private Integer layout;
         private View customView;
-        private Integer style=R.style.host_dialog;
+        private Integer style=R.style.base_dialog;
 //        private DialogInterface.OnClickListener positiveListener; //no define
 //        private DialogInterface.OnClickListener negativeListener; //no define
         private Boolean canceledOnTouchOutside;
