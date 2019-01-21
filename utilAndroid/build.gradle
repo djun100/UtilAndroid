@@ -36,6 +36,5 @@ dependencies {
 //basePopUp need
 //    compileOnly "com.android.support:support-compat:28.0.0@aar"
 //    compileOnly 'com.android.support:support-annotations:28.0.0'
-//    api 'com.github.djun100:adapter:614c47f'
-    api project(':adapter')
+    api 'com.github.djun100:adapter:176bd90'
 }
