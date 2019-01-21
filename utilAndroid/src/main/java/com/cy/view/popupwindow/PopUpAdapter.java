@@ -26,7 +26,7 @@ public class PopUpAdapter extends BaseRecyclerAdapter<PopupItem> {
     }
 
     @Override
-    protected void convert(RecyclerAdapterHelper helper, PopupItem item, final int pos, int viewTypeAndLayoutRes) {
+    protected void convert(RecyclerAdapterHelper helper, PopupItem item, final int pos, int viewTypeAndLayoutRes, RecyclerView.ViewHolder holder) {
         helper.setText(R.id.mtvPopText,item.itemName);
         if (!TextUtils.isEmpty(item.itemIcon)) {
             helper.setImageUrl(R.id.mivPopIcon,item.itemIcon);
