@@ -185,21 +185,25 @@ public class UtilDummyData {
             e.printStackTrace();
         }
         Field[] fields = c.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            fields[i].setAccessible(true);
-            String fieldName=fields[i].getName();
+        if (fields!=null) {
+            for (int i = 0; i < fields.length; i++) {
+                fields[i].setAccessible(true);
+                String fieldName=fields[i].getName();
 
-            for (Map.Entry<String, Object> entry : kvs.entrySet()) {
-                if (fieldName.equals(entry.getKey())){
-                    try {
-                        fields[i].set(t,entry.getValue());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                if (kvs!=null) {
+                    for (Map.Entry<String, Object> entry : kvs.entrySet()) {
+                        if (fieldName.equals(entry.getKey())){
+                            try {
+                                fields[i].set(t,entry.getValue());
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
         }
-            return t;
+        return t;
     }
 
     public static void main(String[] args) {
