@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.cy.data.UtilDummyData;
 import com.cy.io.Log;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Map;
 
 
 /**
@@ -54,5 +57,9 @@ public abstract class BaseFragment extends Fragment {
         if (enableBusEvent) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    public static <T> T baseNewInstance(Class<T> t, Map<String,Object> params){
+        return UtilDummyData.makeInstance(t,params);
     }
 }

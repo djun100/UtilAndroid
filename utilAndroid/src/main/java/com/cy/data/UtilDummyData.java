@@ -175,6 +175,36 @@ public class UtilDummyData {
         return t;
     }
 
+    public static <T> T makeInstance(Class<T> c,Map<String,Object> kvs) {
+        T t = null;
+        try {
+            Constructor<?>[] con = c.getDeclaredConstructors();
+            t = (T) con[0].newInstance();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Field[] fields = c.getDeclaredFields();
+        if (fields!=null) {
+            for (int i = 0; i < fields.length; i++) {
+                fields[i].setAccessible(true);
+                String fieldName=fields[i].getName();
+
+                if (kvs!=null) {
+                    for (Map.Entry<String, Object> entry : kvs.entrySet()) {
+                        if (fieldName.equals(entry.getKey())){
+                            try {
+                                fields[i].set(t,entry.getValue());
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return t;
+    }
 
     public static void main(String[] args) {
 //        ArrayList<BeanTest> data= makeData(BeanTest.class,50,1,10);
