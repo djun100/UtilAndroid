@@ -17,7 +17,7 @@ import android.view.View;
 public class BlankRecyclerView extends RecyclerView {
 
     private GestureDetectorCompat gestureDetector;
-    private BlankListener listener;
+    private OnBlankClickListener listener;
 
     public BlankRecyclerView(Context context) {
         super(context);
@@ -31,7 +31,7 @@ public class BlankRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
     }
 
-    public void setBlankClickListener(BlankListener listener) {
+    public void setBlankClickListener(OnBlankClickListener listener) {
         this.listener = listener;
         this.gestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -41,7 +41,7 @@ public class BlankRecyclerView extends RecyclerView {
         });
     }
 
-    public interface BlankListener {
+    public interface OnBlankClickListener {
 
         void onBlankClick();
 
