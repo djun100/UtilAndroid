@@ -301,4 +301,10 @@ public class UtilCollection {
     public static <E> String toString(List<E> list){
         return list.toString().replaceAll(" ","");
     }
+
+    public static void putAll(Map map,Map mapToBeAdded){
+        if (!isEmpty(mapToBeAdded)){
+            map.putAll(mapToBeAdded);
+        }
+    }
 }  

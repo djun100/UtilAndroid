@@ -10,7 +10,7 @@ import com.cy.app.UtilContext;
  * @author xiaanming
  *
  */
-public class UtilSharedPreferences {
+public class UtilSP {
 	/**
 	 * 保存在手机里面的文件名
 	 */
