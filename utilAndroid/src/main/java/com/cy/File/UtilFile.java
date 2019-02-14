@@ -11,14 +11,12 @@ import com.cy.data.UtilString;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -42,14 +40,7 @@ public class UtilFile {
             isr.close();
             // 从构造器中生成字符串，并替换搜索文本
             str = sbread.toString();
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return str;
@@ -61,14 +52,7 @@ public class UtilFile {
             out.write(content.toCharArray());
             out.flush();
             out.close();
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -511,7 +495,10 @@ public class UtilFile {
         FileInputStream in = null;
         FileOutputStream out = null;
         int bufferSize = 1024;
-        // TODO: 2015/11/27 如a/b/file file是文件，b文件夹不存在，先新建b.makedirs()
+        File destParentPathFile=new File(desPath).getParentFile();
+        if (!destParentPathFile.exists()){
+            destParentPathFile.mkdirs();
+        }
         try {
             // 获取源文件和目标文件的输入输出流
             in = new FileInputStream(sourcePath);
