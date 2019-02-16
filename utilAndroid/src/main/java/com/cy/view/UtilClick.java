@@ -8,6 +8,25 @@ import android.view.View;
  */
 
 public class UtilClick {
+
+
+    private static long timeLast = 0;
+    /**
+     * 是否为快速调用
+     *
+     * @param last
+     *            快速的时长依据标准
+     * @return
+     */
+    public static boolean isFastClick(long last) {
+        long time = System.currentTimeMillis();
+        if (time - timeLast > last) {// 不是快速调用
+            timeLast = time;
+            return false;
+        }
+        return true;
+    }
+
     public interface MultiClickListener{
         void onMultiClickEnd();
     }

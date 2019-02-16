@@ -1,41 +1,27 @@
 package com.cy.System;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.pm.Signature;
-import android.graphics.Point;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.WindowManager;
 
 import com.cy.app.UtilContext;
-import com.cy.security.UtilMD5;
 import com.cy.utils.UtilReflect;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -493,5 +479,16 @@ public class UtilEnv {
 					.toString());
 		}
 		return listResult;
+	}
+
+	/**
+	 * GPS是否打开
+	 *
+	 * @return Gps是否可用
+	 */
+	public static boolean isGpsEnabled() {
+		LocationManager lm = (LocationManager) UtilContext.getContext()
+				.getSystemService(Context.LOCATION_SERVICE);
+		return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 }

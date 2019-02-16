@@ -41,23 +41,6 @@ public class UtilView {
 		view.setBackgroundTintList(ColorStateList.valueOf(color));
 	}
 
-	static long timeLast = 0;
-
-	/**
-	 * 是否为快速调用
-	 * 
-	 * @param last
-	 *            快速的时长依据标准
-	 * @return
-	 */
-	public boolean isFastCall(long last) {
-		long time = System.currentTimeMillis();
-		if (time - timeLast > last) {// 不是快速调用
-			timeLast = time;
-			return false;
-		}
-		return true;
-	}
 	/**TODO 此函数算法严重耗时，measure与getview为主要耗时地方，总平均1.5s左右，致item过多时UI卡死
 	 * 动态设置listview的高度，适用上下两个listview布局
 	 * 
@@ -156,90 +139,6 @@ public class UtilView {
 		ColorStateList colorList = new ColorStateList(states, colors);
 
 		view.setTextColor(colorList);
-	}
-
-	/**
-	 * @deprecated see {@link UtilViewStyle}
-	 * @param view
-	 * @param roundRadius
-	 * @param fillColor
-	 */
-	public static void setBg(View view,
-							 int roundRadius,
-							 @ColorInt int fillColor){
-
-		setBg(view, roundRadius, -1, -1, fillColor,false);
-	}
-
-	/**
-	 * @deprecated see {@link UtilViewStyle}
-	 * @param view
-	 * @param roundRadius
-	 * @param strokeColor
-	 * @param strokeWidth
-	 */
-	public static void setBg(View view,
-							 int roundRadius,
-							 @ColorInt int strokeColor,int strokeWidth){
-
-		setBg(view, roundRadius, strokeColor, strokeWidth, -1,false);
-	}
-
-	/**
-	 * @deprecated see {@link UtilViewStyle}
-	 * @param view
-	 * @param isRadiusHalfHeight
-	 * @param strokeColor
-	 * @param strokeWidth
-	 * @param fillColor
-	 */
-	public static void setBg(View view,
-							 boolean isRadiusHalfHeight,
-							 @ColorInt int strokeColor,int strokeWidth,
-							 @ColorInt int fillColor){
-		setBg(view, -1, strokeColor, strokeWidth, fillColor,isRadiusHalfHeight);
-	}
-
-	/**
-	 * @deprecated see {@link UtilViewStyle}
-	 * @param view
-	 * @param roundRadius
-	 * @param strokeColor
-	 * @param strokeWidth
-	 * @param fillColor
-	 */
-	public static void setBg(View view,
-							 int roundRadius,
-							 @ColorInt int strokeColor,int strokeWidth,
-							 @ColorInt int fillColor){
-		setBg(view, roundRadius, strokeColor, strokeWidth, fillColor, false);
-	}
-
-	/**
-	 * @deprecated see {@link UtilViewStyle}
-	 * @param view
-	 * @param roundRadius
-	 * @param strokeColor
-	 * @param strokeWidth
-	 * @param fillColor
-	 * @param isRadiusHalfHeight
-	 */
-	public static void setBg(View view,
-							 int roundRadius,
-							 @ColorInt int strokeColor,int strokeWidth,
-							 @ColorInt int fillColor,
-							 boolean isRadiusHalfHeight){
-		GradientDrawable gd = new GradientDrawable();//创建drawable
-		gd.setColor(fillColor);
-		if (isRadiusHalfHeight) {
-			gd.setCornerRadius(view.getHeight()/2);
-		}else {
-			gd.setCornerRadius(roundRadius);
-		}
-		if (strokeWidth>0) {
-			gd.setStroke(strokeWidth, strokeColor);
-		}
-		view.setBackgroundDrawable(gd);
 	}
 
 	public static View inflate(@LayoutRes int layout){

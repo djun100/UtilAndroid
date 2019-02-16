@@ -1,7 +1,6 @@
 package com.cy.System;
 
 import android.content.Context;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
@@ -51,18 +50,6 @@ public final class UtilNetwork {
     }
 
     /**
-     * GPS是否打开
-     *
-     * @param context 上下文
-     * @return Gps是否可用
-     */
-    public static boolean isGpsEnabled(Context context) {
-        LocationManager lm = (LocationManager) context
-                .getSystemService(Context.LOCATION_SERVICE);
-        return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
-    /**
      * 检测当前打开的网络类型是否WIFI
      *
      * @param context 上下文
@@ -74,38 +61,6 @@ public final class UtilNetwork {
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetInfo != null
                 && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI;
-    }
-
-    /**
-     * 检测当前打开的网络类型是否3G
-     *
-     * @param context 上下文
-     * @return 是否是3G上网
-     */
-    public static boolean is3G(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetInfo != null
-                && activeNetInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-    }
-
-    /**
-     * 检测当前开打的网络类型是否4G
-     *
-     * @param context 上下文
-     * @return 是否是4G上网
-     */
-    public static boolean is4G(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetInfo != null && activeNetInfo.isConnectedOrConnecting()) {
-            if (activeNetInfo.getType() == TelephonyManager.NETWORK_TYPE_LTE) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

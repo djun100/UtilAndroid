@@ -1,6 +1,6 @@
 package com.cy.view;
 
-import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -10,18 +10,13 @@ public class UtilTextViewHighLight {
 
     /**
      * @param tip
-     * @param context
      * @param start
      * @param ended
      *            高亮“哈哈温馨提示：” 2-7
-     * @param R_color
      */
-    public static final void highlightTip(TextView tip, Context context, int start, int ended, int R_color) {
+    public static final void highlightTip(TextView tip, int start, int ended, @ColorInt int color) {
         CharSequence str = tip.getText();
-        if (str.length() < 5) {
-            return;
-        }
-        int color = context.getResources().getColor(R_color);
+
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(color);
         RelativeSizeSpan sizeSpan = new RelativeSizeSpan(1.3f);
         SpannableString text = new SpannableString(str);
