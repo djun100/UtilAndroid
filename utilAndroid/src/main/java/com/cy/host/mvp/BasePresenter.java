@@ -13,12 +13,13 @@ import java.lang.reflect.Type;
 
 /**
  * presenter类基类用于解决activity的view解绑绑定
- * 解决当Activity销毁，presenter里面持有的view就为null，那如果这时候耗时任务刚好执行完在调用view中的某个方法所导致的空指针问题
+ * 解决当Activity销毁，presenter里面持有的view就为null，如果这时候耗时任务刚好执行完准备调用view中的某个方法
+ * 就会导致的空指针问题
  * <p/>
  * Mvp Presenter 抽象类. 通过 弱引用持有 Context 和 View对象, 避免产生内存泄露。
  * 注意, 如果Presenter有多个泛型类,那么 MvpView类型的泛型类要放在第一位.
- * 当 Context (通常是指Activity)被销毁时如果客户端程序
- * 再调用Context, 那么直接返回 Application 的Context. 因此如果用户需要调用与Activity相关的UI操作(例如弹出Dialog)时,
+ * 当 Context (通常是指Activity)被销毁时如果客户端程序再调用Context,
+ * 那么直接返回 Application 的Context. 因此如果用户需要调用与Activity相关的UI操作(例如弹出Dialog)时,
  * 应该先调用 {@link #isActivityAlive()} 来判断Activity是否还存活.
  * 当 View 对象销毁时如果用户再调用 View对象, 那么则会
  * 通过动态代理创建一个View对象 {@link #mNullViewProxy}, 这样保证 view对象不会为空.

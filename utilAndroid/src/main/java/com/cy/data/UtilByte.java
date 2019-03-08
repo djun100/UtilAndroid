@@ -134,5 +134,42 @@ public class UtilByte {
     public static String getBinaryStr(int v) {
         return Integer.toBinaryString(v);
     }
+    /**字符串转16进制
+     * eg:strToHexStr("\"我men.{123} \\\"")
+     * @param str
+     * @return
+     */
+    public static String strToHexStr(String str){
+        String hex = null;
+        try {
+            hex=byteArray2HexString(str.getBytes("UTF-8"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return hex;
+    }
 
+    /**16进制转字符串
+     * eg:hexToStr("22e688916d656e2e7b3132337d205c22")
+     * @param hex
+     * @return
+     */
+    public static String hexToStr(String hex){
+        byte[] baKeyword = new byte[hex.length() / 2];
+        for (int i = 0; i < baKeyword.length; i++) {
+            try {
+                baKeyword[i] = (byte) (0xff & Integer.parseInt(
+                        hex.substring(i * 2, i * 2 + 2), 16));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        String result = null;
+        try {
+            result = new String(baKeyword, "UTF-8");
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return result;
+    }
 }
