@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 android:padding="8dp"
               android:orientation="vertical"
-                tools:context="com.cy.app.MainActivity">
+                tools:context="com.cy.app.main.MainActivity">
 
     <Button
         android:textColor="#fff"
@@ -32,6 +32,12 @@
 
     <Button
         android:id="@+id/mbtnShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="testMVP"
+        android:id="@+id/mbtnTestMVP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

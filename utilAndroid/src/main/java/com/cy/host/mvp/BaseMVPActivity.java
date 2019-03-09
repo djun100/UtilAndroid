@@ -11,13 +11,13 @@ import com.cy.host.BaseHostActivity;
  * Created by LiLei on 2017/7/3.Go.
  */
 public abstract class BaseMVPActivity<T extends BasePresenter> extends BaseHostActivity {
-    public T mPresenter;
+    private T mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter = UtilType.getTypeInstance(this,1);
+        mPresenter = UtilType.getTypeInstance(this,0);
         if (mPresenter !=null) {
             mPresenter.attach(BaseMVPActivity.this, this);
         }
@@ -33,4 +33,7 @@ public abstract class BaseMVPActivity<T extends BasePresenter> extends BaseHostA
         super.onDestroy();
     }
 
+    protected T baseGetPresenter(){
+        return mPresenter;
+    }
 }

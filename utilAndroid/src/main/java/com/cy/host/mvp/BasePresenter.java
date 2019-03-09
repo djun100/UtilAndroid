@@ -2,7 +2,8 @@ package com.cy.host.mvp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
+
+import com.cy.io.Log;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
@@ -20,7 +21,7 @@ import java.lang.reflect.Type;
  * 注意, 如果Presenter有多个泛型类,那么 MvpView类型的泛型类要放在第一位.
  * 当 Context (通常是指Activity)被销毁时如果客户端程序再调用Context,
  * 那么直接返回 Application 的Context. 因此如果用户需要调用与Activity相关的UI操作(例如弹出Dialog)时,
- * 应该先调用 {@link #isActivityAlive()} 来判断Activity是否还存活.
+ * 应该先调用 {@link #baseIsActivityAlive()} 来判断Activity是否还存活.
  * 当 View 对象销毁时如果用户再调用 View对象, 那么则会
  * 通过动态代理创建一个View对象 {@link #mNullViewProxy}, 这样保证 view对象不会为空.
  * 使用getMvpView方法来获取View
@@ -50,7 +51,7 @@ public abstract class BasePresenter<V,M> {
      * Mvp View created by dynamic Proxy
      */
     private V mNullViewProxy;
-    protected M mModel;
+    private M mModel;
 
     public BasePresenter() {
     }
@@ -96,7 +97,7 @@ public abstract class BasePresenter<V,M> {
      *
      * @return
      */
-    protected boolean isActivityAlive() {
+    protected boolean baseIsActivityAlive() {
         return !isActivityFinishing() && mViewRef.get() != null;
     }
 
@@ -124,7 +125,7 @@ public abstract class BasePresenter<V,M> {
      *
      * @return Mvp View
      */
-    protected V getMvpView() {
+    protected V baseGetMvpView() {
         V view = mViewRef != null ? mViewRef.get() : null;
         if (view == null) {
             // create null mvp view
@@ -136,6 +137,9 @@ public abstract class BasePresenter<V,M> {
         return view;
     }
 
+    protected M baseGetModule(){
+        return mModel;
+    }
 
     /**
      * 创建 mvp view
@@ -144,9 +148,10 @@ public abstract class BasePresenter<V,M> {
      * @param <T>
      * @return
      */
-    public static <T> T createView(Class<T> viewClz) {
-        return (T) Proxy.newProxyInstance(viewClz.getClassLoader(),
-                new Class[]{viewClz}, NULL_VIEW);
+    private static <T> T createView(Class<T> viewClz) {
+        Class<?>[] interfaces = new Class[]{viewClz};
+//        Class<?>[] interfaces = viewClz.getInterfaces();
+        return (T) Proxy.newProxyInstance(viewClz.getClassLoader(), interfaces, NULL_VIEW);
     }
 
 
@@ -167,7 +172,7 @@ public abstract class BasePresenter<V,M> {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Log.e("", "### MvpView InvocationHandler do nothing -> " + method.getName());
+            Log.e("### MvpView InvocationHandler do nothing -> " + method.getName());
             return null;
         }
     }

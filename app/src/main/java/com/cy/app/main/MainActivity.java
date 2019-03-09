@@ -1,4 +1,4 @@
-package com.cy.app;
+package com.cy.app.main;
 
 import android.Manifest;
 import android.app.Activity;
@@ -14,26 +14,40 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cy.File.UtilFile;
+import com.cy.app.BaseAct;
+import com.cy.app.DemoDialogFragment;
+import com.cy.app.R;
 import com.cy.view.UtilScreen;
+import com.cy.view.UtilToast;
 import com.cy.view.UtilViewStyle;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends BaseAct {
+public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
     private static final String TAG=MainActivity.class.getSimpleName();
     private Button mbtnResult;
     private View.OnClickListener mOnClickListener;
     private Button mbtn;
     private Button mbtnShow;
+    private Button mbtnTestMVP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
 
+    }
+
+    @Override
+    protected void baseInit1Data() {
+
+    }
+
+    @Override
+    protected void baseInit2View() {
+        initView();
     }
 
 
@@ -41,6 +55,8 @@ public class MainActivity extends BaseAct {
         mbtnShow=findViewById(R.id.mbtnShow);
         mbtnResult = (Button) findViewById(R.id.mtv);
         mbtn = (Button) findViewById(R.id.mbtn);
+        mbtnTestMVP = (Button) findViewById(R.id.mbtnTestMVP);
+
         UtilViewStyle.view(mbtnResult)
 //                .setRippleEnable(true)
                 .setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright))
@@ -70,12 +86,16 @@ public class MainActivity extends BaseAct {
                     }
                 }else if (v==mbtnShow){
                     showDialogFragment();
+
+                }else if (v==mbtnTestMVP){
+                    baseGetPresenter().readData();
                 }
             }
         };
         mbtn.setOnClickListener(mOnClickListener);
         mbtnResult.setOnClickListener(mOnClickListener);
         mbtnShow.setOnClickListener(mOnClickListener);
+        mbtnTestMVP.setOnClickListener(mOnClickListener);
     }
 
     public static void writeFile1(){
@@ -131,5 +151,12 @@ public class MainActivity extends BaseAct {
 
     private void showDialogFragment(){
         DemoDialogFragment.newInstance().show(getSupportFragmentManager(),"");
+    }
+
+    public void showToast(String data) {
+        UtilToast.showShort(data);
+    }
+    public void showDialog() {
+
     }
 }
