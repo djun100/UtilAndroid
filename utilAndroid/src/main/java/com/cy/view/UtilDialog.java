@@ -148,7 +148,7 @@ public class UtilDialog {
         private Integer gravity;
         private Integer layout;
         private View customView;
-        private Integer style=R.style.base_dialog;
+        private Integer style= R.style.base_dialog;
 //        private DialogInterface.OnClickListener positiveListener; //no define
 //        private DialogInterface.OnClickListener negativeListener; //no define
         private Boolean canceledOnTouchOutside;
@@ -190,6 +190,8 @@ public class UtilDialog {
 
         public Dialog build(){
             Dialog dialog = new Dialog(context, style);
+            //style中设置动画的话，这样写才生效
+            dialog.getWindow().setWindowAnimations(style);
             if (layout!=null){
                 dialog.setContentView(layout);
             }else if (customView!=null){

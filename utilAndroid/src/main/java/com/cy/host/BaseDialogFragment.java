@@ -31,7 +31,11 @@ import com.cy.utilandroid.R;
  * DialogFragment还拥有fragment的优点，即可以在一个Activity内部实现回退（因为FragmentManager会管理一个回退栈） 
  * activity 关闭时，dialog不关闭也不会报错，activity自动管理<br>
  *
- *建议使用UtilDialog创建dialog
+ *建议使用UtilDialog创建dialog，设置进出动画的话需要通过给dialog设置style
+ *     <style name="bottom_dialog" parent="base_dialog">
+ *         <item name="android:windowEnterAnimation">@anim/bottom_dialog_in</item>
+ *         <item name="android:windowExitAnimation">@anim/bottom_dialog_out</item>
+ *     </style>
  @author 承影
  */
 public abstract class BaseDialogFragment extends DialogFragment {
