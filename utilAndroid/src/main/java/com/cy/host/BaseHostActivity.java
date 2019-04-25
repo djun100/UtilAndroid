@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.cy.app.ActivityManager;
+import com.cy.host.onActivityResult2.OnActivityResultManager;
 import com.cy.io.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -221,5 +223,20 @@ public abstract class BaseHostActivity extends FragmentActivity{
 
 	protected interface OnGlobalLayoutListener{
 		void onGlobalLayout();
+	}
+
+	private OnActivityResultManager mOnActivityResultManager;
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mOnActivityResultManager.onActivtyResult(requestCode, resultCode, data);
+	}
+
+	public void baseStartActivityForResult(Intent intent, int requestCode
+			, OnActivityResultManager.OnActivityResultCallBack callBack) {
+		if (mOnActivityResultManager==null){
+			mOnActivityResultManager=new OnActivityResultManager(this);
+		}
+		mOnActivityResultManager.startActivityForResult(intent,requestCode,callBack);
 	}
 }
