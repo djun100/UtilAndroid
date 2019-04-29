@@ -41,12 +41,12 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
     }
 
     @Override
-    protected void baseInit1Data() {
+    protected void onInit1Data() {
 
     }
 
     @Override
-    protected void baseInit2View() {
+    protected void onInit2View() {
         initView();
     }
 
