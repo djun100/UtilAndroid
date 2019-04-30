@@ -478,14 +478,18 @@ public class UtilFile {
      * // readFileByLine(FILE_PATH); //46,51,57<br>
      * // readFileByBybeBuffer(FILE_PATH);//19,18,17<br>
      * // readFileByBybeBuffer(FILE_PATH);//2048: 11,13<br>
+     *
+     *                                        buffer  fileSize  lasts
      * // readFileByBybeBuffer(FILE_PATH);//1024*100 100k,711k: 6,6<br>
-     * // readFileByBybeBuffer(FILE_PATH);//1024*100 100k,1422k: 7<br>
-     * // readFileByBybeBuffer(FILE_PATH);//1024*100 100k,9951k: 49,48<br>
      * // readFileByBybeBuffer(FILE_PATH);//1024*1000 1M,711k: 7,7<br>
-     * // readFileByBybeBuffer(FILE_PATH);//1024*1000 1M,1422k: 7,8<br>
-     * // readFileByBybeBuffer(FILE_PATH);//1024*1000 1M,9951k: 48,49<br>
      * // readFileByBybeBuffer(FILE_PATH);//1024*10000 10M,711k: 21,13,17<br>
+     *
+     * // readFileByBybeBuffer(FILE_PATH);//1024*100 100k,1422k: 7<br>
+     * // readFileByBybeBuffer(FILE_PATH);//1024*1000 1M,1422k: 7,8<br>
      * // readFileByBybeBuffer(FILE_PATH);//1024*10000 10M,1422k: 16,17,14,15<br>
+     *
+     * // readFileByBybeBuffer(FILE_PATH);//1024*100 100k,9951k: 49,48<br>
+     * // readFileByBybeBuffer(FILE_PATH);//1024*1000 1M,9951k: 48,49<br>
      * // readFileByBybeBuffer(FILE_PATH);//1024*10000 10M,9951k:64,60<br>
      * <p/>
      * long time2 = getTime() ;<br>
