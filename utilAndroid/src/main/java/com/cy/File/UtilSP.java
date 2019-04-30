@@ -1,4 +1,5 @@
 package com.cy.File;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -61,29 +62,26 @@ public class UtilSP {
 	 * @param defaultObject
 	 * @return
 	 */
-	public static Object getParam(String fileName, String key, Object defaultObject){
+	public static <T> T getParam(String fileName, String key, T defaultObject){
 		String type;
 		if (defaultObject == null) {
 			type = "String";
-		}else {
+		} else {
 			type = defaultObject.getClass().getSimpleName();
 		}
 		SharedPreferences sp = UtilContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
-		
-		if("String".equals(type)){
-			return sp.getString(key, (String)defaultObject);
-		}
-		else if("Integer".equals(type)){
-			return sp.getInt(key, (Integer)defaultObject);
-		}
-		else if("Boolean".equals(type)){
-			return sp.getBoolean(key, (Boolean)defaultObject);
-		}
-		else if("Float".equals(type)){
-			return sp.getFloat(type, (Float)defaultObject);
-		}
-		else if("Long".equals(type)){
-			return sp.getLong(type, (Long)defaultObject);
+
+		if ("String".equals(type)) {
+			return (T) sp.getString(key, (String) defaultObject);
+		} else if ("Integer".equals(type)) {
+			int result = sp.getInt(key, (Integer) defaultObject);
+			return (T) new Integer(result);
+		} else if ("Boolean".equals(type)) {
+			return (T) new Boolean(sp.getBoolean(key, (Boolean) defaultObject));
+		} else if ("Float".equals(type)) {
+			return (T) new Float(sp.getFloat(type, (Float) defaultObject));
+		} else if ("Long".equals(type)) {
+			return (T) new Long(sp.getLong(type, (Long) defaultObject));
 		}
 		
 		return defaultObject;
@@ -94,7 +92,7 @@ public class UtilSP {
 	 * @param defaultObject
 	 * @return
 	 */
-	public static Object getParam( String key, Object defaultObject){
+	public static <T> T getParam( String key, T defaultObject){
 		return getParam(FILE_NAME, key, defaultObject);
 	}
 }

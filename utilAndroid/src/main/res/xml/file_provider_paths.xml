@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <paths>
+        <!--如果调用系统拍照返回图片存到sd，则加这行-->
+<!--        <external-path path="" name="myFile"></external-path>-->
+        <!--如果调用系统拍照返回图片存到应用内部文件存储，则加这行-->
+                <files-path path="" name="myFile"></files-path>
+    </paths>
+</resources>

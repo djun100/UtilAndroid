@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.cy.app.ActivityManager;
+import com.cy.host.onActivityResult2.OnActivityResultManager;
 import com.cy.io.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,7 +26,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**使用帮助
- * 本类重写了所有setContentView方法，内部后续会自动调用baseInit1Data();baseInit2View();这两个抽象方法
+ * 本类重写了所有setContentView方法，内部后续会自动调用baseInit1Data();onInit2View();这两个抽象方法
  * according to init 1、2、3 to do the workflow
  * feature:both Activity and FragmentActivity are compatible;
  * both using layout file or custom view in java to set content view are supported;
@@ -61,8 +63,8 @@ public abstract class BaseHostActivity extends FragmentActivity{
 	}
 
 	private void doAfterSetContentView(){
-		baseInit1Data();
-		baseInit2View();
+		onInit1Data();
+		onInit2View();
 		// 添加Activity到堆栈
 		ActivityManager.getActivityManager().addActivity(this);
 		baseInit3PullData();
@@ -134,9 +136,9 @@ public abstract class BaseHostActivity extends FragmentActivity{
 
 
 	/**页面执行流程1：页面所需数据初始化*/
-	protected abstract void baseInit1Data();
+	protected abstract void onInit1Data();
 	/**页面执行流程2：view后序处理*/
-	protected abstract  void baseInit2View();
+	protected abstract  void onInit2View();
 	/**页面执行流程3：首次网络请求*/
 	protected void baseInit3PullData(){
 
@@ -221,5 +223,20 @@ public abstract class BaseHostActivity extends FragmentActivity{
 
 	protected interface OnGlobalLayoutListener{
 		void onGlobalLayout();
+	}
+
+	private OnActivityResultManager mOnActivityResultManager;
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mOnActivityResultManager.onActivtyResult(requestCode, resultCode, data);
+	}
+
+	public void baseStartActivityForResult(Intent intent, int requestCode
+			, OnActivityResultManager.OnActivityResultCallBack callBack) {
+		if (mOnActivityResultManager==null){
+			mOnActivityResultManager=new OnActivityResultManager(this);
+		}
+		mOnActivityResultManager.startActivityForResult(intent,requestCode,callBack);
 	}
 }

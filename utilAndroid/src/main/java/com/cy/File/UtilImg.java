@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.cy.System.UtilEnv;
@@ -407,8 +408,9 @@ public class UtilImg {
 		}
 		return null;
 	}
+
 	private static File cameraFile;
-	/**
+	/**参考实现：https://github.com/djun100/AndroidNAdaption
 	 * 照相获取图片
 	 * @param picPath
 	 * @param picName usually user+System.currentTimeMillis() + ".jpg"
@@ -419,16 +421,23 @@ public class UtilImg {
 			return;
 		}
 
+		// 指定调用相机拍照后照片的储存路径
 		cameraFile = new File(picPath, picName);
 		cameraFile.getParentFile().mkdirs();
+		Uri imgUri = null;
+		if (Build.VERSION.SDK_INT >= 24) {
+			//如果是7.0或以上
+			imgUri = FileProvider.getUriForFile(UtilContext.getContext(),
+					UtilContext.getContext().getPackageName() + ".fileprovider", cameraFile);
+		} else {
+			imgUri = Uri.fromFile(cameraFile);
+		}
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
 		if (activity!=null){
-			activity.startActivityForResult(
-					new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
-					REQUEST_CODE_CAMERA);
+			activity.startActivityForResult(intent, REQUEST_CODE_CAMERA);
 		}else if(fragment!=null){
-			fragment.startActivityForResult(
-					new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
-					REQUEST_CODE_CAMERA);
+			fragment.startActivityForResult(intent, REQUEST_CODE_CAMERA);
 		}
 
 	}
