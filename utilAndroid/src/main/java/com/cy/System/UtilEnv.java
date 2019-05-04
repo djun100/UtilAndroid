@@ -491,4 +491,18 @@ public class UtilEnv {
 				.getSystemService(Context.LOCATION_SERVICE);
 		return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
+
+	public static String getMemInfo() {
+
+		//最大分配内存获取方法2
+		double maxMemory = Runtime.getRuntime().maxMemory() * 1.0 / (1024 * 1024);
+		//当前分配的总内存
+		double totalMemory = Runtime.getRuntime().totalMemory() * 1.0 / (1024 * 1024);
+		//剩余内存
+		double freeMemory = Runtime.getRuntime().freeMemory() * 1.0 / (1024 * 1024);
+		String result = String.format("maxMemory: %s\n" +
+				"totalMemory: %s\n" +
+				"freeMemory: %s",maxMemory,totalMemory,freeMemory);
+		return result;
+	}
 }
