@@ -2,6 +2,8 @@ package com.cy.view;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -27,5 +29,23 @@ public class UtilEdittext {
     public static void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static abstract class OnTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            onTextChanged(s.toString());
+        }
+
+        public abstract void onTextChanged(String after);
     }
 }

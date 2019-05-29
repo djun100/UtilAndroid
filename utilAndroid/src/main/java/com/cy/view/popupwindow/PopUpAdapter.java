@@ -13,16 +13,24 @@ import java.util.List;
 
 public class PopUpAdapter extends BaseRecyclerAdapter<PopupItem> {
     private OnItemClickListener mOnItemClickListener;
+    UtilPopup mUtilPopup;
     public interface OnItemClickListener{
-        void onItemClick(int postion);
+        void onItemClick(int position);
     }
-    public PopUpAdapter(RecyclerView recyclerView, @Nullable List<PopupItem> data) {
+    public PopUpAdapter(UtilPopup utilPopup,RecyclerView recyclerView, @Nullable List<PopupItem> data) {
         super(recyclerView, data);
+        mUtilPopup=utilPopup;
     }
 
-    public PopUpAdapter(RecyclerView recyclerView, @Nullable List<PopupItem> data, OnItemClickListener onItemClickListener) {
+    public PopUpAdapter(UtilPopup utilPopup,RecyclerView recyclerView, @Nullable List<PopupItem> data, OnItemClickListener onItemClickListener) {
         super(recyclerView, data);
         mOnItemClickListener = onItemClickListener;
+        mUtilPopup=utilPopup;
+    }
+
+    public PopUpAdapter setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+        return this;
     }
 
     @Override
@@ -35,6 +43,7 @@ public class PopUpAdapter extends BaseRecyclerAdapter<PopupItem> {
             helper.getItemView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mUtilPopup.dismiss();
                     mOnItemClickListener.onItemClick(pos);
                 }
             });

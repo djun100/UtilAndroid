@@ -43,6 +43,7 @@ public class UtilPopup extends EasyPopup<UtilPopup> {
 
     private List<PopupItem> mPopupItems=new ArrayList<>();
     private PopUpAdapter.OnItemClickListener mOnItemClickListener;
+    private PopUpAdapter mPopUpAdapter;
     private UtilPopup() {
     }
 
@@ -67,6 +68,12 @@ public class UtilPopup extends EasyPopup<UtilPopup> {
 
     public UtilPopup setOnItemClickListener(PopUpAdapter.OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
+        mPopUpAdapter.setOnItemClickListener(mOnItemClickListener);
+        return this;
+    }
+
+    public UtilPopup setPopUpAdapter(PopUpAdapter popUpAdapter) {
+        mPopUpAdapter = popUpAdapter;
         return this;
     }
 
@@ -75,7 +82,7 @@ public class UtilPopup extends EasyPopup<UtilPopup> {
         View view= LayoutInflater.from(UtilContext.getContext()).inflate(R.layout.popupwindow,null);
         RecyclerView recyclerView=view.findViewById(R.id.mRecyclerView);
         recyclerView.addItemDecoration(HorizontalItemDecoration.Builder.create().build());
-        new PopUpAdapter(recyclerView,easyPopup.getPopupItems());
+        easyPopup.setPopUpAdapter(new PopUpAdapter(easyPopup,recyclerView,easyPopup.getPopupItems()));
         easyPopup.setContentView(view);
         return easyPopup;
     }

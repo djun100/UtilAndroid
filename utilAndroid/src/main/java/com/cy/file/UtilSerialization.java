@@ -1,4 +1,4 @@
-package com.cy.File;
+package com.cy.file;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 
 import android.util.Log;
 
-import com.cy.System.UtilEnv;
+import com.cy.system.UtilEnv;
 import com.cy.io.UtilIO;
 
 /**1、Java 序列化和反序列化的两个端，被序列化对象的类所处的包名必须一致<br>

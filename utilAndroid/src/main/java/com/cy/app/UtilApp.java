@@ -49,23 +49,6 @@ public class UtilApp {
         android.os.Process.killProcess(android.os.Process.myPid());//如果不加，最后不会提示完成、打开。
     }
 
-    /**获取进程名
-     * @return
-     */
-    public static String getProcessName() {
-        try {
-            File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
-            BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
-            String processName = mBufferedReader.readLine().trim();
-            mBufferedReader.close();
-            return processName;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
     /**
      * 启动App
      */
@@ -168,78 +151,6 @@ public class UtilApp {
         Uri uri = Uri.parse("package:" + activity.getPackageName());
         Intent mIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri);
         activity.startActivity(mIntent);
-    }
-
-    /**
-     * 返回当前程序版本名 android:versionName="flyTV 0.5.0"
-     */
-    public static String getAppVersionName(Context context) {
-        String versionName = "";
-        int versioncode;
-        try {
-            // ---get the package info---
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versionName = pi.versionName;
-            versioncode = pi.versionCode;
-            if (versionName == null || versionName.length() <= 0) {
-                return "";
-            }
-        } catch (Exception e) {
-            Log.e("VersionInfo", "Exception", e);
-        }
-        return versionName;
-    }
-
-    public static String getVersionName(Activity context) throws Exception {
-        // 获取packagemanager的实例
-        PackageManager packageManager = context.getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = packageManager.getPackageInfo(
-                context.getPackageName(), 0);
-        String version = packInfo.versionName;
-        return version;
-    }
-
-    private static Signature getSelfSignature(){
-        try {
-            PackageInfo packageInfo = UtilContext.getContext().getPackageManager().getPackageInfo(UtilContext.getContext().getPackageName(), PackageManager.GET_SIGNATURES);
-            Signature[] signs = packageInfo.signatures;
-            return signs[0];
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**得到本app签名md5值
-     * @return
-     */
-    public static String getSignatureMD5(){
-        String signMd5 = UtilMD5.getMessageDigest(getSelfSignature().toByteArray());
-        return signMd5;
-    }
-
-    public static HashMap<String ,String> getSignatureInfo() {
-        HashMap<String,String> hashMap=new HashMap<String,String>();
-        try {
-            CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-            X509Certificate cert = (X509Certificate) certFactory
-                    .generateCertificate(new ByteArrayInputStream(getSelfSignature().toByteArray()));
-            String pubKey = cert.getPublicKey().toString();
-            String signNumber = cert.getSerialNumber().toString();
-//			com.cy.app.Log.writeW("signName:" + cert.getSigAlgName());//算法名称
-//			com.cy.app.Log.writeW("pubKey:" + pubKey);//很长的一串公钥
-//			com.cy.app.Log.writeW("signNumber:" + signNumber);//签名序列号
-//			com.cy.app.Log.writeW("subjectDN:"+cert.getSubjectDN().toString());//所有者信息
-            hashMap.put("algName",cert.getSigAlgName());//算法名称
-            hashMap.put("pubKey",pubKey);//很长的一串公钥
-            hashMap.put("serialNumber",signNumber);//签名序列号
-            hashMap.put("subjectDN",cert.getSubjectDN().toString());//所有者信息
-        } catch (CertificateException e) {
-            e.printStackTrace();
-        }
-        return hashMap;
     }
 
 }

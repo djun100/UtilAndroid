@@ -2,6 +2,8 @@ package com.cy.app;
 
 import android.util.Log;
 
+import java.util.Formatter;
+
 /**
  * Created by cy on 2017/12/31.
  */
@@ -32,10 +34,14 @@ public class TestLog {
         String lineNumber = String
                 .valueOf(stackTraceElement[currentIndex].getLineNumber());
 
-        Log.w("(" + className + ".java:" + lineNumber + ")", msg);
-        Log.w("(" + className + ".java:" + lineNumber + ")"+methodName+"()", msg);
-        Log.w("(" + className + ".java:" + lineNumber + ")", "(" + className + ".java:" + lineNumber + ")"
-                +"(" + className + ".java:" + lineNumber + ")");
+        String head = new Formatter()
+                .format("%s.%s(%s:%s)", fullClassName, methodName, className+".java", lineNumber).toString();
+        Log.w(head,msg);
+        Log.w(":",head+":"+msg);
+        Log.w("(" + fullClassName + ".java:" + lineNumber + ")", msg);
+        Log.w("(" + fullClassName + ".java:" + lineNumber + ")"+methodName+"()", msg);
+        Log.w("(" + fullClassName + ".java:" + lineNumber + ")", "(" + fullClassName + ".java:" + lineNumber + ")"
+                +"(" + fullClassName + ".java:" + lineNumber + ")");
 
     }
 }

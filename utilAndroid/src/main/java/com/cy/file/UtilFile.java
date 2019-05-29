@@ -1,4 +1,4 @@
-package com.cy.File;
+package com.cy.file;
 
 import android.content.Context;
 import android.os.Environment;
@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -623,33 +624,6 @@ public class UtilFile {
         }
     }
 
-    /**
-     * 获取文件夹大小
-     * @param file File实例
-     * @return long
-     */
-    public static long getFolderSize(java.io.File file) {
-
-        long size = 0;
-        try {
-            java.io.File[] fileList = file.listFiles();
-            for (int i = 0; i < fileList.length; i++) {
-                if (fileList[i].isDirectory()) {
-                    size = size + getFolderSize(fileList[i]);
-
-                } else {
-                    size = size + fileList[i].length();
-
-                }
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //return size/1048576;
-        return size;
-    }
-
     /**非递归遍历文件夹，有的用linkedlist，在此用stack，由二叉树非递归遍历衍生而来
      * @param file  文件夹
      * @param suffix    后缀名
@@ -689,5 +663,96 @@ public class UtilFile {
 
         }
         return filesRlt;
+    }
+
+
+    public static long getTotalCacheSize(Context context) throws Exception {
+        long cacheSize = getFolderSize(context.getCacheDir());
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            cacheSize += getFolderSize(context.getExternalCacheDir());
+        }
+//        return getFormatSize(cacheSize);
+        return cacheSize;
+    }
+
+
+
+    public static void clearAllCache(Context context) {
+        deleteDir(context.getCacheDir());
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            deleteDir(context.getExternalCacheDir());
+        }
+    }
+
+    private static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
+
+    // 获取文件
+    //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
+    //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
+    public static long getFolderSize(File file) throws Exception {
+        long size = 0;
+        try {
+            File[] fileList = file.listFiles();
+            for (int i = 0; i < fileList.length; i++) {
+                // 如果下面还有文件
+                if (fileList[i].isDirectory()) {
+                    size = size + getFolderSize(fileList[i]);
+                } else {
+                    size = size + fileList[i].length();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+    /**
+     * 格式化单位
+     *
+     * @param size
+     * @return
+     */
+    public static String getFormatSize(double size) {
+        double kiloByte = size / 1024;
+        if (kiloByte < 1) {
+//            return size + "Byte";
+            return "0K";
+        }
+
+        double megaByte = kiloByte / 1024;
+        if (megaByte < 1) {
+            BigDecimal result1 = new BigDecimal(Double.toString(kiloByte));
+            return result1.setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .toPlainString() + "KB";
+        }
+
+        double gigaByte = megaByte / 1024;
+        if (gigaByte < 1) {
+            BigDecimal result2 = new BigDecimal(Double.toString(megaByte));
+            return result2.setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .toPlainString() + "MB";
+        }
+
+        double teraBytes = gigaByte / 1024;
+        if (teraBytes < 1) {
+            BigDecimal result3 = new BigDecimal(Double.toString(gigaByte));
+            return result3.setScale(2, BigDecimal.ROUND_HALF_UP)
+                    .toPlainString() + "GB";
+        }
+        BigDecimal result4 = new BigDecimal(teraBytes);
+        return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
+                + "TB";
     }
 }

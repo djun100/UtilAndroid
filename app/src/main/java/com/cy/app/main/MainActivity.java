@@ -13,10 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.cy.File.UtilFile;
+import com.cy.file.UtilFile;
 import com.cy.app.BaseAct;
 import com.cy.app.DemoDialogFragment;
 import com.cy.app.R;
+import com.cy.app.TestLog;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilToast;
 import com.cy.view.UtilViewStyle;
@@ -37,7 +38,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        TestLog.showLog("呵呵");
     }
 
     @Override
@@ -78,7 +79,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
                     mbtnResult.setEnabled(!mbtnResult.isEnabled());
 
 //                    writeFile2();
-//                    TestLog.showLog("呵呵");
+                    TestLog.showLog("呵呵");
 //                    com.cy.io.Log.w("呵呵");
                 }else if (v==mbtnResult){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

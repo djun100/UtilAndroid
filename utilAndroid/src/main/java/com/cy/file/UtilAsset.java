@@ -1,4 +1,4 @@
-package com.cy.File;
+package com.cy.file;
 
 import android.support.annotation.RawRes;
 

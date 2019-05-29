@@ -1,27 +1,41 @@
-package com.cy.System;
+package com.cy.system;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.Signature;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cy.app.UtilContext;
+import com.cy.security.UtilMD5;
 import com.cy.utils.UtilReflect;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -504,5 +518,124 @@ public class UtilEnv {
 				"totalMemory: %s\n" +
 				"freeMemory: %s",maxMemory,totalMemory,freeMemory);
 		return result;
+	}
+
+
+	/**获取进程名
+	 * @return
+	 */
+	public static String getProcessName() {
+		try {
+			File file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+			BufferedReader mBufferedReader = new BufferedReader(new FileReader(file));
+			String processName = mBufferedReader.readLine().trim();
+			mBufferedReader.close();
+			return processName;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
+	/**
+	 * 返回当前程序版本名 android:versionName="flyTV 0.5.0"
+	 */
+	public static String getAppVersionName(Context context) {
+		String versionName = "";
+		int versioncode;
+		try {
+			// ---get the package info---
+			PackageManager pm = context.getPackageManager();
+			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+			versionName = pi.versionName;
+			versioncode = pi.versionCode;
+			if (versionName == null || versionName.length() <= 0) {
+				return "";
+			}
+		} catch (Exception e) {
+			Log.e("VersionInfo", "Exception", e);
+		}
+		return versionName;
+	}
+
+	public static String getVersionName(Activity context) throws Exception {
+		// 获取packagemanager的实例
+		PackageManager packageManager = context.getPackageManager();
+		// getPackageName()是你当前类的包名，0代表是获取版本信息
+		PackageInfo packInfo = packageManager.getPackageInfo(
+				context.getPackageName(), 0);
+		String version = packInfo.versionName;
+		return version;
+	}
+
+	private static Signature getSelfSignature(){
+		try {
+			PackageInfo packageInfo = UtilContext.getContext().getPackageManager().getPackageInfo(UtilContext.getContext().getPackageName(), PackageManager.GET_SIGNATURES);
+			Signature[] signs = packageInfo.signatures;
+			return signs[0];
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**得到本app签名md5值
+	 * @return
+	 */
+	public static String getSignatureMD5(){
+		String signMd5 = UtilMD5.getMessageDigest(getSelfSignature().toByteArray());
+		return signMd5;
+	}
+
+	public static HashMap<String ,String> getSignatureInfo() {
+		HashMap<String,String> hashMap=new HashMap<String,String>();
+		try {
+			CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+			X509Certificate cert = (X509Certificate) certFactory
+					.generateCertificate(new ByteArrayInputStream(getSelfSignature().toByteArray()));
+			String pubKey = cert.getPublicKey().toString();
+			String signNumber = cert.getSerialNumber().toString();
+//			com.cy.app.Log.writeW("signName:" + cert.getSigAlgName());//算法名称
+//			com.cy.app.Log.writeW("pubKey:" + pubKey);//很长的一串公钥
+//			com.cy.app.Log.writeW("signNumber:" + signNumber);//签名序列号
+//			com.cy.app.Log.writeW("subjectDN:"+cert.getSubjectDN().toString());//所有者信息
+			hashMap.put("algName",cert.getSigAlgName());//算法名称
+			hashMap.put("pubKey",pubKey);//很长的一串公钥
+			hashMap.put("serialNumber",signNumber);//签名序列号
+			hashMap.put("subjectDN",cert.getSubjectDN().toString());//所有者信息
+		} catch (CertificateException e) {
+			e.printStackTrace();
+		}
+		return hashMap;
+	}
+
+	/**获取签名的SHA1
+	 */
+	public static String getSHA1() {
+		Context context=UtilContext.getContext();
+		try {
+			PackageInfo info = context.getPackageManager().getPackageInfo(
+					context.getPackageName(), PackageManager.GET_SIGNATURES);
+			byte[] cert = info.signatures[0].toByteArray();
+			MessageDigest md = MessageDigest.getInstance("SHA1");
+			byte[] publicKey = md.digest(cert);
+			StringBuffer hexString = new StringBuffer();
+			for (int i = 0; i < publicKey.length; i++) {
+				String appendString = Integer.toHexString(0xFF & publicKey[i])
+						.toUpperCase(Locale.US);
+				if (appendString.length() == 1)
+					hexString.append("0");
+				hexString.append(appendString);
+				hexString.append(":");
+			}
+			String result = hexString.toString();
+			return result.substring(0, result.length()-1);
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

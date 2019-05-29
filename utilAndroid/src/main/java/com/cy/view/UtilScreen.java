@@ -1,16 +1,13 @@
 package com.cy.view;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Window;
 import android.view.WindowManager;
 
-import com.cy.System.UtilEnv;
 import com.cy.app.UtilContext;
 
 /**将dip转换成px<br>

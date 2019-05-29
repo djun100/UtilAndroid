@@ -1,4 +1,4 @@
-package com.cy.System;
+package com.cy.system;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
