@@ -37,6 +37,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 用于评论模块分享位置信息 -->
     <application>
+        <activity android:name="com.cy.file.SelectFileActivity" />
         <!--fileProvider，调用系统拍照返回图片需要加-->
         <provider
             android:name="android.support.v4.content.FileProvider"
