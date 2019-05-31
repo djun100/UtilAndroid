@@ -9,8 +9,10 @@ import android.util.Log;
 import com.cy.data.UtilString;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +23,7 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -29,25 +32,41 @@ import java.util.Stack;
  */
 public class UtilFile {
 
-
-    public static String read_UTF8_FileContent(File file) {
-        String str = null;
+    /**
+     * 功能：Java读取txt文件的内容 步骤：1：先获得文件句柄 2：获得文件句柄当做是输入一个字节码流，需要对这个输入流进行读取
+     * 3：读取到输入流后，需要读取生成字节流 4：一行一行的输出。readline()。 备注：需要考虑的是异常情况
+     *
+     * @param filePath
+     *            文件路径[到达文件:如： D:\aa.txt]
+     * @return 将这个文件按照每一行切割成数组存放到list中。
+     */
+    public static List<String> readUtf8FileContent(String filePath) {
+        List<String> list = new ArrayList<String>();
         try {
-            InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "UTF-8");
-            StringBuffer sbread = new StringBuffer();
-            while (isr.ready()) {
-                sbread.append((char) isr.read());
+            String encoding = "UTF-8";
+            File file = new File(filePath);
+            if (file.isFile() && file.exists()) { // 判断文件是否存在
+                InputStreamReader read = new InputStreamReader(
+                        new FileInputStream(file), encoding);// 考虑到编码格式
+                BufferedReader bufferedReader = new BufferedReader(read);
+                String lineTxt = null;
+
+                while ((lineTxt = bufferedReader.readLine()) != null) {
+                    list.add(lineTxt);
+                }
+                bufferedReader.close();
+                read.close();
+            } else {
+                System.out.println("找不到指定的文件");
             }
-            isr.close();
-            // 从构造器中生成字符串，并替换搜索文本
-            str = sbread.toString();
         } catch (Exception e) {
+            System.out.println("读取文件内容出错");
             e.printStackTrace();
         }
-        return str;
+        return list;
     }
 
-    public static void write_UTF8_FileContent(File file, String content) {
+    public static void writeUtf8FileContent(File file, String content) {
         try {
             OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
             out.write(content.toCharArray());
