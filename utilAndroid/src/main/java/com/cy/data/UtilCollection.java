@@ -307,4 +307,12 @@ public class UtilCollection {
             map.putAll(mapToBeAdded);
         }
     }
-}  
+
+    public static <K,V> String toString(Map<K,V> map){
+        StringBuilder sb=new StringBuilder();
+        for (Map.Entry<K,V> entry : map.entrySet()) {
+            sb.append("key:"+entry.getKey()+" value:"+entry.getValue());
+        }
+        return sb.toString();
+    }
+}

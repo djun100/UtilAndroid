@@ -6,6 +6,7 @@ import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.cy.data.UtilCollection;
 import com.cy.data.UtilString;
 
 import java.io.BufferedInputStream;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -40,8 +42,8 @@ public class UtilFile {
      *            文件路径[到达文件:如： D:\aa.txt]
      * @return 将这个文件按照每一行切割成数组存放到list中。
      */
-    public static List<String> readUtf8FileContent(String filePath) {
-        List<String> list = new ArrayList<String>();
+    public static String readUtf8FileContent(String filePath) {
+        StringBuilder sb = new StringBuilder();
         try {
             String encoding = "UTF-8";
             File file = new File(filePath);
@@ -52,7 +54,7 @@ public class UtilFile {
                 String lineTxt = null;
 
                 while ((lineTxt = bufferedReader.readLine()) != null) {
-                    list.add(lineTxt);
+                    sb.append(lineTxt);
                 }
                 bufferedReader.close();
                 read.close();
@@ -63,7 +65,13 @@ public class UtilFile {
             System.out.println("读取文件内容出错");
             e.printStackTrace();
         }
-        return list;
+        return sb.toString();
+    }
+
+    public static List<String> readUtf8FileContents(String filePath) {
+        String content = readUtf8FileContent(filePath);
+        String[] tempContents=content.split("\n");
+        return Arrays.asList(tempContents);
     }
 
     public static void writeUtf8FileContent(File file, String content) {
