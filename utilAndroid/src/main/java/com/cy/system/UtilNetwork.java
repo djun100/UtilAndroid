@@ -4,7 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
+import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
+
+import com.cy.app.UtilContext;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -17,45 +20,33 @@ import java.util.regex.Pattern;
 
 /**
  * 网络工具类
- *
- * @author jingle1267@163.com
  */
 public final class UtilNetwork {
 
-    /**
-     * 判断网络连接是否打开,包括移动数据连接
+    /** <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+     * 判断网络是否已连接
      *
-     * @param context 上下文
-     * @return 是否联网
+     * @return 是否已联网
      */
-    public static boolean isNetworkAvailable(Context context) {
-        boolean netstate = false;
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-
-                        netstate = true;
-                        break;
-                    }
-                }
-            }
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    public static boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) UtilContext.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (null != networkInfo && networkInfo.isConnected()) {
+            return true;
         }
-        return netstate;
+        return false;
     }
 
-    /**
+    /** <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
      * 检测当前打开的网络类型是否WIFI
      *
      * @param context 上下文
      * @return 是否是Wifi上网
      */
-    public static boolean isWifi(Context context) {
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    public static boolean isWifiOpened(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
@@ -63,27 +54,45 @@ public final class UtilNetwork {
                 && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
-    /**
-     * 只是判断WIFI
-     *
-     * @param context 上下文
-     * @return 是否打开Wifi
+    /** <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+     * @return
      */
-    public static boolean isWiFi(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        State wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                .getState();
-        return wifi == State.CONNECTED || wifi == State.CONNECTING;
-
+    @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+    private boolean isWIFIConnected() {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) UtilContext.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (null != connectivityManager) {
+            NetworkInfo networkInfo = connectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);//判断网络类型是否是3G时，用TYPE_MOBILE即可
+            if (null != networkInfo && networkInfo.isConnected()) {
+                return true;
+            }
+        }
+        return false;
     }
 
+
     /**
-     * IP地址校验
-     *
-     * @param ip 待校验是否是IP地址的字符串
-     * @return 是否是IP地址
+     * 判断是否是手机网络，非wifi
+     * @param context
+     * @return
      */
+    public static boolean isMobileNetWork(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkINfo = cm.getActiveNetworkInfo();
+        if (networkINfo != null && networkINfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+            return true;
+        }
+        return false;
+    }
+
+        /**
+         * IP地址校验
+         *
+         * @param ip 待校验是否是IP地址的字符串
+         * @return 是否是IP地址
+         */
     public static boolean isIP(String ip) {
         Pattern pattern = Pattern
                 .compile("\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b");
@@ -106,65 +115,6 @@ public final class UtilNetwork {
                     .pow(256, power)));
         }
         return num;
-    }
-
-    /**
-     * 枚举网络状态 NET_NO：没有网络 NET_2G:2g网络 NET_3G：3g网络 NET_4G：4g网络 NET_WIFI：wifi
-     * NET_UNKNOWN：未知网络
-     */
-    public enum NetState {
-        NET_NO, NET_2G, NET_3G, NET_4G, NET_WIFI, NET_UNKNOWN
-    }
-
-    /**
-     * 判断当前是否网络连接
-     *
-     * @param context 上下文
-     * @return 状态码
-     */
-    public NetState isConnected(Context context) {
-        NetState stateCode = NetState.NET_NO;
-        ConnectivityManager cm = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni != null && ni.isConnectedOrConnecting()) {
-            switch (ni.getType()) {
-                case ConnectivityManager.TYPE_WIFI:
-                    stateCode = NetState.NET_WIFI;
-                    break;
-                case ConnectivityManager.TYPE_MOBILE:
-                    switch (ni.getSubtype()) {
-                        case TelephonyManager.NETWORK_TYPE_GPRS: // 联通2g
-                        case TelephonyManager.NETWORK_TYPE_CDMA: // 电信2g
-                        case TelephonyManager.NETWORK_TYPE_EDGE: // 移动2g
-                        case TelephonyManager.NETWORK_TYPE_1xRTT:
-                        case TelephonyManager.NETWORK_TYPE_IDEN:
-                            stateCode = NetState.NET_2G;
-                            break;
-                        case TelephonyManager.NETWORK_TYPE_EVDO_A: // 电信3g
-                        case TelephonyManager.NETWORK_TYPE_UMTS:
-                        case TelephonyManager.NETWORK_TYPE_EVDO_0:
-                        case TelephonyManager.NETWORK_TYPE_HSDPA:
-                        case TelephonyManager.NETWORK_TYPE_HSUPA:
-                        case TelephonyManager.NETWORK_TYPE_HSPA:
-                        case TelephonyManager.NETWORK_TYPE_EVDO_B:
-                        case TelephonyManager.NETWORK_TYPE_EHRPD:
-                        case TelephonyManager.NETWORK_TYPE_HSPAP:
-                            stateCode = NetState.NET_3G;
-                            break;
-                        case TelephonyManager.NETWORK_TYPE_LTE:
-                            stateCode = NetState.NET_4G;
-                            break;
-                        default:
-                            stateCode = NetState.NET_UNKNOWN;
-                    }
-                    break;
-                default:
-                    stateCode = NetState.NET_UNKNOWN;
-            }
-
-        }
-        return stateCode;
     }
 
     /**
