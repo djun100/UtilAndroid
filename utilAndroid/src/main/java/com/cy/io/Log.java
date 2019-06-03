@@ -107,7 +107,7 @@ public class Log extends ALog {
      * @param e
      * @return
      */
-    public static String getStackTraceStr(Exception e){
+    public static String getStackTraceStr(Throwable e){
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         return sw.toString();
