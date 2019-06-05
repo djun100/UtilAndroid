@@ -397,14 +397,24 @@ public class UtilFile {
     /**
      * 显示SD卡剩余空间
      */
-    public static String showFileAvailable() {
+    public static String getSDAvailableSize() {
+        String result = "";
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            StatFs sf = new StatFs(Environment.getExternalStorageDirectory().getPath());
+            long blockSize = sf.getBlockSize();
+            long availCount = sf.getAvailableBlocks();
+            return showFileSize(availCount * blockSize,null);
+        }
+        return result;
+    }
+
+    public static String getSDSize(){
         String result = "";
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             StatFs sf = new StatFs(Environment.getExternalStorageDirectory().getPath());
             long blockSize = sf.getBlockSize();
             long blockCount = sf.getBlockCount();
-            long availCount = sf.getAvailableBlocks();
-            return showFileSize(availCount * blockSize,null) + " / " + showFileSize(blockSize * blockCount,"");
+            return showFileSize(blockSize * blockCount,"");
         }
         return result;
     }
