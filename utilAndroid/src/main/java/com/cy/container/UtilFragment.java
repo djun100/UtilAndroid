@@ -9,10 +9,23 @@ public class UtilFragment {
 	 * @param fragment
 	 * @param fragmentActivity
 	 */
-	public static void replaceFragment(int container,Fragment fragment,String tag,FragmentActivity fragmentActivity){
+	private static void replaceFragment(int container, Fragment fragment, String tag, FragmentActivity fragmentActivity){
 		fragmentActivity.getSupportFragmentManager().beginTransaction().replace(container, fragment,tag).commit();
 	}
-	public static void replaceFragment(int container,Fragment fragment,FragmentActivity fragmentActivity){
+
+	private static void replaceFragment(int container, Fragment fragment, FragmentActivity fragmentActivity){
 		replaceFragment(container,fragment,"",fragmentActivity);
+	}
+
+	public static void hideFragment(Fragment fragment, FragmentActivity fragmentActivity){
+		fragmentActivity.getSupportFragmentManager().beginTransaction().hide(fragment).commit();
+	}
+
+	public static void showFragment(int container, Fragment fragment, FragmentActivity fragmentActivity){
+		if (fragment.isAdded()){
+			fragmentActivity.getSupportFragmentManager().beginTransaction().show(fragment).commit();
+		}else {
+			replaceFragment(container, fragment, fragmentActivity);
+		}
 	}
 }

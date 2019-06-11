@@ -15,17 +15,14 @@ public class ViewPagerChild extends ViewPager{
 
     public ViewPagerChild(Context context, AttributeSet attrs) {
         super(context, attrs);
-        // TODO Auto-generated constructor stub
     }
 
     public ViewPagerChild(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        // TODO Auto-generated method stub
         //当拦截触摸事件到达此位置的时候，返回true，
         //说明将onTouch拦截在此控件，进而执行此控件的onTouchEvent
         return true;
@@ -33,7 +30,6 @@ public class ViewPagerChild extends ViewPager{
 
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
-        // TODO Auto-generated method stub
         //每次进行onTouch事件都记录当前的按下的坐标
         curP.x = arg0.getX();
         curP.y = arg0.getY();
