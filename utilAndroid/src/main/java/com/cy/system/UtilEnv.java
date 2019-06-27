@@ -11,7 +11,9 @@ import android.content.pm.Signature;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,6 +37,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -55,43 +58,8 @@ public class UtilEnv {
 	public static final String OS_HUAWEI="OS_HUAWEI";//华为系统
 
 	/**
-	 * 手机型号
-	 */
-	public static String PRODUCT = android.os.Build.PRODUCT;
-	/**
-	 * 
-	 */
-	public static String CPU_ABI = android.os.Build.CPU_ABI;
-	/**
-	 * 
-	 */
-	public static String TAGS = android.os.Build.TAGS;
-	/**
-	 * 
-	 */
-	public static String MODEL = android.os.Build.MODEL;
-	/**
-	 * 手机sdk版本 eg:16
-	 */
-	public static String SDK = android.os.Build.VERSION.SDK;
-	/**
-	 * 
-	 */
-	public static String DEVICE = android.os.Build.DEVICE;
-	/**
-	 * 
-	 */
-	public static String DISPLAY = android.os.Build.DISPLAY;
-	/**
-	 * 手机系统版本 eg: 4.1.2
-	 */
-	public static String VERSION_RELEASE = android.os.Build.VERSION.RELEASE;
-
-	public static String FINGERPRINT = android.os.Build.FINGERPRINT;
-
-	/**
 	 * @return Product: GT-I9220, 手机型号 <br>
-	 *         CPU_ABI: armeabi-v7a, 手机cpu<br>
+	 *         CPU_ABI: [arm64-v8a, armeabi-v7a, armeabi], 手机cpu，第一个是推荐的<br>
 	 *         TAGS: release-keys, <br>
 	 *         VERSION_CODES.BASE: 1,<br>
 	 *         MODEL: GT-I9220, <br>
@@ -108,9 +76,10 @@ public class UtilEnv {
 	 *         MANUFACTURER: samsung, <br>
 	 *         USER: se.infra<br>
 	 */
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 	public static String getPhoneInfo() {
 		String phoneInfo = "Product: " + android.os.Build.PRODUCT;
-		phoneInfo += ", CPU_ABI: " + android.os.Build.CPU_ABI;
+		phoneInfo += ", CPU_ABI: " + Arrays.toString(android.os.Build.SUPPORTED_ABIS);
 		phoneInfo += ", TAGS: " + android.os.Build.TAGS;
 		phoneInfo += ", VERSION_CODES.BASE: "
 				+ android.os.Build.VERSION_CODES.BASE;
@@ -241,7 +210,7 @@ public class UtilEnv {
 	 */
 	public static String getImei(Context context) {
 		return ((TelephonyManager) context
-				.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+				.getSystemService(Context.TELEPHONY_SERVICE)).getImei(0);
 	}
 
 

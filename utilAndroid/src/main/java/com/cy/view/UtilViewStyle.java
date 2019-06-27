@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -322,9 +323,9 @@ public class UtilViewStyle {
         gd_background_disable = new GradientDrawable();
 
         try {
-            ColorDrawable colorDrawable = (ColorDrawable) view.getBackground();
-            if (colorDrawable!=null){
-                backgroundColor = colorDrawable.getColor();
+            Drawable drawable = view.getBackground();//如果是button的话可能是rippleDrawable
+            if (drawable !=null && drawable instanceof ColorDrawable){
+                backgroundColor = ((ColorDrawable) drawable).getColor();
             }
         } catch (Exception e) {
             e.printStackTrace();
