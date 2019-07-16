@@ -6,6 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.cy.app.UtilContext;
+import com.cy.system.statusbar.UtilStatusBar;
 
 public class UtilActivity {
     /**intent是否可以成功跳转，是否有目标组件接收
@@ -28,5 +29,17 @@ public class UtilActivity {
         //隐去状态栏部分(电池等图标和一切修饰部分)
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    public static void setTransparentStatusBar(Activity activity,boolean darkMode){
+        Window window = activity.getWindow();
+        // 设置状态栏背景透明
+        UtilStatusBar.transparentStatusBar(window);
+        // 设置图标主题
+        if (darkMode) {
+            UtilStatusBar.setDarkMode(window);
+        }else {
+            UtilStatusBar.setLightMode(window);
+        }
     }
 }
