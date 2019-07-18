@@ -11,7 +11,7 @@
     <Button
         android:textColor="#fff"
         android:background="@android:color/darker_gray"
-        android:id="@+id/mtv"
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
@@ -20,24 +20,30 @@
     <Button
         android:tag="-click"
 
-        android:id="@+id/mbtn"
+        android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mtv"
+        android:layout_below="@+id/tv"
         android:layout_marginTop="16dp"
-        android:layout_toEndOf="@+id/mtv"
-        android:layout_toRightOf="@+id/mtv"
+        android:layout_toEndOf="@+id/tv"
+        android:layout_toRightOf="@+id/tv"
         android:text="Button"
         />
 
     <Button
-        android:id="@+id/mbtnShow"
+        android:id="@+id/btnShow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:text="testMVP"
-        android:id="@+id/mbtnTestMVP"
+        android:id="@+id/btnTestMVP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnStyledView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="StyledView" />
 </LinearLayout>

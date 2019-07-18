@@ -13,11 +13,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.cy.file.UtilFile;
 import com.cy.app.BaseAct;
 import com.cy.app.DemoDialogFragment;
 import com.cy.app.R;
+import com.cy.app.StyledViewActivity;
 import com.cy.app.TestLog;
+import com.cy.file.UtilFile;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilToast;
 import com.cy.view.UtilViewStyle;
@@ -26,18 +27,32 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
-    private static final String TAG=MainActivity.class.getSimpleName();
-    private Button mbtnResult;
-    private View.OnClickListener mOnClickListener;
-    private Button mbtn;
-    private Button mbtnShow;
-    private Button mbtnTestMVP;
+public class MainActivity extends BaseAct<MainPresenter> implements IMainView, View.OnClickListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
+
+    /**
+     * Hello World!
+     */
+    private Button mTv;
+    /**
+     * Button
+     */
+    private Button mBtn;
+    private Button mBtnShow;
+    /**
+     * testMVP
+     */
+    private Button mBtnTestMVP;
+    /**
+     * StyledView
+     */
+    private Button mBtnStyledView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
         TestLog.showLog("呵呵");
     }
 
@@ -53,12 +68,18 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
 
 
     private void initView() {
-        mbtnShow=findViewById(R.id.mbtnShow);
-        mbtnResult = (Button) findViewById(R.id.mtv);
-        mbtn = (Button) findViewById(R.id.mbtn);
-        mbtnTestMVP = (Button) findViewById(R.id.mbtnTestMVP);
+        mTv = findViewById(R.id.tv);
+        mTv.setOnClickListener(this);
+        mBtn = findViewById(R.id.btn);
+        mBtn.setOnClickListener(this);
+        mBtnShow = findViewById(R.id.btnShow);
+        mBtnShow.setOnClickListener(this);
+        mBtnTestMVP = findViewById(R.id.btnTestMVP);
+        mBtnTestMVP.setOnClickListener(this);
+        mBtnStyledView = findViewById(R.id.btnStyledView);
+        mBtnStyledView.setOnClickListener(this);
 
-        UtilViewStyle.view(mbtnResult)
+        UtilViewStyle.view(mBtn)
 //                .setRippleEnable(true)
                 .setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright))
                 .setBackgroundDisableColor(getResources().getColor(android.R.color.darker_gray))
@@ -71,36 +92,10 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
                 .setStartColor(0xffff0000)
                 .setEndColor(0xff0000ff)
                 .apply();
-
-        mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v == mbtn) {
-                    mbtnResult.setEnabled(!mbtnResult.isEnabled());
-
-//                    writeFile2();
-                    TestLog.showLog("呵呵");
-//                    com.cy.io.Log.w("呵呵");
-                }else if (v==mbtnResult){
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        mbtnResult.setBackgroundTintList(ColorStateList.valueOf(0xffff0000));
-                    }
-                }else if (v==mbtnShow){
-                    showDialogFragment();
-
-                }else if (v==mbtnTestMVP){
-                    baseGetPresenter().readData();
-                }
-            }
-        };
-        mbtn.setOnClickListener(mOnClickListener);
-        mbtnResult.setOnClickListener(mOnClickListener);
-        mbtnShow.setOnClickListener(mOnClickListener);
-        mbtnTestMVP.setOnClickListener(mOnClickListener);
     }
 
-    public static void writeFile1(){
-        File file=new File(UtilFile.getSdPath()+"/A.txt");
+    public static void writeFile1() {
+        File file = new File(UtilFile.getSdPath() + "/A.txt");
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -108,7 +103,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
         }
     }
 
-    public void writeFile2(){
+    public void writeFile2() {
         File a = new File(UtilFile.getSdPath() + "/A.txt");
         if (a.exists()) {
 
@@ -119,7 +114,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
                 e.printStackTrace();
             }
         }
-        UtilFile.write_UTF8_FileContent(a, "aaaa");
+        UtilFile.writeUtf8FileContent(a, "aaaa");
     }
 
     public boolean hasPermissions(Activity mActivity) {
@@ -150,14 +145,46 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView{
 
     }
 
-    private void showDialogFragment(){
-        DemoDialogFragment.newInstance().show(getSupportFragmentManager(),"");
+    private void showDialogFragment() {
+        DemoDialogFragment.newInstance().show(getSupportFragmentManager(), "");
     }
 
     public void showToast(String data) {
         UtilToast.showShort(data);
     }
+
     public void showDialog() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.tv:
+                mBtn.setEnabled(!mBtn.isEnabled());
+
+//                    writeFile2();
+                TestLog.showLog("呵呵");
+//                    com.cy.io.Log.w("呵呵");
+
+                break;
+            case R.id.btn:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    mBtnShow.setBackgroundTintList(ColorStateList.valueOf(0xffff0000));
+                }
+
+                break;
+            case R.id.btnShow:
+                showDialogFragment();
+                break;
+            case R.id.btnTestMVP:
+                baseGetPresenter().readData();
+                break;
+            case R.id.btnStyledView:
+                baseStartActivity(StyledViewActivity.class);
+                break;
+        }
     }
 }

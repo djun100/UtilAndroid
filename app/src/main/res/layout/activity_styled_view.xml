@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.cy.view.styled.RoundTextView
+                android:id="@+id/rtv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="TextView Default"
+                android:textColor="#383838"
+                rv:rv_backgroundColor="#ffffff"
+                rv:rv_backgroundPressColor="#383838"
+                rv:rv_strokeColor="#383838"
+                rv:rv_strokeWidth="1dp"
+                rv:rv_textPressColor="#ffffff"/>
+
+            <com.cy.view.styled.RoundTextView
+                android:id="@+id/rtv_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:paddingTop="10dp"
+                android:text="Radius Half Height"
+                android:textColor="#03A9F4"
+                rv:rv_backgroundColor="#ffbb33"
+                rv:rv_backgroundPressColor="@android:color/holo_orange_light"
+                rv:rv_backgroundDisableColor="@android:color/darker_gray"
+                rv:rv_isRadiusHalfHeight="true"
+                rv:rv_isRippleEnable="true"
+                rv:rv_strokeColor="#03A9F4"
+                rv:rv_strokePressColor="#6D8FB0"
+                rv:rv_strokeWidth="1dp"
+                rv:rv_textDisableColor="@android:color/black"
+                rv:rv_textPressColor="@android:color/darker_gray"/>
+        </LinearLayout>
+
+
+        <com.cy.view.styled.RoundTextView
+            android:id="@+id/rtv_3"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:singleLine="true"
+            android:text="TextView Radius 10dpTextView Radius 10dp"
+            android:textColor="#383838"
+            rv:rv_backgroundColor="#F6CE59"
+            rv:rv_cornerRadius="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <com.cy.view.styled.RoundTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Radius TopLeft"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="#DE88A5"
+                rv:rv_cornerRadius_TL="10dp"/>
+
+            <com.cy.view.styled.RoundTextView
+                android:id="@+id/tvRt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Radius TopRight"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="#F08A5D"
+                rv:rv_cornerRadius_TR="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <com.cy.view.styled.RoundTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Radius BottomLeft"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="#4AA0D5"
+                rv:rv_cornerRadius_BL="10dp"/>
+
+            <com.cy.view.styled.RoundTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2.5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Radius BottomRight"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="#7A9EAF"
+                rv:rv_cornerRadius_BR="10dp"/>
+        </LinearLayout>
+
+        <com.cy.view.styled.RoundFrameLayout
+            android:id="@+id/fl"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            rv:rv_isRippleEnable="true"
+            rv:rv_backgroundColor="#009688"
+            rv:rv_cornerRadius="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="FrameLayout"
+                android:textColor="#ffffff"/>
+        </com.cy.view.styled.RoundFrameLayout>
+
+        <com.cy.view.styled.RoundLinearLayout
+            android:id="@+id/ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:textColor="#ffffff"
+            rv:rv_backgroundColor="#E45171"
+            rv:rv_isRippleEnable="false"
+            rv:rv_cornerRadius="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_portrait"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="LinearLayout"
+                android:textColor="#ffffff"/>
+        </com.cy.view.styled.RoundLinearLayout>
+
+        <com.cy.view.styled.RoundRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:textColor="#ffffff"
+            rv:rv_backgroundColor="#655989"
+            rv:rv_isRadiusHalfHeight="true">
+
+            <ImageView
+                android:id="@+id/iv_portrait"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_portrait"
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_portrait"
+                android:text="RelativeLayout"
+                android:textColor="#ffffff"/>
+        </com.cy.view.styled.RoundRelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.cy.view.styled.RoundLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="#6D8FB0"
+                rv:rv_cornerRadius="5dp"
+                rv:rv_isWidthHeightEqual="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_portrait"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Width=Height"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp"/>
+            </com.cy.view.styled.RoundLinearLayout>
+
+            <com.cy.view.styled.RoundLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="18dp"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="#393E46"
+                rv:rv_isRadiusHalfHeight="true"
+                rv:rv_isWidthHeightEqual="true">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_portrait"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Circle"
+                    android:textColor="#ffffff"/>
+            </com.cy.view.styled.RoundLinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

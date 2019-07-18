@@ -16,9 +16,10 @@ import android.widget.TextView;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.cy.app.UtilContext;
 
-/**注意：最后一定要调用apply();容易忘记调用，不调用不生效
+/**
+ * 注意：最后一定要调用apply();容易忘记调用，不调用不生效
  * 推荐使用 api 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'，利于解耦，ui绘制尽量放到xml
- *
+ * <p>
  * extract from https://github.com/H07000223/FlycoRoundView
  * RippleDrawable 知识参考： http://www.jianshu.com/p/0ef14eda6064
  * 使用方法：
@@ -39,7 +40,7 @@ public class UtilViewStyle {
     private View view;
     private float cornerRadius;
     private boolean isRadiusHalfHeight;
-    private int backgroundColor=Integer.MAX_VALUE;
+    private int backgroundColor = Integer.MAX_VALUE;
     private int backgroundPressColor = Integer.MAX_VALUE;
     private int backgroundDisableColor = Integer.MAX_VALUE;
     private int cornerRadius_TL;
@@ -47,7 +48,7 @@ public class UtilViewStyle {
     private int cornerRadius_BL;
     private int cornerRadius_BR;
     private int strokeWidth;
-    private int strokeColor=Integer.MAX_VALUE;
+    private int strokeColor = Integer.MAX_VALUE;
     private int strokePressColor = Integer.MAX_VALUE;
     private int textPressColor = Integer.MAX_VALUE;
     private int textDisableColor = Integer.MAX_VALUE;
@@ -57,10 +58,10 @@ public class UtilViewStyle {
     private int startColor = Integer.MAX_VALUE;
     private int endColor = Integer.MAX_VALUE;
     private GradientDrawable gd_background;
-    private GradientDrawable gd_background_press ;
-    private GradientDrawable gd_background_disable ;
+    private GradientDrawable gd_background_press;
+    private GradientDrawable gd_background_disable;
 
-    public static UtilViewStyle view(View view){
+    public static UtilViewStyle view(View view) {
         return new UtilViewStyle(view);
     }
 
@@ -309,22 +310,21 @@ public class UtilViewStyle {
     }
 
     public void apply() {
-        if (strokePressColor == Integer.MAX_VALUE ){
+        if (strokePressColor == Integer.MAX_VALUE) {
             strokePressColor = strokeColor;
         }
         if (orientation != null && startColor != Integer.MAX_VALUE &&
                 endColor != Integer.MAX_VALUE) {
-            gd_background = new GradientDrawable(orientation,new int[]{startColor,endColor});
-        }else {
+            gd_background = new GradientDrawable(orientation, new int[]{startColor, endColor});
+        } else {
             gd_background = new GradientDrawable();
         }
-        gd_background_press = new GradientDrawable();
         gd_background_press = new GradientDrawable();
         gd_background_disable = new GradientDrawable();
 
         try {
             Drawable drawable = view.getBackground();//如果是button的话可能是rippleDrawable
-            if (drawable !=null && drawable instanceof ColorDrawable){
+            if (drawable != null && drawable instanceof ColorDrawable) {
                 backgroundColor = ((ColorDrawable) drawable).getColor();
             }
         } catch (Exception e) {
@@ -346,46 +346,39 @@ public class UtilViewStyle {
 //                .rippleRoundedCorners(100)//大于某一数值为圆角
                     .create();
 
-
-//            RippleDrawable rippleDrawable = new RippleDrawable(
-//                    ColorStateList.valueOf(Color.GRAY),//灰色波纹
-////						getPressedColorSelector(backgroundColor, backgroundPressColor),
-//                    gd_background,
-//                    null);
-//            view.setBackground(rippleDrawable);
         }
 //         else {
-            //注意该处的顺序，只要有一个状态与之相配，背景就会被换掉,不要把大范围放在前面
-            bg.addState(new int[]{-android.R.attr.state_pressed,android.R.attr.state_enabled}, gd_background);
+        //注意该处的顺序，只要有一个状态与之相配，背景就会被换掉,不要把大范围放在前面
+        bg.addState(new int[]{-android.R.attr.state_pressed, android.R.attr.state_enabled}, gd_background);
 
-            //add press state
-            if (backgroundPressColor != Integer.MAX_VALUE || strokePressColor != Integer.MAX_VALUE) {
-                fillGradientDrawable(gd_background_press,
-                        backgroundPressColor == Integer.MAX_VALUE ? backgroundColor : backgroundPressColor,
-                        strokePressColor == Integer.MAX_VALUE ? strokeColor : strokePressColor);
-                bg.addState(new int[]{android.R.attr.state_pressed}, gd_background_press);
-            }
+        //add press state
+        if (backgroundPressColor != Integer.MAX_VALUE || strokePressColor != Integer.MAX_VALUE) {
+            fillGradientDrawable(gd_background_press,
+                    backgroundPressColor == Integer.MAX_VALUE ? backgroundColor : backgroundPressColor,
+                    strokePressColor == Integer.MAX_VALUE ? strokeColor : strokePressColor);
+            bg.addState(new int[]{android.R.attr.state_pressed}, gd_background_press);
+        }
 
-            addDisableState(bg);
+        addDisableState(bg);
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {//16
-                view.setBackground(bg);
-            } else {
-                //noinspection deprecation
-                view.setBackgroundDrawable(bg);
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {//16
+            view.setBackground(bg);
+        } else {
+            //noinspection deprecation
+            view.setBackgroundDrawable(bg);
+        }
 //        }
 
         if (view instanceof TextView) {
 
             ColorStateList textColors = ((TextView) view).getTextColors();
-            int defaultColor=textColors.getDefaultColor();
+            int defaultColor = textColors.getDefaultColor();
 
             textDisableColor = textDisableColor == Integer.MAX_VALUE ? defaultColor : textDisableColor;
-            textPressColor = textPressColor == Integer.MAX_VALUE ? defaultColor: textPressColor;
+            textPressColor = textPressColor == Integer.MAX_VALUE ? defaultColor : textPressColor;
 
-            ColorStateList  colorStateList = new ColorStateList(
+            ColorStateList colorStateList = new ColorStateList(
                     new int[][]{
                             new int[]{-android.R.attr.state_enabled},
                             new int[]{-android.R.attr.state_pressed},
@@ -403,9 +396,9 @@ public class UtilViewStyle {
 
     private void addDisableState(StateListDrawable bg) {
         //add disable state
-        if (backgroundDisableColor != Integer.MAX_VALUE ) {
+        if (backgroundDisableColor != Integer.MAX_VALUE) {
             fillGradientDrawable(gd_background_disable,
-                    backgroundDisableColor ,
+                    backgroundDisableColor,
                     backgroundDisableColor);
             bg.addState(new int[]{-android.R.attr.state_enabled}, gd_background_disable);
         }
