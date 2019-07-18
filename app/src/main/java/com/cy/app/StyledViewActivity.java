@@ -62,10 +62,10 @@ public class StyledViewActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this, "Click--->RoundTextView_1", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rtv_2:
-                //                rtv_2.setEnabled(false);
                 Toast.makeText(this, "LongClick--->RoundTextView_2", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rtv_3:
+                mRtv2.setEnabled(!mRtv2.isEnabled());
                 RoundViewDelegate delegate = mRtv3.getDelegate();
                 delegate.setBackgroundColor(
                         delegate.getBackgroundColor() == Color.parseColor("#ffffff")

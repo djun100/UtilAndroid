@@ -278,6 +278,34 @@
                     android:text="Circle"
                     android:textColor="#ffffff"/>
             </com.cy.view.styled.RoundLinearLayout>
+
+            <com.cy.view.styled.RoundLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="18dp"
+                android:clickable="true"
+                android:textColor="#ffffff"
+                rv:rv_backgroundColor="@android:color/holo_green_light"
+                rv:rv_isRippleEnable="true"
+                rv:rv_isRippleBorderless="true"
+                >
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/ic_portrait"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="ripple_borderless"
+                    />
+            </com.cy.view.styled.RoundLinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

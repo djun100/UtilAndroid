@@ -10,7 +10,7 @@ public class UtilColor {
     }
 
     public static int colorLightUp(@ColorInt int colorInt) {
-        return colorLightDown(colorInt, 0.2f);
+        return colorLightUp(colorInt, 0.2f);
     }
 
     /**

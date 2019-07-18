@@ -18,6 +18,10 @@ import com.cy.utilandroid.R;
 import com.cy.view.UtilColor;
 
 
+/**
+ * reference：https://www.jianshu.com/p/64a825915da9
+ * https://github.com/CnPeng/CnPengAndroid
+ */
 public class RoundViewDelegate {
     private View view;
     private Context context;
@@ -40,6 +44,7 @@ public class RoundViewDelegate {
     private boolean isRadiusHalfHeight;
     private boolean isWidthHeightEqual;
     private boolean isRippleEnable;
+    private boolean isRippleBorderless;
     private float[] radiusArr = new float[8];
     public RoundViewDelegate(View view, Context context, AttributeSet attrs) {
         this.view = view;
@@ -65,6 +70,7 @@ public class RoundViewDelegate {
         cornerRadius_BL = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BL, 0);
         cornerRadius_BR = ta.getDimensionPixelSize(R.styleable.RoundTextView_rv_cornerRadius_BR, 0);
         isRippleEnable = ta.getBoolean(R.styleable.RoundTextView_rv_isRippleEnable, true);
+        isRippleBorderless = ta.getBoolean(R.styleable.RoundTextView_rv_isRippleBorderless, false);
 
         ta.recycle();
     }
@@ -193,7 +199,7 @@ public class RoundViewDelegate {
 
     public void setBgSelector() {
         if (backgroundPressColor == Integer.MAX_VALUE) {
-            backgroundPressColor = UtilColor.colorLightDown(backgroundColor);
+            backgroundPressColor = UtilColor.colorLightUp(backgroundColor);
         }
         if (strokePressColor == Integer.MAX_VALUE) {
             strokePressColor = strokeColor;
@@ -247,7 +253,12 @@ public class RoundViewDelegate {
             };
             ColorStateList colorStateList = new ColorStateList(stateList, stateColorList);
 
-            RippleDrawable rippleDrawable = new RippleDrawable(colorStateList, listDrawable, null);
+            RippleDrawable rippleDrawable = null;
+            if (isRippleBorderless) {
+                rippleDrawable = new RippleDrawable(colorStateList, null, null);
+            }else {
+                rippleDrawable = new RippleDrawable(colorStateList, listDrawable, null);
+            }
             view.setBackground(rippleDrawable);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {//16
