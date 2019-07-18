@@ -21,6 +21,12 @@ import com.cy.view.UtilColor;
 /**
  * reference：https://www.jianshu.com/p/64a825915da9
  * https://github.com/CnPeng/CnPengAndroid
+ *
+ *  RippleDrawable(colorStateList, content, mask)
+ * 当content为null时,波纹为无界.不为null时为有界
+ * mask: 按照说明,mask是不会被draw的,但是它会限制波纹的边界,如果为null,默认为content的边界,
+ * 同上,当content为null就没有边界了.
+ * https://www.jianshu.com/p/0ef14eda6064
  */
 public class RoundViewDelegate {
     private View view;
@@ -46,6 +52,7 @@ public class RoundViewDelegate {
     private boolean isRippleEnable;
     private boolean isRippleBorderless;
     private float[] radiusArr = new float[8];
+
     public RoundViewDelegate(View view, Context context, AttributeSet attrs) {
         this.view = view;
         this.context = context;
@@ -256,7 +263,7 @@ public class RoundViewDelegate {
             RippleDrawable rippleDrawable = null;
             if (isRippleBorderless) {
                 rippleDrawable = new RippleDrawable(colorStateList, null, null);
-            }else {
+            } else {
                 rippleDrawable = new RippleDrawable(colorStateList, listDrawable, null);
             }
             view.setBackground(rippleDrawable);
