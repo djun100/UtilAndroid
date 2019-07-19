@@ -2,23 +2,23 @@ package com.cy.view.styled;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
-/** 用于需要圆角矩形框背景的RelativeLayout的情况,减少直接使用RelativeLayout时引入的shape资源文件 */
-public class RoundRelativeLayout extends RelativeLayout {
-    private RoundViewDelegate delegate;
+/** 用于需要圆角矩形框背景的FrameLayout的情况,减少直接使用FrameLayout时引入的shape资源文件 */
+public class StyledFrameLayout extends FrameLayout {
+    private StyledViewDelegate delegate;
 
-    public RoundRelativeLayout(Context context) {
+    public StyledFrameLayout(Context context) {
         this(context, null);
     }
 
-    public RoundRelativeLayout(Context context, AttributeSet attrs) {
+    public StyledFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        delegate = new RoundViewDelegate(this, context, attrs);
+        delegate = new StyledViewDelegate(this, context, attrs);
     }
 
     /** use delegate to set attr */
-    public RoundViewDelegate getDelegate() {
+    public StyledViewDelegate getDelegate() {
         return delegate;
     }
 

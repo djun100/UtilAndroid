@@ -21,7 +21,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.cy.view.styled.RoundTextView
+            <com.cy.view.styled.StyledTextView
                 android:id="@+id/rtv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 rv:rv_strokeWidth="1dp"
                 rv:rv_textPressColor="#ffffff"/>
 
-            <com.cy.view.styled.RoundTextView
+            <com.cy.view.styled.StyledTextView
                 android:id="@+id/rtv_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         </LinearLayout>
 
 
-        <com.cy.view.styled.RoundTextView
+        <com.cy.view.styled.StyledTextView
             android:id="@+id/rtv_3"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <com.cy.view.styled.RoundTextView
+            <com.cy.view.styled.StyledTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2.5dp"
@@ -96,7 +96,7 @@
                 rv:rv_backgroundColor="#DE88A5"
                 rv:rv_cornerRadius_TL="10dp"/>
 
-            <com.cy.view.styled.RoundTextView
+            <com.cy.view.styled.StyledTextView
                 android:id="@+id/tvRt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
 
-            <com.cy.view.styled.RoundTextView
+            <com.cy.view.styled.StyledTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2.5dp"
@@ -130,7 +130,7 @@
                 rv:rv_backgroundColor="#4AA0D5"
                 rv:rv_cornerRadius_BL="10dp"/>
 
-            <com.cy.view.styled.RoundTextView
+            <com.cy.view.styled.StyledTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2.5dp"
@@ -143,7 +143,7 @@
                 rv:rv_cornerRadius_BR="10dp"/>
         </LinearLayout>
 
-        <com.cy.view.styled.RoundFrameLayout
+        <com.cy.view.styled.StyledFrameLayout
             android:id="@+id/fl"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -159,9 +159,9 @@
                 android:layout_gravity="center"
                 android:text="FrameLayout"
                 android:textColor="#ffffff"/>
-        </com.cy.view.styled.RoundFrameLayout>
+        </com.cy.view.styled.StyledFrameLayout>
 
-        <com.cy.view.styled.RoundLinearLayout
+        <com.cy.view.styled.StyledLinearLayout
             android:id="@+id/ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -189,9 +189,9 @@
                 android:layout_marginTop="2dp"
                 android:text="LinearLayout"
                 android:textColor="#ffffff"/>
-        </com.cy.view.styled.RoundLinearLayout>
+        </com.cy.view.styled.StyledLinearLayout>
 
-        <com.cy.view.styled.RoundRelativeLayout
+        <com.cy.view.styled.StyledRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -219,7 +219,7 @@
                 android:layout_toRightOf="@+id/iv_portrait"
                 android:text="RelativeLayout"
                 android:textColor="#ffffff"/>
-        </com.cy.view.styled.RoundRelativeLayout>
+        </com.cy.view.styled.StyledRelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,7 +227,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.cy.view.styled.RoundLinearLayout
+            <com.cy.view.styled.StyledLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -251,9 +251,9 @@
                     android:text="Width=Height"
                     android:textColor="#ffffff"
                     android:textSize="10sp"/>
-            </com.cy.view.styled.RoundLinearLayout>
+            </com.cy.view.styled.StyledLinearLayout>
 
-            <com.cy.view.styled.RoundLinearLayout
+            <com.cy.view.styled.StyledLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -277,9 +277,9 @@
                     android:layout_marginTop="2dp"
                     android:text="Circle"
                     android:textColor="#ffffff"/>
-            </com.cy.view.styled.RoundLinearLayout>
+            </com.cy.view.styled.StyledLinearLayout>
 
-            <com.cy.view.styled.RoundLinearLayout
+            <com.cy.view.styled.StyledLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -305,7 +305,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="ripple_borderless"
                     />
-            </com.cy.view.styled.RoundLinearLayout>
+            </com.cy.view.styled.StyledLinearLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

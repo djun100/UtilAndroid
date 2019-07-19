@@ -2,31 +2,23 @@ package com.cy.view.styled;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
-/**
- * 用于需要圆角矩形框背景的TextView的情况,减少直接使用TextView时引入的shape资源文件
- */
-public class RoundTextView extends TextView {
-    private RoundViewDelegate delegate;
+/** 用于需要圆角矩形框背景的LinearLayout的情况,减少直接使用LinearLayout时引入的shape资源文件 */
+public class StyledLinearLayout extends LinearLayout {
+    private StyledViewDelegate delegate;
 
-    public RoundTextView(Context context) {
+    public StyledLinearLayout(Context context) {
         this(context, null);
     }
 
-    public RoundTextView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    public StyledLinearLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        delegate = new StyledViewDelegate(this, context, attrs);
     }
 
-    public RoundTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        delegate = new RoundViewDelegate(this, context, attrs);
-    }
-
-    /**
-     * use delegate to set attr
-     */
-    public RoundViewDelegate getDelegate() {
+    /** use delegate to set attr */
+    public StyledViewDelegate getDelegate() {
         return delegate;
     }
 
@@ -44,7 +36,7 @@ public class RoundTextView extends TextView {
         super.onLayout(changed, left, top, right, bottom);
         if (delegate.isRadiusHalfHeight()) {
             delegate.setCornerRadius(getHeight() / 2);
-        } else {
+        }else {
             delegate.setBgSelector();
         }
     }

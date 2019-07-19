@@ -59,7 +59,7 @@
     <!-- Ripple是否无界,api21+有效-->
     <attr name="rv_isRippleBorderless" format="boolean"/>
 
-    <declare-styleable name="RoundTextView">
+    <declare-styleable name="StyledTextView">
         <attr name="rv_backgroundColor"/>
         <attr name="rv_backgroundPressColor"/>
         <attr name="rv_backgroundDisableColor"/>
@@ -79,7 +79,7 @@
         <attr name="rv_isRippleBorderless"/>
     </declare-styleable>
 
-    <declare-styleable name="RoundLinearLayout">
+    <declare-styleable name="StyledLinearLayout">
         <attr name="rv_backgroundColor"/>
         <attr name="rv_backgroundPressColor"/>
         <attr name="rv_backgroundDisableColor"/>
@@ -97,7 +97,7 @@
         <attr name="rv_isRippleBorderless"/>
     </declare-styleable>
 
-    <declare-styleable name="RoundRelativeLayout">
+    <declare-styleable name="StyledRelativeLayout">
         <attr name="rv_backgroundColor"/>
         <attr name="rv_backgroundPressColor"/>
         <attr name="rv_backgroundDisableColor"/>
@@ -115,7 +115,7 @@
         <attr name="rv_isRippleBorderless"/>
     </declare-styleable>
 
-    <declare-styleable name="RoundFrameLayout">
+    <declare-styleable name="StyledFrameLayout">
         <attr name="rv_backgroundColor"/>
         <attr name="rv_backgroundPressColor"/>
         <attr name="rv_backgroundDisableColor"/>

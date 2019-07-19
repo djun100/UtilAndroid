@@ -2,23 +2,31 @@ package com.cy.view.styled;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 
-/** 用于需要圆角矩形框背景的FrameLayout的情况,减少直接使用FrameLayout时引入的shape资源文件 */
-public class RoundFrameLayout extends FrameLayout {
-    private RoundViewDelegate delegate;
+/**
+ * 用于需要圆角矩形框背景的TextView的情况,减少直接使用TextView时引入的shape资源文件
+ */
+public class StyledTextView extends TextView {
+    private StyledViewDelegate delegate;
 
-    public RoundFrameLayout(Context context) {
+    public StyledTextView(Context context) {
         this(context, null);
     }
 
-    public RoundFrameLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        delegate = new RoundViewDelegate(this, context, attrs);
+    public StyledTextView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    /** use delegate to set attr */
-    public RoundViewDelegate getDelegate() {
+    public StyledTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        delegate = new StyledViewDelegate(this, context, attrs);
+    }
+
+    /**
+     * use delegate to set attr
+     */
+    public StyledViewDelegate getDelegate() {
         return delegate;
     }
 
@@ -36,7 +44,7 @@ public class RoundFrameLayout extends FrameLayout {
         super.onLayout(changed, left, top, right, bottom);
         if (delegate.isRadiusHalfHeight()) {
             delegate.setCornerRadius(getHeight() / 2);
-        }else {
+        } else {
             delegate.setBgSelector();
         }
     }

@@ -6,30 +6,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.cy.view.styled.RoundFrameLayout;
-import com.cy.view.styled.RoundLinearLayout;
-import com.cy.view.styled.RoundTextView;
-import com.cy.view.styled.RoundViewDelegate;
+import com.cy.view.styled.StyledFrameLayout;
+import com.cy.view.styled.StyledLinearLayout;
+import com.cy.view.styled.StyledTextView;
+import com.cy.view.styled.StyledViewDelegate;
 
 public class StyledViewActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * TextView Default
      */
-    private RoundTextView mRtv1;
+    private StyledTextView mRtv1;
     /**
      * Radius Half Height
      */
-    private RoundTextView mRtv2;
+    private StyledTextView mRtv2;
     /**
      * TextView Radius 10dpTextView Radius 10dp
      */
-    private RoundTextView mRtv3;
+    private StyledTextView mRtv3;
     /**
      * Radius TopRight
      */
-    private RoundTextView mTvRt;
-    private RoundFrameLayout mFl;
-    private RoundLinearLayout mLl;
+    private StyledTextView mTvRt;
+    private StyledFrameLayout mFl;
+    private StyledLinearLayout mLl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class StyledViewActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.rtv_3:
                 mRtv2.setEnabled(!mRtv2.isEnabled());
-                RoundViewDelegate delegate = mRtv3.getDelegate();
+                StyledViewDelegate delegate = mRtv3.getDelegate();
                 delegate.setBackgroundColor(
                         delegate.getBackgroundColor() == Color.parseColor("#ffffff")
                                 ? Color.parseColor("#F6CE59") : Color.parseColor("#ffffff"));
