@@ -4,8 +4,14 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.cy.view.styled.StyledFrameLayout;
 import com.cy.view.styled.StyledLinearLayout;
 import com.cy.view.styled.StyledTextView;
@@ -30,12 +36,36 @@ public class StyledViewActivity extends AppCompatActivity implements View.OnClic
     private StyledTextView mTvRt;
     private StyledFrameLayout mFl;
     private StyledLinearLayout mLl;
+    private ImageView mIvGlide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_styled_view);
         initView();
+
+
+        String url="http://lorempixel.com/400/200/sports/1/";
+        RequestOptions options = new RequestOptions()
+                .bitmapTransform(new GlideRoundBorderTransform(30)
+                        .setBorder(3, 0xffff0000))
+                .diskCacheStrategy(DiskCacheStrategy.DATA);
+        Glide.with(this)
+                .load(url)
+                .apply(options)
+                .placeholder(R.mipmap.ic_launcher)
+                .fallback(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                //默认淡入淡出动画
+                .transition(DrawableTransitionOptions.withCrossFade())
+                //缓存策略,跳过内存缓存【此处应该设置为false，否则列表刷新时会闪一下】
+                .skipMemoryCache(false)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                //设置图片加载的优先级
+//                .priority(Priority.HIGH)
+                .into(mIvGlide);
+
+
     }
 
     private void initView() {
@@ -51,6 +81,7 @@ public class StyledViewActivity extends AppCompatActivity implements View.OnClic
         mFl.setOnClickListener(this);
         mLl = findViewById(R.id.ll);
         mLl.setOnClickListener(this);
+        mIvGlide = findViewById(R.id.ivGlide);
     }
 
     @Override
