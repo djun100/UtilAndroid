@@ -17,7 +17,13 @@ public abstract class BaseMVPActivity<T extends BasePresenter> extends BaseHostA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mPresenter = UtilType.getTypeInstance(this,0);
+        try {
+            mPresenter = UtilType.getTypeInstance(this,0);
+        } catch (Exception e) {
+            //未提供presenter泛型的activity会报如下错误
+            // java.lang.ClassCastException: java.lang.Class cannot be cast to java.lang.reflect.ParameterizedType
+//            e.printStackTrace();
+        }
         if (mPresenter !=null) {
             mPresenter.attach(BaseMVPActivity.this, this);
         }

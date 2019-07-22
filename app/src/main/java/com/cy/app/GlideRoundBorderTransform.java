@@ -3,6 +3,7 @@ package com.cy.app;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
@@ -68,8 +69,8 @@ public class GlideRoundBorderTransform extends BitmapTransformation {
             Paint paint = new Paint();
             paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
             paint.setAntiAlias(true);
-
-            RectF rectF = new RectF(0f, 0f, source.getWidth(), source.getHeight());
+            paint.setShadowLayer(5, 15, 20, Color.GREEN);
+            RectF rectF = new RectF(0f, 0f, source.getWidth()-20, source.getHeight()-20);
             canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint);
 
         }

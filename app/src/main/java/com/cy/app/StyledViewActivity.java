@@ -48,7 +48,8 @@ public class StyledViewActivity extends AppCompatActivity implements View.OnClic
         String url="http://lorempixel.com/400/200/sports/1/";
         RequestOptions options = new RequestOptions()
                 .bitmapTransform(new GlideRoundBorderTransform(30)
-                        .setBorder(3, 0xffff0000))
+//                        .setBorder(3, 0xffff0000)
+                )
                 .diskCacheStrategy(DiskCacheStrategy.DATA);
         Glide.with(this)
                 .load(url)
