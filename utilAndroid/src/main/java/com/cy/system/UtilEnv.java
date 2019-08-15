@@ -1,9 +1,14 @@
 package com.cy.system;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AppOpsManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -13,10 +18,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cy.app.UtilContext;
 import com.cy.security.UtilMD5;
@@ -38,6 +45,8 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -462,6 +471,97 @@ public class UtilEnv {
 					.toString());
 		}
 		return listResult;
+	}
+
+	/**
+	 * 方法1：通过使用UsageStatsManager获取，此方法是ndroid5.0A之后提供的API
+	 * 必须：
+	 * 1. 此方法只在android5.0以上有效
+	 * 2. AndroidManifest中加入此权限
+	 * <uses-permission xmlns:tools="http://schemas.android.com/tools"
+	 * android:name="android.permission.PACKAGE_USAGE_STATS"
+	 * tools:ignore="ProtectedPermissions" />
+	 * 3. 打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾
+	 *
+	 * @param context     上下文参数
+	 * @param packageName 需要检查是否位于栈顶的App的包名
+	 * @return
+	 */
+
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public static boolean isForeground(Context context, String packageName) {
+		class RecentUseComparator implements Comparator<UsageStats> {
+			@Override
+			public int compare(UsageStats lhs, UsageStats rhs) {
+				return (lhs.getLastTimeUsed() > rhs.getLastTimeUsed()) ?
+						-1 : (lhs.getLastTimeUsed() == rhs.getLastTimeUsed()) ? 0 : 1;
+			}
+		}
+		RecentUseComparator mRecentComp = new RecentUseComparator();
+		long ts = System.currentTimeMillis();
+		UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+		List<UsageStats> usageStats =
+				mUsageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, ts - 1000 * 10, ts);
+		if (usageStats == null || usageStats.size() == 0) {
+			if (HavaPermissionForTest(context) == false) {
+				Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intent);
+				Toast.makeText(context, "权限不够\n请打开手机设置，点击安全-高级，在有权查看使用情况的应用中，为这个App打上勾", Toast.LENGTH_SHORT).show();
+			}
+			return false;
+		}
+
+		Collections.sort(usageStats, mRecentComp);
+		String currentTopPackage = usageStats.get(0).getPackageName();
+		if (currentTopPackage.equals(packageName)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 判断是否有用权限
+	 *
+	 * @param context 上下文参数
+	 */
+	@TargetApi(Build.VERSION_CODES.KITKAT)
+	private static boolean HavaPermissionForTest(Context context) {
+		try {
+			PackageManager packageManager = context.getPackageManager();
+			ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
+			AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+			int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName);
+			return (mode == AppOpsManager.MODE_ALLOWED);
+		} catch (PackageManager.NameNotFoundException e) {
+			return true;
+		}
+	}
+
+	/**
+	 * 方法2：通过Android自带的无障碍功能，监控窗口焦点的变化，进而拿到当前焦点窗口对应的包名
+	 * 必须：
+	 * 1. 创建ACCESSIBILITY SERVICE INFO 属性文件
+	 * 2. 注册 DETECTION SERVICE 到 ANDROIDMANIFEST.XML
+	 *
+	 * @param context
+	 * @param packageName
+	 * @return
+	 */
+	public static boolean getFromAccessibilityService(Context context, String packageName) {
+		if (DetectService.isAccessibilitySettingsOn(context) == true) {
+			DetectService detectService = DetectService.getInstance();
+			String foreground = detectService.getForegroundPackage();
+			Log.d("wenming", "**方法五** 当前窗口焦点对应的包名为： =" + foreground);
+			return packageName.equals(foreground);
+		} else {
+			Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
+//            Toast.makeText(context, R.string.accessbiliityNo, Toast.LENGTH_SHORT).show();
+			return false;
+		}
 	}
 
 	/**

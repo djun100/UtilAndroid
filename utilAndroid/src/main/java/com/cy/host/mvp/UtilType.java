@@ -13,7 +13,6 @@ public class UtilType {
             Class<T> tClass = (Class<T>)type;
             return tClass.newInstance();
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return null;
     }
