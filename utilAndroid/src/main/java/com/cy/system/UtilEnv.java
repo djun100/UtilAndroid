@@ -66,6 +66,16 @@ public class UtilEnv {
 	public static final String OS_MEIZU ="OS_MEIZU";//魅族系统
 	public static final String OS_HUAWEI="OS_HUAWEI";//华为系统
 
+	/**eg:Build.VERSION_CODES.KITKAT
+	 * @return
+	 */
+	public static boolean isSysVersionEqualOrOver(int sdkInt){
+		if (Build.VERSION.SDK_INT >= sdkInt) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * @return Product: GT-I9220, 手机型号 <br>
 	 *         CPU_ABI: [arm64-v8a, armeabi-v7a, armeabi], 手机cpu，第一个是推荐的<br>
