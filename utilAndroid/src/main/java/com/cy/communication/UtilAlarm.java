@@ -18,7 +18,8 @@ import java.util.Map;
  */
 public class UtilAlarm {
     //开启轮询服务
-    public static <V> void controlService(int seconds, Class<?> service, String action, Map<String,V> map, boolean isEnable,boolean isTriggerImmediately) {
+    public static <V> void controlService(int seconds, Class<?> service, String action, Map<String,V> map,
+                                          boolean isEnable,boolean isTriggerImmediately) {
         Context context= UtilContext.getContext();
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 

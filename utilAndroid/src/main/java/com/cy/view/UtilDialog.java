@@ -14,6 +14,7 @@ import com.cy.utilandroid.R;
 /**
  * AlertDialog：Dialog的子类，宽度无法填充，自带取消、确定按钮，内容列表项，标题，标题图标，内容
  * Dialog：宽度可以填充，无取消确定按钮
+ * https://www.jianshu.com/p/b48da813acf5 自定义view样式竖线分隔按钮
  */
 public class UtilDialog {
 
@@ -39,6 +40,9 @@ public class UtilDialog {
         private int confirmRes;
         private int cancelRes;
         private int iconRes;
+        /**
+         *需要申请悬浮窗权限
+         */
         private boolean isOutOfActivity;
         private View view;
         private DialogInterface.OnClickListener positiveListener;
@@ -73,6 +77,10 @@ public class UtilDialog {
         }
 
 
+        /**需要申请悬浮窗权限
+         * @param outOfActivity
+         * @return
+         */
         public AlertDialogBuilder setIsOutOfActivity(boolean outOfActivity) {
             isOutOfActivity = outOfActivity;
             return this;

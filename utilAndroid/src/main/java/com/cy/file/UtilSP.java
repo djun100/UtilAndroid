@@ -46,10 +46,10 @@ public class UtilSP {
 			editor.putBoolean(key, (Boolean)object);
 		}
 		else if("Float".equals(type)){
-			editor.putFloat(type, (Float)object);
+			editor.putFloat(key, (Float)object);
 		}
 		else if("Long".equals(type)){
-			editor.putLong(type, (Long)object);
+			editor.putLong(key, (Long)object);
 		}
 		
 		editor.commit();
@@ -79,9 +79,9 @@ public class UtilSP {
 		} else if ("Boolean".equals(type)) {
 			return (T) new Boolean(sp.getBoolean(key, (Boolean) defaultObject));
 		} else if ("Float".equals(type)) {
-			return (T) new Float(sp.getFloat(type, (Float) defaultObject));
+			return (T) new Float(sp.getFloat(key, (Float) defaultObject));
 		} else if ("Long".equals(type)) {
-			return (T) new Long(sp.getLong(type, (Long) defaultObject));
+			return (T) new Long(sp.getLong(key, (Long) defaultObject));
 		}
 		
 		return defaultObject;
