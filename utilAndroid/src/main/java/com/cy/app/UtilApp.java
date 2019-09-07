@@ -5,27 +5,16 @@ import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.pm.Signature;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
+import android.text.TextUtils;
 
-import com.cy.security.UtilMD5;
+import com.cy.io.Log;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -153,4 +142,35 @@ public class UtilApp {
         activity.startActivity(mIntent);
     }
 
+    public static String getPkgName(int pid) {
+        String topProcessName = getProcessNameByPid(UtilContext.getContext(), pid);
+        Log.d("processChanged. pid=" + pid + " pName=" + topProcessName);
+        if (TextUtils.isEmpty(topProcessName)) {
+            Log.d("start active pkg is null");
+            return null;
+        }
+        int index = topProcessName.indexOf(":");
+        if (index > 0) {
+            topProcessName = topProcessName.substring(0, index);
+        }
+        return topProcessName;
+    }
+
+    private static String getProcessNameByPid(Context context, int pid) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List list = activityManager.getRunningAppProcesses();
+        Iterator i = list.iterator();
+        while (i.hasNext()) {
+            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+            try {
+                if (info.pid == pid) {
+                    // 根据进程的信息获取当前进程的名字
+                    return info.processName;
+                }
+            } catch (Exception e) {
+                Log.d("getAppNameByPid:", e);
+            }
+        }
+        return "";
+    }
 }
