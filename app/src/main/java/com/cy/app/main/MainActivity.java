@@ -2,6 +2,7 @@ package com.cy.app.main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
@@ -22,6 +23,7 @@ import com.cy.file.UtilFile;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilToast;
 import com.cy.view.UtilViewStyle;
+import com.socks.sample.LogActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -168,7 +170,8 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
 //                    writeFile2();
                 TestLog.showLog("呵呵");
 //                    com.cy.io.Log.w("呵呵");
-
+                Intent intent=new Intent(this, LogActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

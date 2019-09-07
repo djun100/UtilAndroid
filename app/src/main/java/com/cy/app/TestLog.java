@@ -12,7 +12,7 @@ public class TestLog {
 
     public static void showLogUseLogUtil(){
         com.cy.io.Log.w("呵呵");
-        com.cy.io.Log.w(1,"parent stack 呵呵");
+//        com.cy.io.Log.w(1,"parent stack 呵呵");
     }
 
     public static void showLog(String msg){
@@ -35,13 +35,12 @@ public class TestLog {
                 .valueOf(stackTraceElement[currentIndex].getLineNumber());
 
         String head = new Formatter()
-                .format("%s.%s(%s:%s)", fullClassName, methodName, className+".java", lineNumber).toString();
+                .format("(%s:%s)#%s", className+".java", lineNumber,methodName+methodName+methodName+methodName+methodName).toString();
         Log.w(head,msg);
-        Log.w(":",head+":"+msg);
-        Log.w("(" + fullClassName + ".java:" + lineNumber + ")", msg);
-        Log.w("(" + fullClassName + ".java:" + lineNumber + ")"+methodName+"()", msg);
-        Log.w("(" + fullClassName + ".java:" + lineNumber + ")", "(" + fullClassName + ".java:" + lineNumber + ")"
-                +"(" + fullClassName + ".java:" + lineNumber + ")");
+        Log.w("(" + className + ".java:" + lineNumber + ")", msg);
+        Log.w("(" + className + ".java:" + lineNumber + ")"+methodName+"()", msg);
+        Log.w("(" + className + ".java:" + lineNumber + ")", "(" + className + ".java:" + lineNumber + ")"
+                +"(" + className + ".java:" + lineNumber + ")");
 
     }
 }

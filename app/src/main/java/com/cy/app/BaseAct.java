@@ -15,7 +15,7 @@ public abstract class BaseAct<T extends BasePresenter> extends BaseMVPActivity<T
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("大发发\n大姐夫");
-        Log.d(0,"大发发\n大姐夫");
+        Log.d("mytag","大发发\n大姐夫");
+//        Log.d(0,"大发发\n大姐夫");
     }
 }
