@@ -337,6 +337,10 @@ public class UtilDate {
 		return getTimeDiff(begin.getTime(),end.getTime());
 	}
 
+	public static TimeDiffBean getTimeDiff(Calendar calendarBegin, Calendar calendarEnd) {
+		return getTimeDiff(calendarBegin.getTimeInMillis(),calendarEnd.getTimeInMillis());
+	}
+
 	/**计算时间差
 	 * @param begin
 	 * @param end
