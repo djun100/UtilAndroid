@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,11 +19,14 @@ import com.cy.app.DemoDialogFragment;
 import com.cy.app.R;
 import com.cy.app.StyledViewActivity;
 import com.cy.app.TestLog;
+import com.cy.app.log.LogActivity;
+import com.cy.data.UtilArray;
 import com.cy.file.UtilFile;
+import com.cy.io.Log;
+import com.cy.system.UtilShell;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilToast;
 import com.cy.view.UtilViewStyle;
-import com.socks.sample.LogActivity;
 
 import java.io.File;
 import java.io.IOException;
