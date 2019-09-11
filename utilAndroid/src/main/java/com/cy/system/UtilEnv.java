@@ -94,10 +94,12 @@ public class UtilEnv {
 	 *         ID: JZO54K, <br>
 	 *         MANUFACTURER: samsung, <br>
 	 *         USER: se.infra<br>
+	 *         HARDWARE: qcom<br>
 	 */
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 	public static String getPhoneInfo() {
 		String phoneInfo = "Product: " + android.os.Build.PRODUCT;
+		phoneInfo += ", ID: " + android.os.Build.ID;
 		phoneInfo += ", CPU_ABI: " + Arrays.toString(android.os.Build.SUPPORTED_ABIS);
 		phoneInfo += ", TAGS: " + android.os.Build.TAGS;
 		phoneInfo += ", VERSION_CODES.BASE: "
@@ -110,9 +112,10 @@ public class UtilEnv {
 		phoneInfo += ", BRAND: " + android.os.Build.BRAND;
 		phoneInfo += ", BOARD: " + android.os.Build.BOARD;
 		phoneInfo += ", FINGERPRINT: " + android.os.Build.FINGERPRINT;
-		phoneInfo += ", ID: " + android.os.Build.ID;
+
 		phoneInfo += ", MANUFACTURER: " + android.os.Build.MANUFACTURER;
 		phoneInfo += ", USER: " + android.os.Build.USER;
+		phoneInfo += ", HARDWARE: " + android.os.Build.HARDWARE;
 		return phoneInfo;
 
 	}

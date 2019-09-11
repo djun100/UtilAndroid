@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Message
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -20,7 +21,7 @@ import com.loopj.android.http.TextHttpResponseHandler
 
 import cz.msebera.android.httpclient.Header
 
-class LogActivity : AppCompatActivity() {
+class LogActivity : FragmentActivity() {
     private var httpClient: AsyncHttpClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +37,7 @@ class LogActivity : AppCompatActivity() {
         val toolbar = findViewById<View>(R.id.toolBar) as Toolbar
         if (toolbar != null) {
             toolbar.setTitleTextColor(Color.WHITE)
-            setSupportActionBar(toolbar)
+//            setSupportActionBar(toolbar)
         }
     }
 
