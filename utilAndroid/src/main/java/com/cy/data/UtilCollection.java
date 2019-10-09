@@ -239,6 +239,29 @@ public class UtilCollection {
         });
     }
 
+    public static <T> T getByField(List<T> list,String fieldStr,Object value){
+        if (isEmpty(list)) return null;
+        Field field = null;
+        try {
+            field = list.get(0).getClass().getDeclaredField(fieldStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        field.setAccessible(true);
+
+        for (T t:list){
+            try {
+                Object obj = field.get(t);
+                if ((obj == null && value == null) || obj.toString().equals(value.toString())) {
+                    return t;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public static <T> Set convert(List<T> list){
         if (isEmpty(list)) return null;
 

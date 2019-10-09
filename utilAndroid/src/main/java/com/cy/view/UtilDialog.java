@@ -18,12 +18,20 @@ import com.cy.utilandroid.R;
  */
 public class UtilDialog {
 
+    /**
+     * @param context 创建dialog的上下文，如果只需要在activity内显示，则上下文需要设置为activity，如果需要可以脱离activity显示，则可以传application级别上下文
+     * @return
+     */
     public static AlertDialogBuilder newAlertDialogBuilder(Context context){
         AlertDialogBuilder alertDialogBuilder =new AlertDialogBuilder();
         alertDialogBuilder.context=context;
         return alertDialogBuilder;
     }
 
+    /**
+     * @param context 创建dialog的上下文，如果只需要在activity内显示，则上下文需要设置为activity，如果需要可以脱离activity显示，则可以传application级别上下文
+     * @return
+     */
     public static DialogBuilder newDialogBuilder(Context context){
         DialogBuilder dialogBuilder=new DialogBuilder();
         dialogBuilder.context=context;

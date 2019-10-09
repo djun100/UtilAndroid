@@ -2,12 +2,20 @@ package com.cy.system;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
+import android.net.NetworkRequest;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 
 import com.cy.app.UtilContext;
+import com.cy.io.KLog;
+import com.cy.view.UtilToast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -160,4 +168,55 @@ public final class UtilNetwork {
         }
     }
 
+    private static boolean isNetWorkListenerRegistered;
+    private static ConnectivityManager.NetworkCallback sNetworkCallback;
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void listenNetWorkChanged() {
+        if (isNetWorkListenerRegistered ==false){
+            isNetWorkListenerRegistered = true;
+            final ConnectivityManager cm = (ConnectivityManager) UtilContext.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            cm.requestNetwork(new NetworkRequest.Builder().build(), getNetworkCallback());
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void unListenNetWorkChanged() {
+        if (isNetWorkListenerRegistered) {
+            isNetWorkListenerRegistered = false;
+            final ConnectivityManager cm = (ConnectivityManager) UtilContext.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            try {
+                cm.unregisterNetworkCallback(getNetworkCallback());
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private static ConnectivityManager.NetworkCallback getNetworkCallback(){
+        if (sNetworkCallback == null){
+            sNetworkCallback = new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onLost(Network network) {
+                    super.onLost(network);
+                    ///网络不可用的情况下的方法
+                }
+
+                @Override
+                public void onAvailable(Network network) {
+                    super.onAvailable(network);
+                    ///网络可用的情况下的方法
+                    final ConnectivityManager cm = (ConnectivityManager) UtilContext.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo info = cm.getActiveNetworkInfo();
+                    // WiFi 连接
+                    if (info != null && info.getType() == ConnectivityManager.TYPE_WIFI) {
+                    }
+                    // 手机信号连接
+                    else if (info != null && info.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    }
+                }
+            };
+        }
+        return sNetworkCallback;
+    }
 }

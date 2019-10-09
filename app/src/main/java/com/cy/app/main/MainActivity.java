@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -59,6 +60,9 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         setContentView(R.layout.activity_main);
         initView();
         TestLog.showLog("呵呵");
+        String ANDROID_ID = Settings.System.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        Log.i("ANDROID_ID :"+ANDROID_ID );
+        UtilToast.showLong(ANDROID_ID);
     }
 
     @Override
