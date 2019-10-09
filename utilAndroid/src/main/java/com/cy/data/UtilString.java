@@ -4,6 +4,7 @@ import android.support.annotation.StringRes;
 
 import com.cy.app.UtilContext;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -212,5 +213,21 @@ public class UtilString {
 
     public static String repeat(String toRepeat,int time){
         return new String(new char[time]).replace("\0", toRepeat);
+    }
+
+    public static String formatNum(Number num, int digitAfterPoint) {
+        if (digitAfterPoint < 0) {
+            digitAfterPoint = 0;
+        }
+        StringBuilder digitSb = new StringBuilder();
+        for (int i = 0; i < digitAfterPoint; i++) {
+            digitSb.append("#");
+        }
+        String format = digitAfterPoint > 0 ? "0." + digitSb.toString() : "0";
+        return new DecimalFormat(format).format(num);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(formatNum(10.5,0));
     }
 }
