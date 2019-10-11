@@ -117,20 +117,24 @@ public abstract class BaseHostActivity extends FragmentActivity{
 		}
 	}
 
+	private OnShowExitAppHintListener mOnShowExitAppHintListener;
 	/**开关双击退出程序功能
-	 * @param b
 	 */
-	public void baseEnableExitAppByDoubleBack(boolean b){
-		isEnableExitAppByDobbleClick = b;
+	public void baseEnableExitAppByDoubleBack(OnShowExitAppHintListener onShowExitAppHintListener){
+		isEnableExitAppByDobbleClick = true;
+		mOnShowExitAppHintListener = onShowExitAppHintListener;
 	}
 	private static Boolean isQuit = false;
 	private static Timer timer;
 
+	protected interface OnShowExitAppHintListener{
+		void onShowExitAppHint();
+	}
 
 	private void baseExitAppByDobleClick() {
 		if (isQuit == false) {
 			isQuit = true;
-			Toast.makeText(this, "再次点击确定退出软件", Toast.LENGTH_SHORT).show();
+			mOnShowExitAppHintListener.onShowExitAppHint();
 			TimerTask task = null;
 			task = new TimerTask() {
 				@Override
