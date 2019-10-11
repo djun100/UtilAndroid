@@ -239,6 +239,13 @@ public class UtilCollection {
         });
     }
 
+    /**根据元素内的字段从list中查找元素
+     * @param list
+     * @param fieldStr
+     * @param value
+     * @param <T>
+     * @return
+     */
     public static <T> T getByField(List<T> list,String fieldStr,Object value){
         if (isEmpty(list)) return null;
         Field field = null;

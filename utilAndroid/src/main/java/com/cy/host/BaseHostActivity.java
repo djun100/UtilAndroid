@@ -5,18 +5,14 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.cy.app.ActivityManager;
 import com.cy.host.onActivityResult2.OnActivityResultManager;
 import com.cy.io.Log;
 
@@ -26,15 +22,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**使用帮助
- * 本类重写了所有setContentView方法，内部后续会自动调用baseInit1Data();onInit2View();这两个抽象方法
+ * 本类重写了所有setContentView方法，内部后续会自动调用baseInit1Data();baseInitView();这两个抽象方法
  * according to init 1、2、3 to do the workflow
  * feature:both Activity and FragmentActivity are compatible;
  * both using layout file or custom view in java to set content view are supported;
  * show class name in Logi when onCreate.
+ *
+ * baseInit3PullData() 有时候需要在onResume中才出发，所以去掉该方法
  */
 public abstract class BaseHostActivity extends FragmentActivity{
 	public FragmentActivity mActivity;
-	private boolean isEnableExitAppByDobbleClick=false;
+	private boolean isEnableExitAppByDobbleClick;
 
 	// TODO: 2016/11/22 glide 使用封装
 	@Override
@@ -45,30 +43,6 @@ public abstract class BaseHostActivity extends FragmentActivity{
 		mActivity = this;
 //		UtilStatusBar.setStatusBarFontDark(mActivity);
 		Log.w(getClass().getName());//log显示页面记录
-	}
-
-	public void setContentView(@LayoutRes int layoutResID) {
-		super.setContentView(layoutResID);
-		doAfterSetContentView();
-	}
-
-	public void setContentView(View view) {
-		super.setContentView(view);
-		doAfterSetContentView();
-	}
-
-	public void setContentView(View view, ViewGroup.LayoutParams params) {
-		super.setContentView(view,params);
-		doAfterSetContentView();
-	}
-
-	private void doAfterSetContentView(){
-		onInit1Data();
-		onInit2View();
-		// 添加Activity到堆栈
-		ActivityManager.getActivityManager().addActivity(this);
-		baseInit3PullData();
-
 	}
 
 	@Override
@@ -114,55 +88,40 @@ public abstract class BaseHostActivity extends FragmentActivity{
 		try {
 			EventBus.getDefault().register(this);
 		} catch (Exception e) {
-
 		}
 	}
-
 
 	@Override
 	protected void onDestroy() {
 		mActivity=null;
 		super.onDestroy();
-		// 结束Activity&从堆栈中移除
-		ActivityManager.getActivityManager().finishActivity(this);
 		if (mIsEventBusEnable){
 			try {
 				EventBus.getDefault().unregister(this);
 			} catch (Exception e) {
-
 			}
 		}
 	}
 
-
 	/**页面执行流程1：页面所需数据初始化*/
-	protected abstract void onInit1Data();
+	protected void baseInitData(){}
 	/**页面执行流程2：view后序处理*/
-	protected abstract  void onInit2View();
-	/**页面执行流程3：首次网络请求*/
-	protected void baseInit3PullData(){
-
-	};
+	protected void baseInitView(){}
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (isEnableExitAppByDobbleClick){
-				baseExitAppByDobleClick();
-				return true;
-			}else {
-				return super.onKeyDown(keyCode, event);
-			}
+	public void onBackPressed() {
+		if (isEnableExitAppByDobbleClick){
+			baseExitAppByDobleClick();
+		}else {
+			super.onBackPressed();
 		}
-//		return true;
-		return super.onKeyDown(keyCode, event);
 	}
 
 	/**开关双击退出程序功能
 	 * @param b
 	 */
 	public void baseEnableExitAppByDoubleBack(boolean b){
-		isEnableExitAppByDobbleClick=b;
+		isEnableExitAppByDobbleClick = b;
 	}
 	private static Boolean isQuit = false;
 	private static Timer timer;
@@ -183,28 +142,23 @@ public abstract class BaseHostActivity extends FragmentActivity{
 				timer = new Timer();
 			}
 			timer.schedule(task, 2000);
-
 		} else {
-			ActivityManager.getActivityManager().AppExit(this);
+			System.exit(0);
 		}
 	}
 	public void baseStartActivity(Class clazz){
 		startActivity(new Intent(this,clazz));
 	}
 
-	//block to use AppManager start
-	private boolean hasCallFinish=false;
+	private boolean hasCallFinish;
 	@Override
 	public void finish() {
 		if (hasCallFinish){
 			super.finish();
 		}else {
 			hasCallFinish=true;
-			ActivityManager.getActivityManager().finishActivity(this);
 		}
-
 	}
-
 
 	//block to use AppManager end
 	protected void baseAddOnGlobalLayoutListener(final OnGlobalLayoutListener onGlobalLayoutListener){

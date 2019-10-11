@@ -65,16 +65,6 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         UtilToast.showLong(ANDROID_ID);
     }
 
-    @Override
-    protected void onInit1Data() {
-
-    }
-
-    @Override
-    protected void onInit2View() {
-        initView();
-    }
-
 
     private void initView() {
         mTv = findViewById(R.id.tv);
