@@ -157,6 +157,10 @@ public class UtilDialog {
         }
     }
 
+    public interface OnBackListener{
+        void onBackPress();
+    }
+
     public static class DialogBuilder{
         private Context context;
         private boolean isOutOfActivity;
@@ -164,6 +168,7 @@ public class UtilDialog {
         private Integer gravity;
         private Integer layout;
         private View customView;
+        private OnBackListener onBackListener;
         private Integer style= R.style.base_dialog;
 //        private DialogInterface.OnClickListener positiveListener; //no define
 //        private DialogInterface.OnClickListener negativeListener; //no define
@@ -204,6 +209,11 @@ public class UtilDialog {
             return this;
         }
 
+        public DialogBuilder setOnBackListener(OnBackListener onBackListener) {
+            this.onBackListener = onBackListener;
+            return this;
+        }
+
         public Dialog build(){
             Dialog dialog = new Dialog(context, style);
             //style中设置动画的话，这样写才生效
@@ -231,6 +241,19 @@ public class UtilDialog {
                     dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ERROR);
 //            mType = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
                 }
+            }
+            if (onBackListener != null) {
+                dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
+
+                        if ((keyCode == android.view.KeyEvent.KEYCODE_BACK)) {
+                            onBackListener.onBackPress();
+                            return true; // pretend we've processed it
+                        } else
+                            return false; // pass on to be processed as normal
+                    }
+                });
             }
             return dialog;
         }

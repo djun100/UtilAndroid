@@ -52,9 +52,22 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
+        show(manager, tag,true);
+    }
+
+    /**
+     * @param manager
+     * @param tag
+     * @param addToBackStack  是否添加到后退栈。添加，则调用dissmiss后，需要多按一次返回才能后退
+     */
+    public void show(FragmentManager manager, String tag,boolean addToBackStack) {
         try {
             FragmentTransaction ft = manager.beginTransaction();
-            ft.add(this, tag).addToBackStack(null);
+            if (addToBackStack) {
+                ft.add(this, tag).addToBackStack(null);
+            }else {
+                ft.add(this, tag);
+            }
             ft.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
         }
