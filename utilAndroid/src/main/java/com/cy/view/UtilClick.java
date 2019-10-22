@@ -27,6 +27,10 @@ public class UtilClick {
         return true;
     }
 
+    public static boolean isFastClick() {
+        return isFastClick(2000);
+    }
+
     public interface MultiClickListener{
         void onMultiClickEnd();
     }
