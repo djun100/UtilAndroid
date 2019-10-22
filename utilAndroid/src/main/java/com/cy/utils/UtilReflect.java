@@ -21,7 +21,7 @@ import java.util.Map;
  *     blog  : http://blankj.com
  *     time  : 2017/12/15
  *     desc  : utils about reflect
- *     使用介绍 ﻿https://blankj.com/2018/01/17/awesome-reflectutils/#more
+ *     使用介绍 https://github.com/Blankj/AndroidUtilCode/blob/master/lib/utilcode/src/test/java/com/blankj/utilcode/util/reflect/ReflectUtilsTest.java
  * </pre>
  */
 public final class UtilReflect {
