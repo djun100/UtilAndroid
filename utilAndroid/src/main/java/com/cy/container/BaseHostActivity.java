@@ -1,4 +1,4 @@
-package com.cy.host;
+package com.cy.container;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -11,9 +11,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.cy.host.onActivityResult2.OnActivityResultManager;
+import com.cy.container.onActivityResult2.OnActivityResultManager;
 import com.cy.io.Log;
 
 import org.greenrobot.eventbus.EventBus;

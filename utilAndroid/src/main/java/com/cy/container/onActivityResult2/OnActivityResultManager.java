@@ -1,4 +1,4 @@
-package com.cy.host.onActivityResult2;
+package com.cy.container.onActivityResult2;
 
 import android.app.Activity;
 import android.content.Intent;

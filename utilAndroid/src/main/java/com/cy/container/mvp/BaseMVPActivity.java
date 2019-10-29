@@ -1,8 +1,8 @@
-package com.cy.host.mvp;
+package com.cy.container.mvp;
 
 import android.os.Bundle;
 
-import com.cy.host.BaseHostActivity;
+import com.cy.container.BaseHostActivity;
 
 
 /**

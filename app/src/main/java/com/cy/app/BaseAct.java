@@ -3,8 +3,8 @@ package com.cy.app;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.cy.host.mvp.BaseMVPActivity;
-import com.cy.host.mvp.BasePresenter;
+import com.cy.container.mvp.BaseMVPActivity;
+import com.cy.container.mvp.BasePresenter;
 import com.cy.io.Log;
 
 /**

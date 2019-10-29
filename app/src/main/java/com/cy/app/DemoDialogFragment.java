@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.cy.host.BaseDialogFragment;
+import com.cy.container.BaseDialogFragment;
 import com.cy.view.UtilDialog;
 
 public class DemoDialogFragment extends BaseDialogFragment {
