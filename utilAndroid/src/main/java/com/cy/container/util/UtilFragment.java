@@ -25,7 +25,7 @@ public class UtilFragment {
 		if (fragment.isAdded()){
 			fragmentActivity.getSupportFragmentManager().beginTransaction().show(fragment).commit();
 		}else {
-			replaceFragment(container, fragment, fragmentActivity);
+			fragmentActivity.getSupportFragmentManager().beginTransaction().add(container,fragment).commit();
 		}
 	}
 }
