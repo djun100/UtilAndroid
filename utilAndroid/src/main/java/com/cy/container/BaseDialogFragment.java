@@ -63,11 +63,16 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void show(FragmentManager manager, String tag,boolean addToBackStack) {
         try {
             FragmentTransaction ft = manager.beginTransaction();
-            if (addToBackStack) {
-                ft.add(this, tag).addToBackStack(null);
+            if (isAdded()){
+                ft.show(this);
             }else {
-                ft.add(this, tag);
+                if (addToBackStack) {
+                    ft.add(this, tag).addToBackStack(null);
+                }else {
+                    ft.add(this, tag);
+                }
             }
+
             ft.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
         }
