@@ -92,7 +92,6 @@ public abstract class BaseHostActivity extends FragmentActivity{
 
 	@Override
 	protected void onDestroy() {
-		mActivity=null;
 		super.onDestroy();
 		if (mIsEventBusEnable){
 			try {
@@ -151,16 +150,6 @@ public abstract class BaseHostActivity extends FragmentActivity{
 	}
 	public void baseStartActivity(Class clazz){
 		startActivity(new Intent(this,clazz));
-	}
-
-	private boolean hasCallFinish;
-	@Override
-	public void finish() {
-		if (hasCallFinish){
-			super.finish();
-		}else {
-			hasCallFinish=true;
-		}
 	}
 
 	//block to use AppManager end
