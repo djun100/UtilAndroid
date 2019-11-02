@@ -52,7 +52,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
-        show(manager, tag,true);
+        show(manager, tag,false);
     }
 
     /**

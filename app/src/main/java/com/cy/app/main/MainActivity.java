@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -21,10 +20,8 @@ import com.cy.app.R;
 import com.cy.app.StyledViewActivity;
 import com.cy.app.TestLog;
 import com.cy.app.log.LogActivity;
-import com.cy.data.UtilArray;
 import com.cy.file.UtilFile;
 import com.cy.io.Log;
-import com.cy.system.UtilShell;
 import com.cy.view.UtilScreen;
 import com.cy.view.UtilToast;
 import com.cy.view.UtilViewStyle;
@@ -143,9 +140,12 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         return allGarented;
 
     }
-
+    DemoDialogFragment mDemoDialogFragment;
     private void showDialogFragment() {
-        DemoDialogFragment.newInstance().show(getSupportFragmentManager(), "");
+        if (mDemoDialogFragment==null){
+            mDemoDialogFragment = DemoDialogFragment.newInstance();
+        }
+        mDemoDialogFragment.show(getSupportFragmentManager(), "");
     }
 
     public void showToast(String data) {
