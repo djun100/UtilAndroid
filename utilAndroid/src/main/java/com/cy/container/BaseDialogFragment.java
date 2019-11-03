@@ -43,6 +43,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
+    /**调用fragment被add之后，以后再show的时候这个函数会再次被调用，非只在首次创建fragment的时候调用*/
     final public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = onCreateDialog(R.style.base_dialog);
         return dialog;
@@ -52,7 +53,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
-        show(manager, tag,false);
+        show(manager, tag, false);
     }
 
     /**
