@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 
 import com.cy.utilandroid.R;
 
@@ -46,6 +49,12 @@ public abstract class BaseDialogFragment extends DialogFragment {
     /**调用fragment被add之后，以后再show的时候这个函数会再次被调用，非只在首次创建fragment的时候调用*/
     final public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = onCreateDialog(R.style.base_dialog);
+
+        //处理如ConstraintLayout作为跟布局时，不显示布局view只显示半透明背景的问题
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        window.setGravity(Gravity.CENTER);
+
         return dialog;
     }
 
