@@ -109,6 +109,19 @@ public class Log extends KLog {
         return sw.toString();
     }
 
+    public static String getStackTraceStr() {
+        StringBuffer err =new StringBuffer();
+        StackTraceElement[] stacks = Thread.currentThread().getStackTrace();
+        for (int i = 0; i < stacks.length; i++) {
+            String stackContent = stacks[i].toString();
+            if (stackContent.startsWith(UtilContext.getContext().getPackageName())){
+                err.append("\tat ");
+                err.append(stackContent);
+                err.append("\n");
+            }
+        }
+        return err.toString();
+    }
     //////////////////////////override parent class start///////////////////////////////////
 
     //////////////////////////override parent class end///////////////////////////////////
