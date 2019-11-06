@@ -23,15 +23,15 @@ public class UtilSP {
 	 * @param key
 	 * @param object 
 	 */
-	public static void setParam(String key, Object object){
-		setParam(FILE_NAME, key, object);
+	public static void set(String key, Object object){
+		set(FILE_NAME, key, object);
 	}
 	/**
 	 * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
 	 * @param key
 	 * @param object 
 	 */
-	public static void setParam(String fileName, String key, Object object){
+	public static void set(String fileName, String key, Object object){
 		String type = object.getClass().getSimpleName();
 		SharedPreferences sp = UtilContext.getContext().getSharedPreferences(fileName, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sp.edit();
@@ -62,7 +62,7 @@ public class UtilSP {
 	 * @param defaultObject
 	 * @return
 	 */
-	public static <T> T getParam(String fileName, String key, T defaultObject){
+	public static <T> T get(String fileName, String key, T defaultObject){
 		String type;
 		if (defaultObject == null) {
 			type = "String";
@@ -92,7 +92,7 @@ public class UtilSP {
 	 * @param defaultObject
 	 * @return
 	 */
-	public static <T> T getParam( String key, T defaultObject){
-		return getParam(FILE_NAME, key, defaultObject);
+	public static <T> T get( String key, T defaultObject){
+		return get(FILE_NAME, key, defaultObject);
 	}
 }
