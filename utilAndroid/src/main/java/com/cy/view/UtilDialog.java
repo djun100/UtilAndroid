@@ -86,11 +86,10 @@ public class UtilDialog {
 
 
         /**需要申请悬浮窗权限
-         * @param outOfActivity
          * @return
          */
-        public AlertDialogBuilder setIsOutOfActivity(boolean outOfActivity) {
-            isOutOfActivity = outOfActivity;
+        public AlertDialogBuilder setIsOutOfActivity() {
+            isOutOfActivity = true;
             return this;
         }
 
@@ -104,8 +103,8 @@ public class UtilDialog {
             return this;
         }
 
-        public AlertDialogBuilder setCanceledOnTouchOutside(Boolean canceledOnTouchOutside) {
-            this.canceledOnTouchOutside = canceledOnTouchOutside;
+        public AlertDialogBuilder setCanceledOnTouchOutside() {
+            this.canceledOnTouchOutside = true;
             return this;
         }
 
@@ -164,7 +163,11 @@ public class UtilDialog {
     public static class DialogBuilder{
         private Context context;
         private boolean isOutOfActivity;
-        private boolean matchParent;
+        private boolean matchHorizontalParent;
+        /**
+         * 处理如ConstraintLayout作为跟布局时，不显示布局view只显示半透明背景的问题
+         */
+        private boolean matchVerticalParent;
         private Integer gravity;
         private Integer layout;
         private View customView;
@@ -174,13 +177,26 @@ public class UtilDialog {
 //        private DialogInterface.OnClickListener negativeListener; //no define
         private Boolean canceledOnTouchOutside;
 
-        public DialogBuilder setOutOfActivity(boolean outOfActivity) {
-            isOutOfActivity = outOfActivity;
+        public DialogBuilder setOutOfActivity() {
+            isOutOfActivity = true;
             return this;
         }
 
-        public DialogBuilder setMatchParent() {
-            this.matchParent = true;
+        public boolean isMatchHorizontalParent() {
+            return matchHorizontalParent;
+        }
+
+        public DialogBuilder setMatchHorizontalParent() {
+            this.matchHorizontalParent = true;
+            return this;
+        }
+
+        public boolean isMatchVerticalParent() {
+            return matchVerticalParent;
+        }
+
+        public DialogBuilder setMatchVerticalParent() {
+            this.matchVerticalParent = true;
             return this;
         }
 
@@ -194,8 +210,8 @@ public class UtilDialog {
             return this;
         }
 
-        public DialogBuilder setCanceledOnTouchOutside(Boolean canceledOnTouchOutside) {
-            this.canceledOnTouchOutside = canceledOnTouchOutside;
+        public DialogBuilder setCanceledOnTouchOutside() {
+            this.canceledOnTouchOutside = true;
             return this;
         }
 
@@ -226,8 +242,8 @@ public class UtilDialog {
             if (canceledOnTouchOutside!=null) {
                 dialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
             }
-            if (matchParent){
-                setWidthFull(dialog);
+            if (matchHorizontalParent||matchVerticalParent){
+                setLayoutFull(dialog);
             }
             if (gravity!=null){
                 setLocation(dialog,gravity);
@@ -262,12 +278,16 @@ public class UtilDialog {
          * 设置宽度填充屏幕
          * 适合在子类的onViewCreated()中调用
          */
-        private void setWidthFull(Dialog dialog){
+        private void setLayoutFull(Dialog dialog){
             Window win = dialog.getWindow();
             win.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = win.getAttributes();
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            if (matchHorizontalParent) {
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            }
+            if (matchVerticalParent) {
+                lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+            }
             win.setAttributes(lp);
         }
 

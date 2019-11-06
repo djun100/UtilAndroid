@@ -15,7 +15,7 @@ import android.view.Window;
 import com.cy.utilandroid.R;
 
 /**<p/><b>Tips:</b></p>
- * <li><b>子dialog布局必须包含RelativeLayout或直接以之为根布局，然后内部内容match_parent才能撑开dialog宽度</b></li>
+ * <li><b>子dialog布局如果撑不开，需要设置UtilDialog为matchHorizontalParent matchVerticalParent</b></li>
  * <li><b>baseFind dialog的子视图，使用dialog.findViewById()</b></li>
  * <p/><b>Usage：</b></p>
  * <pre>
@@ -49,12 +49,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
     /**调用fragment被add之后，以后再show的时候这个函数会再次被调用，非只在首次创建fragment的时候调用*/
     final public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = onCreateDialog(R.style.base_dialog);
-
-        //处理如ConstraintLayout作为跟布局时，不显示布局view只显示半透明背景的问题
-        Window window = dialog.getWindow();
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        window.setGravity(Gravity.CENTER);
-
         return dialog;
     }
 
