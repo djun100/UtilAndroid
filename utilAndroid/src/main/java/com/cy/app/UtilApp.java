@@ -1,19 +1,27 @@
 package com.cy.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 
 import com.cy.io.Log;
 
+import org.apache.commons.codec.Charsets;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,6 +30,58 @@ import java.util.List;
  */
 
 public class UtilApp {
+    public static boolean isAppForground() {
+        return mActsStartedAndNotStopedSum > 0;
+    }
+
+    private static int mActsStartedAndNotStopedSum = 0;
+    private static Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks;
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public static void registerActLifecycleCallback(Application application) {
+        application.registerActivityLifecycleCallbacks(
+                mActivityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
+                    @Override
+                    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+                    }
+
+                    @Override
+                    public void onActivityStarted(Activity activity) {
+                        mActsStartedAndNotStopedSum++;
+                    }
+
+                    @Override
+                    public void onActivityResumed(Activity activity) {
+
+                    }
+
+                    @Override
+                    public void onActivityPaused(Activity activity) {
+
+                    }
+
+                    @Override
+                    public void onActivityStopped(Activity activity) {
+                        mActsStartedAndNotStopedSum--;
+                    }
+
+                    @Override
+                    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+                    }
+
+                    @Override
+                    public void onActivityDestroyed(Activity activity) {
+
+                    }
+                });
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    public static void unRegisterActivityLifecycleCallbacks(Application application) {
+        application.unregisterActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+    }
     /**
      * 安装apk
      *
@@ -172,5 +232,35 @@ public class UtilApp {
             }
         }
         return "";
+    }
+
+    /**
+     * 返回当前的进程名
+     * @return
+     */
+    public static String getCurrentProcessName() {
+        FileInputStream in = null;
+        try {
+            String fn = "/proc/self/cmdline";
+            in = new FileInputStream(fn);
+            byte[] buffer = new byte[256];
+            int len = 0;
+            int b;
+            while ((b = in.read()) > 0 && len < buffer.length) {
+                buffer[len++] = (byte) b;
+            }
+            if (len > 0) {
+                return new String(buffer, 0, len, Charset.forName("utf-8"));
+            }
+        } catch (Throwable e) {
+        } finally {
+//            IoStreamUtils.closeSilently(in);
+        }
+        return null;
+    }
+
+    public static boolean isMainProcess() {
+        String processname = getCurrentProcessName();
+        return !TextUtils.isEmpty(processname) && UtilContext.getContext().getPackageName().equals(processname);
     }
 }
