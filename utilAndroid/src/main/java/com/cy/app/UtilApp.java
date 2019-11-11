@@ -1,5 +1,6 @@
 package com.cy.app;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -20,6 +21,7 @@ import org.apache.commons.codec.Charsets;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
@@ -36,6 +38,7 @@ public class UtilApp {
 
     private static int mActsStartedAndNotStopedSum = 0;
     private static Application.ActivityLifecycleCallbacks mActivityLifecycleCallbacks;
+    private static WeakReference<Activity> mAppTopActivityRef;
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public static void registerActLifecycleCallback(Application application) {
@@ -49,6 +52,7 @@ public class UtilApp {
                     @Override
                     public void onActivityStarted(Activity activity) {
                         mActsStartedAndNotStopedSum++;
+                        mAppTopActivityRef = new WeakReference(activity);
                     }
 
                     @Override
@@ -82,6 +86,11 @@ public class UtilApp {
     public static void unRegisterActivityLifecycleCallbacks(Application application) {
         application.unregisterActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
     }
+
+    public static Activity getAppTopActivity(){
+        return mAppTopActivityRef.get();
+    }
+
     /**
      * 安装apk
      *
@@ -150,6 +159,7 @@ public class UtilApp {
      <uses-permission android:name="android.permission.REORDER_TASKS"/>
      * Android实现微信、QQ的程序前后台切换   http://www.ithtw.com/5684.html
      */
+    @SuppressLint("MissingPermission")
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static void bringToFront(Class defaultActToLaunch){
         Context context= UtilContext.getContext();
