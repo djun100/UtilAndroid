@@ -1,5 +1,6 @@
 package com.cy.file;
 
+import com.cy.app.UtilContext;
 import com.tencent.mmkv.MMKV;
 
 /**
@@ -9,6 +10,18 @@ import com.tencent.mmkv.MMKV;
  * */
 public class UtilMMKV {
 
+    private static boolean sInited;
+
+    /**
+     * 自动初始化，无需手动调用，多个进程都要初始化
+     */
+    private static void ifInit(){
+        if (!sInited){
+            sInited=true;
+            String rootDir = MMKV.initialize(UtilContext.getContext());
+            System.out.println("mmkv root: " + rootDir);
+        }
+    }
     //此userName只用作区分不同用户在mmkv存储的数据区分
     public static void setUserName(String userName) {
         set("userName", userName);
@@ -19,10 +32,12 @@ public class UtilMMKV {
     }
 
     private static MMKV getMMKV() {
+        ifInit();
         return MMKV.mmkvWithID(null, MMKV.MULTI_PROCESS_MODE);
     }
 
     private static MMKV getUserRelatedMMKV() {
+        ifInit();
         return MMKV.mmkvWithID(getUserName(), MMKV.MULTI_PROCESS_MODE);
     }
 
