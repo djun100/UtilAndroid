@@ -2,6 +2,7 @@ package com.cy.app.main;
 
 import com.cy.container.mvp.BasePresenter;
 import com.cy.container.mvp.UtilType;
+import com.cy.io.Log;
 
 public class MainPresenter extends BasePresenter<IMainView,MainData> {
     @Override
@@ -21,5 +22,16 @@ public class MainPresenter extends BasePresenter<IMainView,MainData> {
                 baseGetModule().saveData(result+"1");
             }
         });
+    }
+
+    public void testThread(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i();
+            }
+        });
+        thread.start();
+//        thread.start();
     }
 }

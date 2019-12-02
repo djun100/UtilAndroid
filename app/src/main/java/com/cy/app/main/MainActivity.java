@@ -54,12 +54,19 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_main);
         initView();
         TestLog.showLog("呵呵");
         String ANDROID_ID = Settings.System.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         Log.i("ANDROID_ID :"+ANDROID_ID );
         UtilToast.showLong(ANDROID_ID);
+
+        baseGetPresenter().testThread();
     }
 
 

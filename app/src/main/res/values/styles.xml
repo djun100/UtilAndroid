@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+<!--    <item name="android:windowAnimationStyle">@style/noAnimation</item>-->
+    <style name="Welcome">
+        <item name="android:windowBackground">@mipmap/bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

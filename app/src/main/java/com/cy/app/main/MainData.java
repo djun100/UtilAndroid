@@ -5,7 +5,7 @@ import com.cy.file.UtilSP;
 public class MainData {
 
     public void saveData(String data) {
-        UtilSP.setParam("test",data);
+        UtilSP.set("test",data);
     }
 
     public void readData(final OnListener onListener) {
@@ -17,7 +17,7 @@ public class MainData {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                onListener.onResult((String) UtilSP.getParam("test",""));
+                onListener.onResult((String) UtilSP.get("test",""));
             }
         }).start();
 

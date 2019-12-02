@@ -32,6 +32,7 @@ public abstract class RxObserver<T> implements Observer<T> {
     public void onSubscribe(Disposable d) {
         disposable = d;
         Log.e(TAG, "onSubscribe: " + d.toString());
+        disposeOnDestroy(mActOrFraOrNull,disposable);
     }
 
     @Override
@@ -56,8 +57,6 @@ public abstract class RxObserver<T> implements Observer<T> {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
-
-        disposeOnDestroy(mActOrFraOrNull,disposable);
     }
 
     /**

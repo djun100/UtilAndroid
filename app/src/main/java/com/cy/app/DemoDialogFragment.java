@@ -24,7 +24,7 @@ public class DemoDialogFragment extends BaseDialogFragment {
                 .setLayout(R.layout.dialogfragment_demo)
                 .setCustomView(view)
 //                .setCanceledOnTouchOutside(false)
-                .setMatchParent()
+                .setMatchHorizontalParent()
 //                .setGravity(Gravity.BOTTOM)
                 .build();
     }
