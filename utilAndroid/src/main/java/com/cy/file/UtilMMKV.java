@@ -7,33 +7,37 @@ import com.tencent.mmkv.MMKV;
  * 1、用户登录后需要调用setUserName()以便后续保存用户相关信息
  * 2、setUserRelated()\getUserRelated()是保存\获取用户相关的信息
  * 3、set()\get()是保存\获取非用户相关的信息
- * */
+ */
 public class UtilMMKV {
 
     private static boolean sInited;
+    private static final String INNER_MMKV_ID = "INNER_MMKV_ID";
 
     /**
      * 自动初始化，无需手动调用，多个进程都要初始化
      */
-    private static void ifInit(){
-        if (!sInited){
-            sInited=true;
+    private static void ifInit() {
+        if (!sInited) {
+            sInited = true;
             String rootDir = MMKV.initialize(UtilContext.getContext());
             System.out.println("mmkv root: " + rootDir);
         }
     }
+
     //此userName只用作区分不同用户在mmkv存储的数据区分
     public static void setUserName(String userName) {
         set("userName", userName);
     }
 
     private static String getUserName() {
-        return get("userName",null);
+        return get("userName", null);
     }
 
     private static MMKV getMMKV() {
         ifInit();
-        return MMKV.mmkvWithID(null, MMKV.MULTI_PROCESS_MODE);
+        //mmkv_id param must not empty
+        MMKV kv = MMKV.mmkvWithID(INNER_MMKV_ID, MMKV.MULTI_PROCESS_MODE);
+        return kv;
     }
 
     private static MMKV getUserRelatedMMKV() {
@@ -42,14 +46,14 @@ public class UtilMMKV {
     }
 
     public static <T> void set(String key, T value) {
-        setInternal(getMMKV(),key,value);
+        setInternal(getMMKV(), key, value);
     }
 
     public static <T> void setUserRelated(String key, T value) {
-        setInternal(getUserRelatedMMKV(),key,value);
+        setInternal(getUserRelatedMMKV(), key, value);
     }
 
-    private static <T> void setInternal(MMKV mmkv,String key, T value) {
+    private static <T> void setInternal(MMKV mmkv, String key, T value) {
         if (value instanceof String) {
             mmkv.encode(key, (String) value);
         } else if (value instanceof Integer) {
@@ -67,11 +71,11 @@ public class UtilMMKV {
     }
 
     public static <T> T get(String key, T defaultValue) {
-        return getInternal(getMMKV(),key,defaultValue);
+        return getInternal(getMMKV(), key, defaultValue);
     }
 
     public static <T> T getUserRelated(String key, T defaultValue) {
-        return getInternal(getUserRelatedMMKV(),key,defaultValue);
+        return getInternal(getUserRelatedMMKV(), key, defaultValue);
     }
 
 
@@ -82,7 +86,7 @@ public class UtilMMKV {
      * @param defaultValue
      * @return
      */
-    private static <T> T getInternal(MMKV mmkv,String key, T defaultValue) {
+    private static <T> T getInternal(MMKV mmkv, String key, T defaultValue) {
         if (defaultValue instanceof String) {
             String value = mmkv.decodeString(key, (String) defaultValue);
             return (T) value;

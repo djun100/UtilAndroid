@@ -54,11 +54,6 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         setContentView(R.layout.activity_main);
         initView();
         TestLog.showLog("呵呵");
@@ -67,6 +62,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         UtilToast.showLong(ANDROID_ID);
 
         baseGetPresenter().testThread();
+        baseGetPresenter().testMMKV();
     }
 
 

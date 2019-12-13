@@ -2,6 +2,7 @@ package com.cy.app.main;
 
 import com.cy.container.mvp.BasePresenter;
 import com.cy.container.mvp.UtilType;
+import com.cy.file.UtilMMKV;
 import com.cy.io.Log;
 
 public class MainPresenter extends BasePresenter<IMainView,MainData> {
@@ -33,5 +34,11 @@ public class MainPresenter extends BasePresenter<IMainView,MainData> {
         });
         thread.start();
 //        thread.start();
+    }
+
+    public void testMMKV(){
+        UtilMMKV.set("a",true);
+        boolean b=UtilMMKV.get("a",false);
+        Log.i("b:"+b);
     }
 }
