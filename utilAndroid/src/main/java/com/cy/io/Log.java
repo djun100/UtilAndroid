@@ -108,9 +108,12 @@ public class Log extends KLog {
         e.printStackTrace(new PrintWriter(sw));
         return sw.toString();
     }
-
+    /**
+     * 有时候函数内打log不知道是何处调用的当前函数，在执行函数内打印调用栈就可以看出来，
+     * 避免了所有可能调用的地方都log一下的麻烦
+     * */
     public static String getStackTraceStr() {
-        StringBuffer err =new StringBuffer();
+        StringBuffer err =new StringBuffer("\n调用栈:\n");
         StackTraceElement[] stacks = Thread.currentThread().getStackTrace();
         for (int i = 0; i < stacks.length; i++) {
             String stackContent = stacks[i].toString();

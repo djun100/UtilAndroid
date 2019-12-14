@@ -149,6 +149,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
             mDemoDialogFragment = DemoDialogFragment.newInstance();
         }
         mDemoDialogFragment.show(getSupportFragmentManager(), "");
+        Log.i(Log.getStackTraceStr());
     }
 
     public void showToast(String data) {
