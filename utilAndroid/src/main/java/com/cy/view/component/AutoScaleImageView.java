@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * 宽度自适应ImageView，宽度始终充满显示区域，高度成比例缩放
+ * 宽高一边定死，另一边自适应的ImageView，一边始终充满显示区域，另一边成比例缩放
  */
 public class AutoScaleImageView extends ImageView {
 
