@@ -7,6 +7,9 @@ import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.cy.app.UtilContext;
+import com.cy.data.UtilDate;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
@@ -58,8 +61,7 @@ public class LogWriter {
     public static void prepare(Context context, @NonNull String fileDir, String logFilePrefix) {
         gCurrentLogPos = 0;
         if (TextUtils.isEmpty(fileDir)) {
-            if (Environment.getExternalStorageState().equals(
-                    Environment.MEDIA_MOUNTED)) {
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 logFileDir = Environment.getExternalStorageDirectory().getAbsolutePath() +
                         File.separator + "rust" + File.separator + "logs";
             } else {
@@ -74,7 +76,9 @@ public class LogWriter {
             handlerThread.start();
         }
         writerHandler = new Handler(handlerThread.getLooper());
-        fileName = logFilePrefix + "_" + System.currentTimeMillis() + ".txt";
+        fileName = logFilePrefix + "_"
+                + UtilDate.getDateStr(System.currentTimeMillis(),UtilDate.FORMAT_YYYY_MM_DD)
+                + ".txt";
         Log.d(defTag, "[prepare] file: " + fileName);
     }
 
@@ -225,7 +229,7 @@ public class LogWriter {
 
         @Override
         public void run() {
-            SimpleDateFormat logTimeFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.CHINA);
+            SimpleDateFormat logTimeFormat = new SimpleDateFormat("MM-dd HH:mm:ss.SSS", Locale.CHINA);
             String logContent = logTimeFormat.format(new Date()) + " [" + mmTag + "] " + mmContent + "\r\n";
             try {
                 File dir = new File(logFileDir);
