@@ -379,7 +379,7 @@ public class UtilEnv {
 	}
 
 	private static boolean isHuawei_EMUI(){
-		String value=	UtilReflect.reflect(android.os.Build.class).method("getString","ro.build.hw_emui_api_level").toString();
+		String value= UtilReflect.reflect(android.os.Build.class).method("getString","ro.build.hw_emui_api_level").toString();
 		return TextUtils.isEmpty(value)?false:true;
 	}
 

@@ -1,6 +1,6 @@
 package com.cy.data;
 
-import com.cy.utils.UtilsReflect;
+import com.cy.utils.UtilReflect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -114,7 +114,7 @@ public class UtilDummyData {
                 if (fields[i].getType().toString().equals("interface java.util.List")||
                         fields[i].getType().toString().equals("class java.util.ArrayList")){
                     ArrayList list=new ArrayList();
-                    Class fieldArgClass= UtilsReflect.getGenericClass(fields[i]);
+                    Class fieldArgClass= UtilReflect.getGenericClass(fields[i]);
                     int count= UtilRandom.getInt(minSubListLength,maxSubListLength);
                     for (int j=0;j<count;j++) {
                         if (fieldArgClass.toString().equals("class java.lang.String")) {
@@ -137,7 +137,7 @@ public class UtilDummyData {
                     }else {
                         map=new HashMap();
                     }
-                    Class fieldArgClass= UtilsReflect.getGenericClass(fields[i]);
+                    Class fieldArgClass= UtilReflect.getGenericClass(fields[i]);
                     int count= UtilRandom.getInt(minSubListLength,maxSubListLength);
                     for (int j=0;j<count;j++) {
                         if (fieldArgClass.toString().equals("class java.lang.String")) {
@@ -175,36 +175,7 @@ public class UtilDummyData {
         return t;
     }
 
-    public static <T> T makeInstance(Class<T> c,Map<String,Object> kvs) {
-        T t = null;
-        try {
-            Constructor<?>[] con = c.getDeclaredConstructors();
-            t = (T) con[0].newInstance();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Field[] fields = c.getDeclaredFields();
-        if (fields!=null) {
-            for (int i = 0; i < fields.length; i++) {
-                fields[i].setAccessible(true);
-                String fieldName=fields[i].getName();
-
-                if (kvs!=null) {
-                    for (Map.Entry<String, Object> entry : kvs.entrySet()) {
-                        if (fieldName.equals(entry.getKey())){
-                            try {
-                                fields[i].set(t,entry.getValue());
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return t;
-    }
 
     public static void main(String[] args) {
 //        ArrayList<BeanTest> data= makeData(BeanTest.class,50,1,10);

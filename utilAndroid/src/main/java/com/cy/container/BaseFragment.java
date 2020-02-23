@@ -24,6 +24,15 @@ public abstract class BaseFragment extends Fragment {
         startActivity(new Intent(getActivity(), activity));
     }
 
+    //避免使用有参构造函数，防止没有无参构造函数的时候restore找不到报错
+//    public static XXFragment newInstance(String id) {
+//        Bundle args = new Bundle();
+//        args.putString("id", id);
+//        XXFragment f = new XXFragment();
+//        f.setArguments(args);
+//        return f;
+//    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +66,5 @@ public abstract class BaseFragment extends Fragment {
         if (enableBusEvent) {
             EventBus.getDefault().unregister(this);
         }
-    }
-
-    public static <T> T baseNewInstance(Class<T> t, Map<String,Object> params){
-        return UtilDummyData.makeInstance(t,params);
     }
 }
