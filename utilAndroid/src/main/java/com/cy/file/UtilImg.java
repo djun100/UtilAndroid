@@ -19,6 +19,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
+import com.cy.io.Log;
 import com.cy.system.UtilEnv;
 import com.cy.app.UtilContext;
 
@@ -520,5 +522,206 @@ public class UtilImg {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
 		return baos.toByteArray();
+	}
+
+	/**
+	 * Return the rotated bitmap.
+	 *
+	 * @param src     The source of bitmap.
+	 * @param degrees The number of degrees.
+	 * @param px      The x coordinate of the pivot point.
+	 * @param py      The y coordinate of the pivot point.
+	 * @return the rotated bitmap
+	 */
+	public static Bitmap rotate(final Bitmap src,
+								final int degrees,
+								final float px,
+								final float py) {
+		return rotate(src, degrees, px, py, false);
+	}
+
+	/**
+	 * Return the rotated bitmap.
+	 *
+	 * @param src     The source of bitmap.
+	 * @param degrees The number of degrees.
+	 * @param px      The x coordinate of the pivot point.
+	 * @param py      The y coordinate of the pivot point.
+	 * @param recycle True to recycle the source of bitmap, false otherwise.
+	 * @return the rotated bitmap
+	 */
+	public static Bitmap rotate(final Bitmap src,
+								final int degrees,
+								final float px,
+								final float py,
+								final boolean recycle) {
+		if (isEmptyBitmap(src)) return null;
+		if (degrees == 0) return src;
+		Matrix matrix = new Matrix();
+		matrix.setRotate(degrees, px, py);
+		Bitmap ret = Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+		if (recycle && !src.isRecycled() && ret != src) src.recycle();
+		return ret;
+	}
+
+	/**
+	 * Return the rotated degree.
+	 *
+	 * @param filePath The path of file.
+	 * @return the rotated degree
+	 */
+	public static int getRotateDegree(final String filePath) {
+		try {
+			ExifInterface exifInterface = new ExifInterface(filePath);
+			int orientation = exifInterface.getAttributeInt(
+					ExifInterface.TAG_ORIENTATION,
+					ExifInterface.ORIENTATION_NORMAL
+			);
+			switch (orientation) {
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					return 90;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					return 180;
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					return 270;
+				default:
+					return 0;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	private static boolean isEmptyBitmap(final Bitmap src) {
+		return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+	}
+
+	/**
+	 * Returns a new Bitmap copy with a center-crop effect a la
+	 * {@link android.widget.ImageView.ScaleType#CENTER_CROP}. May return the input bitmap if no
+	 * scaling is necessary.
+	 *
+	 * @param src original bitmap of any size
+	 * @param w desired width in px
+	 * @param h desired height in px
+	 * @return a copy of src conforming to the given width and height, or src itself if it already
+	 *         matches the given width and height
+	 */
+	public static Bitmap centerCrop(final Bitmap src, final int w, final int h) {
+		return crop(src, w, h, 0.5f, 0.5f);
+	}
+	/**
+	 * Returns a new Bitmap copy with a crop effect depending on the crop anchor given. 0.5f is like
+	 * {@link android.widget.ImageView.ScaleType#CENTER_CROP}. The crop anchor will be be nudged
+	 * so the entire cropped bitmap will fit inside the src. May return the input bitmap if no
+	 * scaling is necessary.
+	 *
+	 *
+	 * Example of changing verticalCenterPercent:
+	 *   _________            _________
+	 *  |         |          |         |
+	 *  |         |          |_________|
+	 *  |         |          |         |/___0.3f
+	 *  |---------|          |_________|\
+	 *  |         |<---0.5f  |         |
+	 *  |---------|          |         |
+	 *  |         |          |         |
+	 *  |         |          |         |
+	 *  |_________|          |_________|
+	 *
+	 * @param src original bitmap of any size
+	 * @param w desired width in px
+	 * @param h desired height in px
+	 * @param horizontalCenterPercent determines which part of the src to crop from. Range from 0
+	 *                                .0f to 1.0f. The value determines which part of the src
+	 *                                maps to the horizontal center of the resulting bitmap.
+	 * @param verticalCenterPercent determines which part of the src to crop from. Range from 0
+	 *                              .0f to 1.0f. The value determines which part of the src maps
+	 *                              to the vertical center of the resulting bitmap.
+	 * @return a copy of src conforming to the given width and height, or src itself if it already
+	 *         matches the given width and height
+	 */
+	public static Bitmap crop(final Bitmap src, final int w, final int h,
+							  final float horizontalCenterPercent, final float verticalCenterPercent) {
+		if (horizontalCenterPercent < 0 || horizontalCenterPercent > 1 || verticalCenterPercent < 0
+				|| verticalCenterPercent > 1) {
+			throw new IllegalArgumentException(
+					"horizontalCenterPercent and verticalCenterPercent must be between 0.0f and "
+							+ "1.0f, inclusive.");
+		}
+		final int srcWidth = src.getWidth();
+		final int srcHeight = src.getHeight();
+		// exit early if no resize/crop needed
+		if (w == srcWidth && h == srcHeight) {
+			return src;
+		}
+		final Matrix m = new Matrix();
+		final float scale = Math.max(
+				(float) w / srcWidth,
+				(float) h / srcHeight);
+		m.setScale(scale, scale);
+		final int srcCroppedW, srcCroppedH;
+		int srcX, srcY;
+		srcCroppedW = Math.round(w / scale);
+		srcCroppedH = Math.round(h / scale);
+		srcX = (int) (srcWidth * horizontalCenterPercent - srcCroppedW / 2);
+		srcY = (int) (srcHeight * verticalCenterPercent - srcCroppedH / 2);
+		// Nudge srcX and srcY to be within the bounds of src
+		srcX = Math.max(Math.min(srcX, srcWidth - srcCroppedW), 0);
+		srcY = Math.max(Math.min(srcY, srcHeight - srcCroppedH), 0);
+		final Bitmap cropped = Bitmap.createBitmap(src, srcX, srcY, srcCroppedW, srcCroppedH, m,
+				true /* filter */);
+		Log.i(String.format("IN centerCrop, srcW/H=%s/%s desiredW/H=%s/%s srcX/Y=%s/%s" +
+						" innerW/H=%s/%s scale=%s resultW/H=%s/%s",
+				srcWidth, srcHeight, w, h, srcX, srcY, srcCroppedW, srcCroppedH, scale,
+				cropped.getWidth(), cropped.getHeight()));
+
+		return cropped;
+	}
+
+	/**
+	 * 根据exif旋转并以centerCrop方式加载图片
+	 * @param picPath   本地图片路径
+	 * @param destWidth 目标宽度
+	 * @param destHeight    目标高度
+	 * @return
+	 */
+	public static Bitmap getExifCenterCropBitmap(String picPath, int destWidth, int destHeight){
+		int degree = getRotateDegree(picPath);
+		//应顺时针旋转如下度数
+		Log.i("enter --> degress:" + degree);
+
+		//fresco 显示大图的速度慢
+//            ImageLoadUtils.show(this,uri,screenWidth,screenHeight);
+
+		BitmapFactory.Options op = new BitmapFactory.Options();
+		op.inJustDecodeBounds = true;
+		Bitmap src = BitmapFactory.decodeFile(picPath, op);
+		//获取比例大小
+		int wRatio;
+		int hRatio;
+		if (degree % 180 != 0) {//图片需要旋转
+			wRatio = (int) Math.ceil(op.outHeight / destWidth);
+			hRatio = (int) Math.ceil(op.outWidth / destHeight);
+		} else {
+			wRatio = (int) Math.ceil(op.outWidth / destWidth);
+			hRatio = (int) Math.ceil(op.outHeight / destHeight);
+		}
+		//如果超出指定大小，则缩小相应的比例
+		if (wRatio > 1 && hRatio > 1) {
+			if (wRatio > hRatio) {
+				op.inSampleSize = wRatio;
+			} else {
+				op.inSampleSize = hRatio;
+			}
+		}
+		op.inJustDecodeBounds = false;
+		src = BitmapFactory.decodeFile(picPath, op);
+		if (degree % 180 != 0) {//图片需要旋转
+			src = rotate(src, degree, src.getWidth() / 2, src.getHeight() / 2, true);
+		}
+		src = centerCrop(src, destWidth, destHeight);
+		return src;
 	}
 }

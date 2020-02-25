@@ -27,16 +27,18 @@ public class UtilCollection {
         return list == null || list.size() == 0;
     }
 
-    public static <K,V> boolean notEmpty(Map<K,V> map) {
+    public static <K, V> boolean notEmpty(Map<K, V> map) {
         return map != null && map.size() > 0;
     }
 
-    public static <K,V> boolean isEmpty(Map<K,V> map) {
+    public static <K, V> boolean isEmpty(Map<K, V> map) {
         return map == null || map.size() == 0;
     }
 
-    /**for short:
+    /**
+     * for short:
      * mPushMsgListVos.addAll( Arrays.asList(pushMsgListVos));
+     *
      * @param array
      * @param <E>
      * @return
@@ -53,7 +55,9 @@ public class UtilCollection {
         return userList;
     }
 
-    /**会出错
+    /**
+     * 会出错
+     *
      * @param list
      * @param <E>
      * @return
@@ -67,29 +71,31 @@ public class UtilCollection {
     }
 
     /**
-     * @param list  really arraylist
-     * @param contents  eg:  new String[receivers.size()]
+     * @param list     really arraylist
+     * @param contents eg:  new String[receivers.size()]
      * @param <E>
      * @return
      */
-    public static <E> E[] listToArray(List<E> list,E[] contents){
-        if (list==null || list.size()==0){
+    public static <E> E[] listToArray(List<E> list, E[] contents) {
+        if (list == null || list.size() == 0) {
             return null;
         }
-        ArrayList<E> list1= (ArrayList<E>) list;
+        ArrayList<E> list1 = (ArrayList<E>) list;
         return list1.toArray(contents);
     }
 
-    /**list去重
+    /**
+     * list去重
+     *
      * @param list
      * @param <E>
      * @return
      */
-    public static <E> List<E> singleFilter(List<E> list){
+    public static <E> List<E> singleFilter(List<E> list) {
         ArrayList<E> result = new ArrayList<E>();
 
-        for(E e: list){
-            if(Collections.frequency(result, e) < 1) result.add(e);
+        for (E e : list) {
+            if (Collections.frequency(result, e) < 1) result.add(e);
         }
         return result;
     }
@@ -122,48 +128,9 @@ public class UtilCollection {
                 try {
                     Method m1 = ((E) arg1).getClass().getMethod(method, new Class[0]);
                     Method m2 = ((E) arg2).getClass().getMethod(method, new Class[0]);
-                    Object obj1 = m1.invoke(((E) arg1), new  Object[]{});
-                    Object obj2 = m2.invoke(((E) arg2), new  Object[]{});
-                    if (obj1!=null&&obj2!=null) {
-                        if (obj1 instanceof String) {
-                            obj1= UtilHanziToPinyin.getPinYin((String) obj1);
-                            obj2= UtilHanziToPinyin.getPinYin((String) obj2);
-                            // 字符串
-                            result = obj1.toString().compareTo(obj2.toString());
-                            //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);
-                        } else if (obj1 instanceof Date) {
-                            // 日期
-                            long l = ((Date) obj1).getTime() - ((Date) obj2).getTime();
-                            if (l > 0) {
-                                result = 1;
-                            } else if (l < 0) {
-                                result = -1;
-                            } else {
-                                result = 0;
-                            }
-                        } else if (obj1 instanceof Integer) {
-                            // 整型（Method的返回参数可以是int的，因为JDK1.5之后，Integer与int可以自动转换了）
-                            result = (Integer) obj1 - (Integer) obj2;
-                        } else {
-                            // 目前尚不支持的对象，直接转换为String，然后比较，后果未知
-                            result = obj1.toString().compareTo(obj2.toString());
-                            System.err.println("UtilSortList.sortByMethod方法接受到不可识别的对象类型，转换为字符串后比较返回...");
-
-                        }
-                    } else {
-                        if (obj1==null&&obj2!=null){
-                            result=-1;
-                        }else if (obj1==null&&obj2==null){
-                            result=0;
-                        }else {// obj1 != null && obj2 == null
-                            result=1;
-                        }
-                    }
-
-                    if (bigToLittle) {
-                        // 倒序
-                        result = -result;
-                    }
+                    Object obj1 = m1.invoke(((E) arg1), new Object[]{});
+                    Object obj2 = m2.invoke(((E) arg2), new Object[]{});
+                    result = compare(obj1, obj2);
                 } catch (NoSuchMethodException nsme) {
                     nsme.printStackTrace();
                 } catch (IllegalAccessException iae) {
@@ -190,46 +157,7 @@ public class UtilCollection {
 
                     Object obj1 = field1.get(arg1);
                     Object obj2 = field2.get(arg2);
-                    if (obj1!=null&&obj2!=null) {
-                        if (obj1 instanceof String) {
-                            obj1= UtilHanziToPinyin.getPinYin((String) obj1);
-                            obj2= UtilHanziToPinyin.getPinYin((String) obj2);
-                            // 字符串
-                            result = obj1.toString().compareTo(obj2.toString());
-                            //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);
-                        } else if (obj1 instanceof Date) {
-                            // 日期
-                            long l = ((Date) obj1).getTime() - ((Date) obj2).getTime();
-                            if (l > 0) {
-                                result = 1;
-                            } else if (l < 0) {
-                                result = -1;
-                            } else {
-                                result = 0;
-                            }
-                        } else if (obj1 instanceof Integer) {
-                            // 整型（Method的返回参数可以是int的，因为JDK1.5之后，Integer与int可以自动转换了）
-                            result = (Integer) obj1 - (Integer) obj2;
-                        } else {
-                            // 目前尚不支持的对象，直接转换为String，然后比较，后果未知
-                            result = obj1.toString().compareTo(obj2.toString());
-                            System.err.println("UtilSortList.sortByMethod方法接受到不可识别的对象类型，转换为字符串后比较返回...");
-
-                        }
-                    } else {
-                        if (obj1==null&&obj2!=null){
-                            result=-1;
-                        }else if (obj1==null&&obj2==null){
-                            result=0;
-                        }else {// obj1 != null && obj2 == null
-                            result=1;
-                        }
-                    }
-
-                    if (bigToLittle) {
-                        // 倒序
-                        result = -result;
-                    }
+                    result = compare(obj1, obj2);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -239,14 +167,84 @@ public class UtilCollection {
         });
     }
 
-    /**根据元素内的字段从list中查找元素
+    private static int compare(Object obj1,Object obj2,boolean bigToLittle){
+        int result = 0;
+        if (obj1 != null && obj2 != null) {
+            if (obj1 instanceof String) {
+                obj1 = UtilHanziToPinyin.getPinYin((String) obj1);
+                obj2 = UtilHanziToPinyin.getPinYin((String) obj2);
+                // 字符串
+                result = obj1.toString().compareTo(obj2.toString());
+                //                        Log.w("obj1:"+obj1+" obj2:"+obj2+" result:"+result);
+
+            } else if (obj1 instanceof Date) {
+                // 日期
+                long l = ((Date) obj1).getTime() - ((Date) obj2).getTime();
+                if (l > 0) {
+                    result = 1;
+                } else if (l < 0) {
+                    result = -1;
+                } else {
+                    result = 0;
+                }
+
+            } else if (obj1 instanceof Integer) {
+                // 整型（Method的返回参数可以是int的，因为JDK1.5之后，Integer与int可以自动转换了）
+                result = (Integer) obj1 - (Integer) obj2;
+
+            } else if (obj1 instanceof Double) {
+                double temp=(Double) obj1 - (Double) obj2;
+                if (temp>0){
+                    result=1;
+                }else if (temp<0){
+                    result=-1;
+                }else {
+                    result = 0;
+                }
+
+            } else if (obj1 instanceof Float) {
+                float temp=(Float) obj1 - (Float) obj2;
+                if (temp>0){
+                    result=1;
+                }else if (temp<0){
+                    result=-1;
+                }else {
+                    result = 0;
+                }
+
+            } else {
+                // 目前尚不支持的对象，直接转换为String，然后比较，后果未知
+                result = obj1.toString().compareTo(obj2.toString());
+                System.err.println("UtilSortList.sortByMethod方法接受到不可识别的对象类型，转换为字符串后比较返回...");
+
+            }
+        } else {
+            if (obj1 == null && obj2 != null) {
+                result = -1;
+            } else if (obj1 == null && obj2 == null) {
+                result = 0;
+            } else {// obj1 != null && obj2 == null
+                result = 1;
+            }
+        }
+
+        if (bigToLittle) {
+            // 倒序
+            result = -result;
+        }
+        return result;
+    }
+
+    /**
+     * 根据元素内的字段从list中查找元素
+     *
      * @param list
      * @param fieldStr
      * @param value
      * @param <T>
      * @return
      */
-    public static <T> T getByField(List<T> list,String fieldStr,Object value){
+    public static <T> T getByField(List<T> list, String fieldStr, Object value) {
         if (isEmpty(list)) return null;
         Field field = null;
         try {
@@ -256,7 +254,7 @@ public class UtilCollection {
         }
         field.setAccessible(true);
 
-        for (T t:list){
+        for (T t : list) {
             try {
                 Object obj = field.get(t);
                 if ((obj == null && value == null) || obj.toString().equals(value.toString())) {
@@ -269,15 +267,15 @@ public class UtilCollection {
         return null;
     }
 
-    public static <T> Set convert(List<T> list){
+    public static <T> Set convert(List<T> list) {
         if (isEmpty(list)) return null;
 
-        HashSet hashSet=new HashSet<T>();
+        HashSet hashSet = new HashSet<T>();
         hashSet.addAll(list);
         return hashSet;
     }
 
-    public static <T> ArrayList<T> convert(Set<T> set){
+    public static <T> ArrayList<T> convert(Set<T> set) {
         return new ArrayList(set);
     }
 
@@ -286,6 +284,7 @@ public class UtilCollection {
      * {我，你，他} {zhu，mao，gou} {1，2}
      * ————————→
      * {我,zhu,1} {我,zhu,2} {我,mao,1} {我,mao,2} {我,gou,1} {我,gou,2} {你,zhu,1} ...
+     *
      * @param lists
      * @return
      */
@@ -309,7 +308,9 @@ public class UtilCollection {
         return resultLists;
     }
 
-    /**列表内容相同性比较
+    /**
+     * 列表内容相同性比较
+     *
      * @param list1
      * @param list2
      * @return
@@ -328,20 +329,20 @@ public class UtilCollection {
         }
     }
 
-    public static <E> String toString(List<E> list){
-        return list.toString().replaceAll(" ","");
+    public static <E> String toString(List<E> list) {
+        return list.toString().replaceAll(" ", "");
     }
 
-    public static void putAll(Map map,Map mapToBeAdded){
-        if (!isEmpty(mapToBeAdded)){
+    public static void putAll(Map map, Map mapToBeAdded) {
+        if (!isEmpty(mapToBeAdded)) {
             map.putAll(mapToBeAdded);
         }
     }
 
-    public static <K,V> String toString(Map<K,V> map){
-        StringBuilder sb=new StringBuilder();
-        for (Map.Entry<K,V> entry : map.entrySet()) {
-            sb.append("key:"+entry.getKey()+" value:"+entry.getValue());
+    public static <K, V> String toString(Map<K, V> map) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            sb.append("key:" + entry.getKey() + " value:" + entry.getValue());
         }
         return sb.toString();
     }
