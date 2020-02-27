@@ -1,6 +1,7 @@
 package com.cy.container;
 
 import android.annotation.TargetApi;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
@@ -148,8 +149,17 @@ public abstract class BaseHostActivity extends FragmentActivity{
 			System.exit(0);
 		}
 	}
+
 	public void baseStartActivity(Class clazz){
 		startActivity(new Intent(this,clazz));
+	}
+
+	public void baseStartActivity(String pkg,String act){
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		ComponentName cn = new ComponentName(pkg, act);
+		intent.setComponent(cn);
+		startActivity(intent);
 	}
 
 	//block to use AppManager end
