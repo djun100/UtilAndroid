@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,7 +131,7 @@ public class UtilCollection {
                     Method m2 = ((E) arg2).getClass().getMethod(method, new Class[0]);
                     Object obj1 = m1.invoke(((E) arg1), new Object[]{});
                     Object obj2 = m2.invoke(((E) arg2), new Object[]{});
-                    result = compare(obj1, obj2);
+                    result = UtilCollection.compare(obj1, obj2,bigToLittle);
                 } catch (NoSuchMethodException nsme) {
                     nsme.printStackTrace();
                 } catch (IllegalAccessException iae) {
@@ -157,7 +158,7 @@ public class UtilCollection {
 
                     Object obj1 = field1.get(arg1);
                     Object obj2 = field2.get(arg2);
-                    result = compare(obj1, obj2);
+                    result = UtilCollection.compare(obj1, obj2,bigToLittle);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -165,6 +166,35 @@ public class UtilCollection {
                 return result;
             }
         });
+    }
+
+    public static <K,V> void sortByField(LinkedHashMap<K,V> map, final String field, final boolean bigToLittle) {
+        //先转成ArrayList集合
+        ArrayList<Map.Entry<K, V>> list = new ArrayList<Map.Entry<K, V>>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
+            @SuppressWarnings("unchecked")
+            public int compare(Map.Entry<K, V> arg1, Map.Entry<K, V> arg2) {
+                int result = 0;
+                try {
+                    Field field1 = arg1.getValue().getClass().getDeclaredField(field);
+                    field1.setAccessible(true);
+                    Field field2 = arg2.getValue().getClass().getDeclaredField(field);
+                    field2.setAccessible(true);
+
+                    Object obj1 = field1.get(arg1.getValue());
+                    Object obj2 = field2.get(arg2.getValue());
+                    result = UtilCollection.compare(obj1, obj2,bigToLittle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return result;
+            }
+        });
+        map.clear();
+        for (Map.Entry<K,V> entry : list) {
+            map.put(entry.getKey(), entry.getValue());
+        }
     }
 
     private static int compare(Object obj1,Object obj2,boolean bigToLittle){
