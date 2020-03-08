@@ -168,6 +168,22 @@ public class UtilCollection {
         });
     }
 
+    public static <E> void sort(List<E> list, final boolean bigToLittle) {
+        if (isEmpty(list)) return;
+        Collections.sort(list, new Comparator<Object>() {
+            @SuppressWarnings("unchecked")
+            public int compare(Object arg1, Object arg2) {
+                int result = 0;
+                try {
+                    result = UtilCollection.compare(arg1, arg2,bigToLittle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+        });
+    }
+
     public static <K,V> void sortByField(LinkedHashMap<K,V> map, final String field, final boolean bigToLittle) {
         //先转成ArrayList集合
         ArrayList<Map.Entry<K, V>> list = new ArrayList<Map.Entry<K, V>>(map.entrySet());

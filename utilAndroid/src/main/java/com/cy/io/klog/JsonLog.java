@@ -1,8 +1,5 @@
 package com.cy.io.klog;
 
-import android.util.Log;
-
-
 import com.cy.io.KLog;
 import com.cy.io.KLogUtil;
 
@@ -37,7 +34,7 @@ public class JsonLog {
         message = headString + KLog.LINE_SEPARATOR + message;
         String[] lines = message.split(KLog.LINE_SEPARATOR);
         for (String line : lines) {
-            Log.d(tag, "║ " + line);
+            KLog.d(tag, "║ " + line);
         }
         KLogUtil.printLine(tag, false);
     }

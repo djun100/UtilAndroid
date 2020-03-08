@@ -22,6 +22,8 @@
  */
 package com.cy.io;
 
+import android.os.StatFs;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +32,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
-
-import android.os.StatFs;
 
 /**
  * @author Geek_Soledad (66704238@51uc.com)
@@ -68,8 +68,8 @@ public class UtilIO {
 		if (closeable != null) {
 			try {
 				closeable.close();
-			} catch (IOException ioe) {
-				// ignore
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

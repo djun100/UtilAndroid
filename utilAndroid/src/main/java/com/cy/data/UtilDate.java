@@ -19,6 +19,7 @@ public class UtilDate {
 	public static final String FORMAT_MM_DD_YYYY_HH_MM_SS_diagonal = "MM/dd/yyyy HH:mm:ss";
 	public static final String FORMAT_HH_MM_SS = "HH:mm:ss";
 	public static final String FORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
+	public static final String FORMAT_YYYYMMDD_HH_MM_SS = "yyyyMMdd-HH_mm_ss";
 	public static final String FORMAT_YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
 	public static final String FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
 	public static final String FORMAT_YYYY_MM = "yyyy-MM";
@@ -37,7 +38,7 @@ public class UtilDate {
 	public static final int TYPE_SECOND=6;
 
 	public static String getDateStrNow(String format){
-		format= TextUtils.isEmpty(format)?FORMAT_YYYYMMDDHHMMSS:format;
+		format= TextUtils.isEmpty(format)?FORMAT_YYYYMMDD_HH_MM_SS:format;
 		return getDateStr(System.currentTimeMillis(),format);
 	}
 
@@ -86,7 +87,7 @@ public class UtilDate {
 	}
 
 	public static long getLong(String strDate,String format){
-		long milliseconds = 0;
+		long milliseconds = -1;
 		SimpleDateFormat f = new SimpleDateFormat(format);
 		try {
 			Date d = f.parse(strDate);

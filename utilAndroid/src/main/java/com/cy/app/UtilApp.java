@@ -17,13 +17,10 @@ import android.text.TextUtils;
 
 import com.cy.io.Log;
 
-import org.apache.commons.codec.Charsets;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 
@@ -272,5 +269,10 @@ public class UtilApp {
     public static boolean isMainProcess() {
         String processname = getCurrentProcessName();
         return !TextUtils.isEmpty(processname) && UtilContext.getContext().getPackageName().equals(processname);
+    }
+
+    public static String getLastPkgName(){
+        String pkgName = UtilContext.getContext().getPackageName();
+        return pkgName.substring(pkgName.lastIndexOf(".")+1);
     }
 }
