@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader.TileMode;
@@ -723,5 +724,19 @@ public class UtilImg {
 		}
 		src = centerCrop(src, destWidth, destHeight);
 		return src;
+	}
+
+	public static Point getPicDimensions(Uri uri){
+		return getPicDimensions(uri.getPath());
+	}
+
+	public static Point getPicDimensions(String path) {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(path, options);
+//		图片原始宽高
+		int width = options.outWidth;
+		int height = options.outHeight;
+		return new Point(width,height);
 	}
 }
