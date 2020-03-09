@@ -1,8 +1,5 @@
 package com.cy.io.klog;
 
-import android.util.Log;
-
-
 import com.cy.io.KLog;
 import com.cy.io.KLogUtil;
 
@@ -34,7 +31,7 @@ public class XmlLog {
         String[] lines = xml.split(KLog.LINE_SEPARATOR);
         for (String line : lines) {
             if (!KLogUtil.isEmpty(line)) {
-                Log.d(tag, "║ " + line);
+                KLog.d(tag, "║ " + line);
             }
         }
         KLogUtil.printLine(tag, false);

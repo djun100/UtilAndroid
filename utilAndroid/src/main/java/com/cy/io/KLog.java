@@ -235,6 +235,7 @@ public class KLog {
             case E:
             case A:
                 BaseLog.printDefault(type, tag, headString + msg);
+                LogWriteMgr.writeLog(LogWriteMgr.getFormatContent(headString + msg,getType(type)));
                 break;
             case JSON:
                 JsonLog.printJson(tag, msg, headString);
@@ -244,7 +245,7 @@ public class KLog {
                 break;
         }
         // TODO_cy: 2019/9/7  add
-        Log.print2File(type,tag,msg);
+//        Log.print2File(type,tag,msg);
     }
 
     private static void printDebug(String tagStr, Object... objects) {
@@ -332,4 +333,22 @@ public class KLog {
         }
     }
 
+    private static String getType(int type){
+        switch (type){
+            case V:
+                return "V";
+            case D:
+                return "D";
+            case I:
+                return "I";
+            case W:
+                return "W";
+            case E:
+                return "E";
+            case A:
+                return "A";
+            default:
+                return "";
+        }
+    }
 }

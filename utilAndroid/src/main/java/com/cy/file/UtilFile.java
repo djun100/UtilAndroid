@@ -1,19 +1,19 @@
 package com.cy.file;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.cy.data.UtilCollection;
 import com.cy.data.UtilString;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -791,5 +791,71 @@ public class UtilFile {
         BigDecimal result4 = new BigDecimal(teraBytes);
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
+    }
+
+    /**
+     * 获取手机内部空间总大小
+     *
+     * @return 大小，字节为单位
+     */
+    static public long getTotalInternalSpace() {
+        //获取内部存储根目录
+        File path = Environment.getDataDirectory();
+        //系统的空间描述类
+        StatFs stat = new StatFs(path.getPath());
+        //每个区块占字节数
+        long blockSize = stat.getBlockSize();
+        //区块总数
+        long totalBlocks = stat.getBlockCount();
+        return totalBlocks * blockSize;
+    }
+
+    /**
+     * 获取手机内部可用空间大小
+     *
+     * @return 大小，字节为单位
+     */
+    static public long getInternalFreeSpace() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        //获取可用区块数量
+        long availableBlocks = stat.getAvailableBlocks();
+        return availableBlocks * blockSize;
+    }
+
+    /**
+     * 获取手机外部总空间大小
+     *
+     * @return 总大小，字节为单位
+     */
+    static public long getTotalExternalSpace() {
+        if (isSdCardExist()) {
+            //获取SDCard根目录
+            File path = Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            long blockSize = stat.getBlockSize();
+            long totalBlocks = stat.getBlockCount();
+            return totalBlocks * blockSize;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * 获取SD卡剩余空间
+     *
+     * @return SD卡剩余空间
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static long getExternalFreeSpace() {
+        if (!isSdCardExist()) return  0;
+        File sdcardDir = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(sdcardDir.getPath());
+        long blockSize, availableBlocks;
+        availableBlocks = stat.getAvailableBlocksLong();
+        blockSize = stat.getBlockSizeLong();
+        long size = availableBlocks * blockSize;
+        return size;
     }
 }

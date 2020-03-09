@@ -56,7 +56,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        TestLog.showLog("呵呵");
+//        TestLog.showLog("呵呵");
         String ANDROID_ID = Settings.System.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         Log.i("ANDROID_ID :"+ANDROID_ID );
         UtilToast.showLong(ANDROID_ID);
