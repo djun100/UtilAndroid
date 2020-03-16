@@ -13,14 +13,8 @@ public class UtilActivity {
      * @param intent
      * @return
      */
-    public boolean isIntentAvailable(Intent intent) {
-        if (intent.resolveActivity(UtilContext.getContext().getPackageManager()) != null) {
-            //存在
-            return true;
-        } else {
-            //不存在
-            return false;
-        }
+    public boolean isIntentActExist(Intent intent) {
+        return intent.resolveActivity(UtilContext.getContext().getPackageManager()) != null;
     }
 
     public static  void setFullScreen(Activity activity){
