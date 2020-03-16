@@ -26,7 +26,9 @@ public class _LogFileMgr {
     //创建日志文件的时候才去判断，而非每次写日志都判断，提高性能
     private static final long MIN_FREE_SPACE = LOG_FILE_MAX_SIZE + 2 * 1024 * 1024;//2MB;
     public static File sDirFileLog;
+    public static File sDirFileCrash;
     private static File sCurrLogFile;
+    private static File sCrashFile;
     private static boolean sLogToSD;
 
     /**
@@ -35,19 +37,25 @@ public class _LogFileMgr {
      */
     public static void init(boolean logToSD, @Nullable String folderPath) {
         sLogToSD = logToSD;
-        String tempFolderPath = folderPath;
-        if (TextUtils.isEmpty(tempFolderPath)) {
-            tempFolderPath = UtilApp.getLastPkgName();
+        String logFolderPath = folderPath;
+        if (TextUtils.isEmpty(logFolderPath)) {
+            logFolderPath = UtilApp.getLastPkgName();
         }
-        if (!tempFolderPath.startsWith("/")) tempFolderPath = "/" + tempFolderPath;
-        tempFolderPath += "/log";
+        if (!logFolderPath.startsWith("/")) logFolderPath = "/" + logFolderPath;
+        String crashFolderPath = logFolderPath + "/log/crash/";
+        String currProcess = UtilApp.getCurrentProcessName();
+        int splitIndex = currProcess.indexOf(":");
+        logFolderPath += "/log/" + (splitIndex > 0 ? currProcess.substring(splitIndex+1) : "main");
 
         if (logToSD) {
-            sDirFileLog = new File(Environment.getExternalStorageDirectory() + tempFolderPath);
+            sDirFileLog = new File(Environment.getExternalStorageDirectory() + logFolderPath);
+            sDirFileCrash = new File(Environment.getExternalStorageDirectory() + crashFolderPath);
         } else {
-            sDirFileLog = new File(UtilContext.getContext().getFilesDir() + tempFolderPath);
+            sDirFileLog = new File(UtilContext.getContext().getFilesDir() + logFolderPath);
+            sDirFileCrash = new File(UtilContext.getContext().getFilesDir() + crashFolderPath);
         }
         sDirFileLog.mkdirs();
+
         if (!sDirFileLog.exists()) {
             if (logToSD) {
                 if (UtilPermission.isGranted(UtilPermission.READ_EXTERNAL_STORAGE) &&
@@ -101,6 +109,41 @@ public class _LogFileMgr {
         return sCurrLogFile;
     }
 
+    public static File getCrashFile(){
+        String name = null;
+        if (sCrashFile == null) {
+            name = findExistLatestCrashFileName();
+
+            if (name == null) {
+                name = UtilApp.getLastPkgName() + "-" +
+                        UtilDate.getDateStrNow(UtilDate.FORMAT_YYYY_MM_DD) + ".log";
+            }
+            long curAvailableSize;
+            if (sLogToSD) {
+                curAvailableSize = UtilFile.getExternalFreeSpace();
+            } else {
+                curAvailableSize = UtilFile.getInternalFreeSpace();
+            }
+
+            if (curAvailableSize < MIN_FREE_SPACE) {
+                // TODO: 2020/3/8 剩余空间不足
+
+            }
+            sDirFileCrash.mkdirs();
+            File crashFile = new File(sDirFileCrash + "/" + name);
+            if (!crashFile.exists()) {
+                try {
+                    crashFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            sCrashFile = crashFile;
+        }
+
+        return sCrashFile;
+    }
+
     private static String findExistLatestLogFileName() {
         String[] filenames = sDirFileLog.list();
         if (UtilArray.isEmpty(filenames)) return null;
@@ -129,6 +172,32 @@ public class _LogFileMgr {
             name = null;
         }
 
+        return name;
+    }
+
+    private static String findExistLatestCrashFileName() {
+        sDirFileCrash.mkdirs();
+        String[] filenames = sDirFileCrash.list();
+        if (UtilArray.isEmpty(filenames)) return null;
+
+        List<Long> timemillises = new ArrayList<>();
+        for (int i = 0; i < filenames.length; i++) {
+            long timemillis = UtilDate.getLong(
+                    filenames[i].substring(filenames[i].indexOf("-") + 1, filenames[i].length() - 4),
+                    UtilDate.FORMAT_YYYY_MM_DD);
+            if (timemillis > 0 && UtilDate.getTimeDiff(timemillis, System.currentTimeMillis()).days > LOG_FILE_MAX_EXIST_DAYS) {
+                new File(filenames[i]).delete();
+            } else {
+                timemillises.add(timemillis);
+            }
+        }
+        if (UtilCollection.isEmpty(timemillises)) return null;
+
+        UtilCollection.sort(timemillises, true);
+        //取时间戳最大的，即最新的文件的名称的时间，从而找到该文件的名字
+        long timemillis = timemillises.get(0);
+        String name = UtilApp.getLastPkgName() + "-" +
+                UtilDate.getDateStr(timemillis, UtilDate.FORMAT_YYYY_MM_DD) + ".log";
         return name;
     }
 }

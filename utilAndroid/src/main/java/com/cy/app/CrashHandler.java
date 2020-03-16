@@ -53,8 +53,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         collectDeviceInfo(mContext);
         String errorInfo = getCrashInfo(ex);
         KLog.e(errorInfo);
-        // TODO: 2020/3/8 crash log 单独放一个文件
-//        KLog.crash(errorInfo,ex);
+        LogWriteMgr.writeCrash(errorInfo);
         return true;
     }
 
