@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.cy.app.UtilContext;
+import com.cy.io.Log;
 
 /**
  * Created by wangxuechao on 2017/5/17.
@@ -73,6 +74,11 @@ public class UtilPermission {
                 localIntent.putExtra("com.android.settings.ApplicationPkgName",UtilContext.getContext().getPackageName());
             }
         }
-        activity.startActivity(localIntent);
+        try {
+            activity.startActivity(localIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(e.getMessage());
+        }
     }
 }
