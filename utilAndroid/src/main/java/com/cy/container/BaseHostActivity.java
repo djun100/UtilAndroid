@@ -43,12 +43,57 @@ public abstract class BaseHostActivity extends FragmentActivity{
 		mActivity = this;
 //		UtilStatusBar.setStatusBarFontDark(mActivity);
 		Log.w(getClass().getName());//log显示页面记录
+		if (savedInstanceState!=null){
+			Log.i("savedInstanceState:"+Log.bundle2String(savedInstanceState));
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		initSystemBar();
+		Log.i();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Log.i();
+	}
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		Log.i();
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		Log.i();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Log.i();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i();
+		if (mIsEventBusEnable){
+			try {
+				EventBus.getDefault().unregister(this);
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	/**<pre>沉浸式状态栏(不适用于近似白色的沉浸，因为默认系统状态栏文字颜色为白色)
@@ -88,17 +133,6 @@ public abstract class BaseHostActivity extends FragmentActivity{
 		try {
 			EventBus.getDefault().register(this);
 		} catch (Exception e) {
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (mIsEventBusEnable){
-			try {
-				EventBus.getDefault().unregister(this);
-			} catch (Exception e) {
-			}
 		}
 	}
 

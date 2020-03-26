@@ -3,7 +3,6 @@ package com.cy.io;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.cy.app.UtilApp;
 import com.cy.file.UtilFile;
 
 import java.io.File;
@@ -28,10 +27,10 @@ public class LogWriteMgr {
 
     public static void writeLog(String content) {
         // TODO_cy: 2020/3/15 webview 与在主进程使用mmap会导致webview崩溃？
-        if (UtilApp.isMainProcess()){
-            if (true) return;
-            Log.i("tag","log trace --> 非主线程写日志");
-        }
+//        if (UtilApp.isMainProcess()){
+//            if (true) return;
+//            Log.i("tag","log trace --> 非主线程写日志");
+//        }
         if (_LogFileMgr.sDirFileLog == null) init(true, null);
 
         File file = _LogFileMgr.getLogFile();
