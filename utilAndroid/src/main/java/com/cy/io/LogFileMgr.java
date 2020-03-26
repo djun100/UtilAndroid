@@ -22,7 +22,7 @@ import java.util.List;
  * Created by wangxuechao on 2020/3/7.
  * 不能在此类中用调用该类来生成日志文件来写日志的log，会死循环
  */
-public class _LogFileMgr {
+class LogFileMgr {
     private static final long LOG_FILE_MAX_SIZE = 2 * 1024 * 1024;//2MB;
     private static final int LOG_FILE_MAX_EXIST_DAYS = 7;//7天;
     //创建日志文件的时候才去判断，而非每次写日志都判断，提高性能

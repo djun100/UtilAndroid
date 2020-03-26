@@ -22,7 +22,7 @@ public class LogWriteMgr {
      * @param folderPath 如appname/common,最终会生成在appname/common/log下
      */
     public static void init(boolean logToSD, @Nullable String folderPath) {
-        _LogFileMgr.init(logToSD, folderPath);
+        LogFileMgr.init(logToSD, folderPath);
     }
 
     public static void writeLog(String content) {
@@ -31,9 +31,9 @@ public class LogWriteMgr {
 //            if (true) return;
 //            Log.i("tag","log trace --> 非主线程写日志");
 //        }
-        if (_LogFileMgr.sDirFileLog == null) init(true, null);
+        if (LogFileMgr.sDirFileLog == null) init(true, null);
 
-        File file = _LogFileMgr.getLogFile();
+        File file = LogFileMgr.getLogFile();
         if (mLogFile == null || (!file.getAbsolutePath().equals(mLogFile.getAbsolutePath()))) {
             Log.i("tag","log trace --> 日志文件不存在或需要用新文件");
             mLogFile = file;
@@ -66,8 +66,8 @@ public class LogWriteMgr {
     }
 
     public static void writeCrash(String content){
-        if (_LogFileMgr.sDirFileCrash == null) init(true, null);
-        File file = _LogFileMgr.getCrashFile();
+        if (LogFileMgr.sDirFileCrash == null) init(true, null);
+        File file = LogFileMgr.getCrashFile();
         UtilFile.writeUtf8FileContent(file,content+"\n\n");
     }
 
