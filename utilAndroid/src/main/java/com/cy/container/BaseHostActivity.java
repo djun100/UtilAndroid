@@ -38,8 +38,7 @@ public abstract class BaseHostActivity extends FragmentActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//默认只允许竖屏
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mActivity = this;
 //		UtilStatusBar.setStatusBarFontDark(mActivity);
 		Log.w(getClass().getName());//log显示页面记录
