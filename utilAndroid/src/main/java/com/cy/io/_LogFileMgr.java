@@ -3,6 +3,7 @@ package com.cy.io;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.cy.app.UtilApp;
 import com.cy.app.UtilContext;
@@ -19,9 +20,10 @@ import java.util.List;
 
 /**
  * Created by wangxuechao on 2020/3/7.
+ * 不能在此类中用调用该类来生成日志文件来写日志的log，会死循环
  */
 public class _LogFileMgr {
-    private static final long LOG_FILE_MAX_SIZE = 5 * 1024 * 1024;//5MB;
+    private static final long LOG_FILE_MAX_SIZE = 2 * 1024 * 1024;//2MB;
     private static final int LOG_FILE_MAX_EXIST_DAYS = 7;//7天;
     //创建日志文件的时候才去判断，而非每次写日志都判断，提高性能
     private static final long MIN_FREE_SPACE = LOG_FILE_MAX_SIZE + 2 * 1024 * 1024;//2MB;
@@ -78,7 +80,7 @@ public class _LogFileMgr {
     public static File getLogFile() {
         String name = null;
         if (sCurrLogFile == null || sCurrLogFile.length() >= LOG_FILE_MAX_SIZE) {
-            name = findExistLatestLogFileName();
+            name = findTodayLatestLogFileNameAndDeleteOld();
 
             if (name == null) {
                 name = UtilApp.getLastPkgName() + "-" +
@@ -144,7 +146,7 @@ public class _LogFileMgr {
         return sCrashFile;
     }
 
-    private static String findExistLatestLogFileName() {
+    private static String findTodayLatestLogFileNameAndDeleteOld() {
         String[] filenames = sDirFileLog.list();
         if (UtilArray.isEmpty(filenames)) return null;
 
@@ -164,6 +166,12 @@ public class _LogFileMgr {
         UtilCollection.sort(timemillises, true);
         //取时间戳最大的，即最新的文件的名称的时间，从而找到该文件的名字
         long timemillis = timemillises.get(0);
+        String day = UtilDate.getDateStr(timemillis, "dd");
+        String todayDay = UtilDate.getDateStr(System.currentTimeMillis(), "dd");
+        if (!day.equals(todayDay)){
+            Log.i("tag","目前最新日志日期非当天，启用新文件记录log");
+            return null;
+        }
         String name = UtilApp.getLastPkgName() + "-" +
                 UtilDate.getDateStr(timemillis, UtilDate.FORMAT_YYYYMMDD_HH_MM_SS) + ".log";
 
