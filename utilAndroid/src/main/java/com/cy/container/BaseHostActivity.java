@@ -3,7 +3,6 @@ package com.cy.container;
 import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

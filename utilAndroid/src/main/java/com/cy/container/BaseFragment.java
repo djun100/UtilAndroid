@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.ViewTreeObserver;
 
 import com.cy.io.Log;
 
@@ -114,4 +115,22 @@ public abstract class BaseFragment extends Fragment {
             EventBus.getDefault().unregister(this);
         }
     }
+
+    protected void baseAddOnGlobalLayoutListener(final OnGlobalLayoutListener onGlobalLayoutListener){
+        ViewTreeObserver vto =getView().getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                getView().getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                onGlobalLayoutListener.onGlobalLayout();
+            }
+        });
+    }
+
+
+    protected interface OnGlobalLayoutListener{
+        void onGlobalLayout();
+    }
+
 }
