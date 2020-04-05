@@ -5,13 +5,9 @@ import android.graphics.PointF;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 public class ViewPagerChild extends ViewPager{
-    /** 触摸时按下的点 **/
-    PointF downP = new PointF();
-    /** 触摸时当前的点 **/
-    PointF curP = new PointF(); 
-    OnSingleTouchListener onSingleTouchListener;
 
     public ViewPagerChild(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -21,62 +17,51 @@ public class ViewPagerChild extends ViewPager{
         super(context);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        //当拦截触摸事件到达此位置的时候，返回true，
-        //说明将onTouch拦截在此控件，进而执行此控件的onTouchEvent
-        return true;
-    }
+    PointF downPoint = new PointF();
+    OnSingleTouchListener onSingleTouchListener;
 
     @Override
-    public boolean onTouchEvent(MotionEvent arg0) {
-        //每次进行onTouch事件都记录当前的按下的坐标
-        curP.x = arg0.getX();
-        curP.y = arg0.getY();
-
-        if(arg0.getAction() == MotionEvent.ACTION_DOWN){
-            //记录按下时候的坐标
-            //切记不可用 downP = curP ，这样在改变curP的时候，downP也会改变
-            downP.x = arg0.getX();
-            downP.y = arg0.getY();
-            //此句代码是为了通知他的父ViewPager现在进行的是本控件的操作，不要对我的操作进行干扰
-            getParent().requestDisallowInterceptTouchEvent(true);
+    public boolean onTouchEvent(MotionEvent evt) {
+        switch (evt.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // 记录按下时候的坐标
+                downPoint.x = evt.getX();
+                downPoint.y = evt.getY();
+                if (this.getChildCount() > 1) { // 有内容，多于1个时
+                    // 通知其父控件，现在进行的是本控件的操作，不允许拦截
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (this.getChildCount() > 1) { // 有内容，多于1个时
+                    if (this.getCurrentItem() == 0 && downPoint.x < evt.getX()) {
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    } else {
+                        // 通知其父控件，现在进行的是本控件的操作，不允许拦截
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                // 在up时判断是否按下和松手的坐标为一个点
+                if (PointF.length(evt.getX() - downPoint.x, evt.getY()
+                        - downPoint.y) < (float) 5.0) {
+                    onSingleTouch(this);
+                    return true;
+                }
+                break;
         }
-
-        if(arg0.getAction() == MotionEvent.ACTION_MOVE){
-            //此句代码是为了通知他的父ViewPager现在进行的是本控件的操作，不要对我的操作进行干扰
-            getParent().requestDisallowInterceptTouchEvent(true);
-        }
-
-        if(arg0.getAction() == MotionEvent.ACTION_UP){
-            //在up时判断是否按下和松手的坐标为一个点
-            //如果是一个点，将执行点击事件，这是我自己写的点击事件，而不是onclick
-            if(downP.x==curP.x && downP.y==curP.y){
-                onSingleTouch();
-                return true;
-            }
-        }
-
-        return super.onTouchEvent(arg0);
+        return super.onTouchEvent(evt);
     }
 
-        /**
-     * 单击
-     */
-    public void onSingleTouch() {
-        if (onSingleTouchListener!= null) {
-
-            onSingleTouchListener.onSingleTouch();
+    public void onSingleTouch(View v) {
+        if (onSingleTouchListener != null) {
+            onSingleTouchListener.onSingleTouch(v);
         }
     }
 
-    /**
-     * 创建点击事件接口
-     * @author wanpg
-     *
-     */
     public interface OnSingleTouchListener {
-        public void onSingleTouch();
+        void onSingleTouch(View v);
     }
 
     public void setOnSingleTouchListener(OnSingleTouchListener onSingleTouchListener) {
