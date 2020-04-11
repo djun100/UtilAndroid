@@ -40,7 +40,7 @@ public abstract class BaseHostActivity extends FragmentActivity{
 //		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mActivity = this;
 //		UtilStatusBar.setStatusBarFontDark(mActivity);
-		Log.w(getClass().getName());//log显示页面记录
+		Log.i(getClass().getName());//log显示页面记录
 		if (savedInstanceState!=null){
 			Log.i("savedInstanceState:"+Log.bundle2String(savedInstanceState));
 		}
@@ -49,7 +49,7 @@ public abstract class BaseHostActivity extends FragmentActivity{
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.i();
+		Log.i(getClass().getName());
 	}
 
 	@Override

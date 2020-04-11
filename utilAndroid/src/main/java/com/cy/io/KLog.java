@@ -72,91 +72,95 @@ public class KLog {
     }
 
     public static void v() {
-        printLog(V, null, DEFAULT_MESSAGE);
+        printLog(0, V, null, DEFAULT_MESSAGE);
     }
 
     public static void v(Object msg) {
-        printLog(V, null, msg);
+        printLog(0, V, null, msg);
     }
 
     public static void v(String tag, Object... objects) {
-        printLog(V, tag, objects);
+        printLog(0, V, tag, objects);
     }
 
     public static void d() {
-        printLog(D, null, DEFAULT_MESSAGE);
+        printLog(0, D, null, DEFAULT_MESSAGE);
     }
 
     public static void d(Object msg) {
-        printLog(D, null, msg);
+        printLog(0, D, null, msg);
     }
 
     public static void d(String tag, Object... objects) {
-        printLog(D, tag, objects);
+        printLog(0, D, tag, objects);
     }
 
     public static void i() {
-        printLog(I, null, DEFAULT_MESSAGE);
+        printLog(0, I, null, DEFAULT_MESSAGE);
+    }
+
+    public static void i(int stackTraceOffset) {
+        printLog(stackTraceOffset, I, null, DEFAULT_MESSAGE);
     }
 
     public static void i(Object msg) {
-        printLog(I, null, msg);
+        printLog(0, I, null, msg);
     }
 
     public static void i(String tag, Object... objects) {
-        printLog(I, tag, objects);
+        printLog(0, I, tag, objects);
     }
 
     public static void w() {
-        printLog(W, null, DEFAULT_MESSAGE);
+        printLog(0, W, null, DEFAULT_MESSAGE);
     }
 
     public static void w(Object msg) {
-        printLog(W, null, msg);
+        printLog(0, W, null, msg);
     }
 
     public static void w(String tag, Object... objects) {
-        printLog(W, tag, objects);
+        printLog(0, W, tag, objects);
     }
 
     public static void e() {
-        printLog(E, null, DEFAULT_MESSAGE);
+        printLog(0, E, null, DEFAULT_MESSAGE);
     }
 
     public static void e(Object msg) {
-        printLog(E, null, msg);
+        printLog(0, E, null, msg);
     }
 
     public static void e(String tag, Object... objects) {
-        printLog(E, tag, objects);
+        printLog(0, E, tag, objects);
     }
 
     public static void a() {
-        printLog(A, null, DEFAULT_MESSAGE);
+        printLog(0, A, null, DEFAULT_MESSAGE);
     }
 
     public static void a(Object msg) {
-        printLog(A, null, msg);
+        printLog(0, A, null, msg);
     }
 
     public static void a(String tag, Object... objects) {
-        printLog(A, tag, objects);
+        printLog(0, A, tag, objects);
     }
 
     public static void json(String jsonFormat) {
-        printLog(JSON, null, jsonFormat);
+        printLog(0, JSON, null, jsonFormat);
     }
 
     public static void json(String tag, String jsonFormat) {
-        printLog(JSON, tag, jsonFormat);
+        printLog(0, JSON, tag, jsonFormat);
     }
 
     public static void xml(String xml) {
-        printLog(XML, null, xml);
+        printLog(0, XML, null, xml);
     }
 
     public static void xml(String tag, String xml) {
-        printLog(XML, tag, xml);
+        printLog(0, XML, tag, xml);
     }
 
     public static void file(File targetDirectory, Object msg) {
@@ -216,13 +220,13 @@ public class KLog {
         BaseLog.printDefault(D, tag, headString + msg);
     }
 
-    protected static void printLog(int type, String tagStr, Object... objects) {
+    protected static void printLog(int stackTraceOffset, int type, String tagStr, Object... objects) {
 
         if (!IS_SHOW_LOG) {
             return;
         }
 
-        String[] contents = wrapperContent(STACK_TRACE_INDEX_5, tagStr, objects);
+        String[] contents = wrapperContent(STACK_TRACE_INDEX_5 + stackTraceOffset, tagStr, objects);
         String tag = contents[0];
         String msg = contents[1];
         String headString = contents[2];

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.cy.app.UtilContext;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -170,11 +172,10 @@ public class UtilStatusBar {
 
     /**
      * 获取状态栏高度
-     *
-     * @param context
      * @return
      */
-    public static int getStatusBarHeight(Context context) {
+    public static int getStatusBarHeight() {
+        Context context = UtilContext.getContext();
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         return context.getResources().getDimensionPixelSize(resourceId);
     }

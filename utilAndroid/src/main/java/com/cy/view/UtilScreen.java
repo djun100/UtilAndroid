@@ -31,7 +31,7 @@ public class UtilScreen {
      * @param dp
      * @return
      */
-    public static int dp(float dp){
+    public static int dp(int dp){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,
                 UtilContext.getContext().getResources().getDisplayMetrics());
     }
