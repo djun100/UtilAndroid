@@ -71,14 +71,14 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(1);
+        Log.i(getClass().getName());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(1);
+        Log.i(getClass().getName());
     }
 
     @Override
@@ -90,7 +90,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i(1);
+        Log.i(getClass().getName());
     }
 
     @Override
@@ -102,13 +102,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.i(1);
+        Log.i(getClass().getName());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.i(1);
+        Log.i(getClass().getName());
     }
 
     @Override
@@ -120,19 +120,19 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.i(1);
+        Log.i(getClass().getName());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.i(1);
+        Log.i(getClass().getName());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(1);
+        Log.i(getClass().getName());
         if (enableBusEvent) {
             EventBus.getDefault().unregister(this);
         }

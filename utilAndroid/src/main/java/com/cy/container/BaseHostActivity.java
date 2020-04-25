@@ -55,31 +55,31 @@ public abstract class BaseHostActivity extends FragmentActivity{
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Log.i();
+		Log.i(getClass().getName());
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		Log.i();
+		Log.i(getClass().getName());
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		Log.i();
+		Log.i(getClass().getName());
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		Log.i();
+		Log.i(getClass().getName());
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		Log.i();
+		Log.i(getClass().getName());
 	}
 
 	@Override
