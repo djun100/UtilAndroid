@@ -5,7 +5,7 @@ import android.media.MediaMetadataRetriever;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-
+import com.cy.io.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,5 +77,28 @@ public class UtilMedida {
 
     public static String getSnapPath(String videoPath){
         return videoPath.replace(".mp4","")+POST_FIX;
+    }
+
+    public static boolean checkVideoAvalible(File file) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        try {
+            if (file != null) {
+                mmr.setDataSource(file.getAbsolutePath());
+                String duration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                Log.i("trace --> file="+file.getAbsolutePath()+", video_duration:"+duration);
+                if (duration.equals("0")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+        } catch (Exception ex) {
+            Log.e("TAG", "MediaMetadataRetriever exception " + ex);
+        } finally {
+            mmr.release();
+        }
+        return false;
+
     }
 }
