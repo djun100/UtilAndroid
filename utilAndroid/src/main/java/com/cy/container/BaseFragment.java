@@ -56,13 +56,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.w(getClass().getName() + " visable:" + isVisibleToUser);
+        Log.w(this + " visable:" + isVisibleToUser);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(getClass().getName());
+        Log.i(this);
         if (savedInstanceState!=null){
             Log.i("savedInstanceState:"+Log.bundle2String(savedInstanceState));
         }
@@ -71,68 +71,68 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(getClass().getName());
+        Log.i(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.i(getClass().getName());
+        Log.i(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(getClass().getName());
+        Log.i(this);
         if (enableBusEvent) {
             EventBus.getDefault().unregister(this);
         }
