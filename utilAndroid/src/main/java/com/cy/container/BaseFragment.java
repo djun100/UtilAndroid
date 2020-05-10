@@ -120,7 +120,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.i(this);
+        Log.i(this + (hidden ? " hidden" : " shown"));
     }
 
     @Override

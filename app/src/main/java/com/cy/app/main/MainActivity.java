@@ -20,6 +20,7 @@ import com.cy.app.R;
 import com.cy.app.StyledViewActivity;
 import com.cy.app.TestLog;
 import com.cy.app.log.LogActivity;
+import com.cy.app.testFragment.TestFraActivity;
 import com.cy.file.UtilFile;
 import com.cy.io.Log;
 import com.cy.view.UtilScreen;
@@ -50,6 +51,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
      * StyledView
      */
     private Button mBtnStyledView;
+    private Button mbtnTestFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,8 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         mBtnTestMVP.setOnClickListener(this);
         mBtnStyledView = findViewById(R.id.btnStyledView);
         mBtnStyledView.setOnClickListener(this);
+        mbtnTestFragment = findViewById(R.id.mbtnTestFragment);
+        mbtnTestFragment.setOnClickListener(this);
 
         UtilViewStyle.view(mBtn)
 //                .setRippleEnable(true)
@@ -188,6 +192,9 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
                 break;
             case R.id.btnStyledView:
                 baseStartActivity(StyledViewActivity.class);
+                break;
+            case R.id.mbtnTestFragment:
+                baseStartActivity(TestFraActivity.class);
                 break;
         }
     }
