@@ -33,18 +33,20 @@ public class UtilResource {
         designed_device_density = density;
         designed_device_screen_height = screen_height;
     }
+
     /**
-     * 设计稿按joy3设计，dp按设计稿中2x取值，可以适配短屏幕的Y1表
-     * @param joy3DpValue
+     * 设计稿按其他屏尺寸设计，dp按设计稿中2x取值，可以适配当前屏幕的尺寸
+     * @param uiDesignedDpValue 设计图标注dp
+     * @param uiDesignedScreenHeight    设计图基于的表屏高度
+     * @param uiDesignedScreenDensity   设计图基于的表屏密度
      * @return
      */
-    public static int getScaledPx(float joy3DpValue) {
-//        Log.i("screen --> joy3 dp:" + joy3DpValue);
-        int joy3Px = (int) (joy3DpValue * designed_device_density + 0.5F);
-//        Log.i("screen --> joy3 px:" + joy3Px);
-        float ratio = UtilContext.getContext().getResources().getDisplayMetrics().heightPixels / designed_device_screen_height;
-        int scaledPx = (int) (joy3Px * ratio);
-//        Log.i("screen --> scaledPx:" + scaledPx);
+    public static int getScaledPx(float uiDesignedDpValue,float uiDesignedScreenHeight,float uiDesignedScreenDensity) {
+        Context context= UtilContext.getContext();
+
+        int uiDesignedPx = (int) (uiDesignedDpValue * uiDesignedScreenDensity + 0.5F);
+        float ratio = context.getResources().getDisplayMetrics().heightPixels / uiDesignedScreenHeight;
+        int scaledPx = (int) (uiDesignedPx * ratio);
         return scaledPx;
     }
 }

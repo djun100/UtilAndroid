@@ -8,6 +8,8 @@ import android.app.Application;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -274,5 +276,11 @@ public class UtilApp {
     public static String getLastPkgName(){
         String pkgName = UtilContext.getContext().getPackageName();
         return pkgName.substring(pkgName.lastIndexOf(".")+1);
+    }
+
+    public static PackageInfo getPkgArchiveInfo(String apkPath) {
+        PackageInfo packageInfo = UtilContext.getContext().getPackageManager()
+                .getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES);
+        return packageInfo;
     }
 }
