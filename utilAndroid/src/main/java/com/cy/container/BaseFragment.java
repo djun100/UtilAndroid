@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.cy.app.BaseConstants;
 import com.cy.io.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,15 +57,15 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Log.w(this + " visable:" + isVisibleToUser);
+        Log.w(BaseConstants.TAG_LIFECYCLE,this + " visable:" + isVisibleToUser);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(this);
+        Log.i(BaseConstants.TAG_LIFECYCLE,this);
         if (savedInstanceState!=null){
-            Log.i("savedInstanceState:"+Log.bundle2String(savedInstanceState));
+            Log.i(BaseConstants.TAG_LIFECYCLE,"savedInstanceState:"+Log.bundle2String(savedInstanceState));
         }
     }
 
@@ -78,13 +79,13 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(this);
+        Log.i(BaseConstants.TAG_LIFECYCLE,this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(this);
+        Log.i(BaseConstants.TAG_LIFECYCLE,this);
     }
 
     @Override
@@ -96,7 +97,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Log.i(this);
+        Log.i(BaseConstants.TAG_LIFECYCLE,this);
     }
 
     @Override
@@ -114,7 +115,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.i(this);
+        Log.i(BaseConstants.TAG_LIFECYCLE,this);
     }
 
     @Override

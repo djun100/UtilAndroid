@@ -74,84 +74,165 @@ public class KLog {
     public static void v() {
         printLog(0, V, null, DEFAULT_MESSAGE);
     }
+    public static void v(boolean enable) {
+        if (!enable) return;
+        printLog(0, V, null, DEFAULT_MESSAGE);
+    }
 
     public static void v(Object msg) {
+        printLog(0, V, null, msg);
+    }
+    public static void v(boolean enable,Object msg) {
+        if (!enable) return;
         printLog(0, V, null, msg);
     }
 
     public static void v(String tag, Object... objects) {
         printLog(0, V, tag, objects);
     }
+    public static void v(boolean enable,String tag, Object... objects) {
+        if (!enable) return;
+        printLog(0, V, tag, objects);
+    }
 
     public static void d() {
         printLog(0, D, null, DEFAULT_MESSAGE);
     }
+    public static void d(boolean enable) {
+        if (!enable) return;
+        printLog(0, D, null, DEFAULT_MESSAGE);
+    }
 
-    public static void d(Object msg) {
+    public static void d(boolean enable,Object msg) {
+        if (!enable) return;
         printLog(0, D, null, msg);
     }
 
     public static void d(String tag, Object... objects) {
         printLog(0, D, tag, objects);
     }
+    public static void d(boolean enable,String tag, Object... objects) {
+        if (!enable) return;
+        printLog(0, D, tag, objects);
+    }
 
     public static void i() {
+        printLog(0, I, null, DEFAULT_MESSAGE);
+    }
+    public static void i(boolean enable) {
+        if (!enable) return;
         printLog(0, I, null, DEFAULT_MESSAGE);
     }
 
     public static void i(int stackTraceOffset) {
         printLog(stackTraceOffset, I, null, DEFAULT_MESSAGE);
     }
+    public static void i(boolean enable,int stackTraceOffset) {
+        if (!enable) return;
+        printLog(stackTraceOffset, I, null, DEFAULT_MESSAGE);
+    }
 
     public static void i(Object msg) {
+        printLog(0, I, null, msg);
+    }
+    public static void i(boolean enable,Object msg) {
+        if (!enable) return;
         printLog(0, I, null, msg);
     }
 
     public static void i(String tag, Object... objects) {
         printLog(0, I, tag, objects);
     }
+    public static void i(boolean enable,String tag, Object... objects) {
+        if (!enable) return;
+        printLog(0, I, tag, objects);
+    }
 
     public static void w() {
+        printLog(0, W, null, DEFAULT_MESSAGE);
+    }
+    public static void w(boolean enable) {
+        if (!enable) return;
         printLog(0, W, null, DEFAULT_MESSAGE);
     }
 
     public static void w(Object msg) {
         printLog(0, W, null, msg);
     }
+    public static void w(boolean enable,Object msg) {
+        if (!enable) return;
+        printLog(0, W, null, msg);
+    }
 
     public static void w(String tag, Object... objects) {
+        printLog(0, W, tag, objects);
+    }
+    public static void w(boolean enable,String tag, Object... objects) {
+        if (!enable) return;
         printLog(0, W, tag, objects);
     }
 
     public static void e() {
         printLog(0, E, null, DEFAULT_MESSAGE);
     }
+    public static void e(boolean enable) {
+        if (!enable) return;
+        printLog(0, E, null, DEFAULT_MESSAGE);
+    }
 
     public static void e(Object msg) {
+        printLog(0, E, null, msg);
+    }
+    public static void e(boolean enable,Object msg) {
+        if (!enable) return;
         printLog(0, E, null, msg);
     }
 
     public static void e(String tag, Object... objects) {
         printLog(0, E, tag, objects);
     }
+    public static void e(boolean enable,String tag, Object... objects) {
+        if (!enable) return;
+        printLog(0, E, tag, objects);
+    }
 
     public static void a() {
+        printLog(0, A, null, DEFAULT_MESSAGE);
+    }
+    public static void a(boolean enable) {
+        if (!enable) return;
         printLog(0, A, null, DEFAULT_MESSAGE);
     }
 
     public static void a(Object msg) {
         printLog(0, A, null, msg);
     }
+    public static void a(boolean enable,Object msg) {
+        if (!enable) return;
+        printLog(0, A, null, msg);
+    }
 
     public static void a(String tag, Object... objects) {
+        printLog(0, A, tag, objects);
+    }
+    public static void a(boolean enable,String tag, Object... objects) {
+        if (!enable) return;
         printLog(0, A, tag, objects);
     }
 
     public static void json(String jsonFormat) {
         printLog(0, JSON, null, jsonFormat);
     }
+    public static void json(boolean enable,String jsonFormat) {
+        if (!enable) return;
+        printLog(0, JSON, null, jsonFormat);
+    }
 
     public static void json(String tag, String jsonFormat) {
+        printLog(0, JSON, tag, jsonFormat);
+    }
+    public static void json(boolean enable,String tag, String jsonFormat) {
+        if (!enable) return;
         printLog(0, JSON, tag, jsonFormat);
     }
 
@@ -159,7 +240,16 @@ public class KLog {
         printLog(0, XML, null, xml);
     }
 
+    public static void xml(boolean enable,String xml) {
+        if (!enable) return;
+        printLog(0, XML, null, xml);
+    }
+
     public static void xml(String tag, String xml) {
+        printLog(0, XML, tag, xml);
+    }
+    public static void xml(boolean enable,String tag, String xml) {
+        if (!enable) return;
         printLog(0, XML, tag, xml);
     }
 
