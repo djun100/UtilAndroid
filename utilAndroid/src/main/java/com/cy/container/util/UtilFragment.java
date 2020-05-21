@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.cy.app.BaseConstants;
 import com.cy.io.Log;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class UtilFragment {
 			transaction.show(fragment);
 
 		} else {
-			Log.i("add进fra " + fragment);
+			Log.i(BaseConstants.TAG_LIFECYCLE,"add进fra " + fragment);
 			transaction.add(container, fragment, null);
 			fras.put(fragment,container);
 		}

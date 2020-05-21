@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.cy.app.BaseConstants;
 import com.cy.container.onActivityResult2.OnActivityResultManager;
 import com.cy.io.Log;
 
@@ -40,7 +41,7 @@ public abstract class BaseHostActivity extends FragmentActivity{
 //		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mActivity = this;
 //		UtilStatusBar.setStatusBarFontDark(mActivity);
-		Log.i(getClass().getName());//log显示页面记录
+		Log.i(BaseConstants.TAG_LIFECYCLE,getClass().getName());//log显示页面记录
 		if (savedInstanceState!=null){
 			Log.i("savedInstanceState:"+Log.bundle2String(savedInstanceState));
 		}
@@ -49,7 +50,7 @@ public abstract class BaseHostActivity extends FragmentActivity{
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Log.i(getClass().getName());
+		Log.i(BaseConstants.TAG_LIFECYCLE,getClass().getName());
 	}
 
 	@Override
