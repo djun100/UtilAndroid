@@ -24,7 +24,7 @@ public class UtilFragment {
 	 */
 	@Deprecated
 	private static void replaceFragment(int container, Fragment fragment, String tag, FragmentManager fragmentManager){
-		fragmentManager.beginTransaction().replace(container, fragment,tag).commit();
+		fragmentManager.beginTransaction().replace(container, fragment,tag).commitNow();
 	}
 
 	private static void replaceFragment(int container, Fragment fragment, FragmentManager fragmentManager){
@@ -32,7 +32,7 @@ public class UtilFragment {
 	}
 
 	public static void hideFragment(Fragment fragment, FragmentManager fragmentManager){
-		fragmentManager.beginTransaction().hide(fragment).commit();
+		fragmentManager.beginTransaction().hide(fragment).commitNow();
 	}
 
 	public static void showFragment(int container, Fragment fragment, FragmentManager fm){
@@ -52,7 +52,7 @@ public class UtilFragment {
 			transaction.add(container, fragment, null);
 			fras.put(fragment,container);
 		}
-		transaction.commit();
+		transaction.commitNow();
 	}
 
 	private static Fragment getTopShow(int container) {
