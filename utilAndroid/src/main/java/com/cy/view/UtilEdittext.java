@@ -3,9 +3,12 @@ package com.cy.view;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 /**
  * Created by cy on 2017/8/14.
@@ -47,5 +50,31 @@ public class UtilEdittext {
         }
 
         public abstract void onTextChanged(String after);
+    }
+
+    /**
+     * 给edittext设置过滤器 过滤emoji
+     *
+     * @param et
+     */
+    public static void setEmojiFilter(EditText et) {
+        et.setFilters(new InputFilter[]{new EmojiExcludeFilter()});
+    }
+
+    /**
+     * https://stackoverflow.com/questions/22990870/how-to-disable-emoji-from-being-entered-in-android-edittext
+     * */
+    private static class EmojiExcludeFilter implements InputFilter {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            for (int i = start; i < end; i++) {
+                int type = Character.getType(source.charAt(i));
+                if (type == Character.SURROGATE || type == Character.OTHER_SYMBOL) {
+                    return "";
+                }
+            }
+            return null;
+        }
     }
 }
