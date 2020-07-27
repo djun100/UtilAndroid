@@ -13,6 +13,7 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 
 /**
+ * V传的必须是View实现的接口类，如果传act或fragment本身则通过动态代理调用act/fra.xxx()会发生强制转换失败
  * presenter类基类用于解决activity的view解绑绑定
  * 解决当Activity销毁，presenter里面持有的view就为null，如果这时候耗时任务刚好执行完准备调用view中的某个方法
  * 就会导致的空指针问题
@@ -30,7 +31,7 @@ import java.lang.reflect.Type;
  */
 
 
-public abstract class BasePresenter<V,M> {
+public abstract class BasePresenter<V/*接口*/,M> {
     /**
      * Null Mvp View InvocationHandler
      */
@@ -149,6 +150,7 @@ public abstract class BasePresenter<V,M> {
      * @return
      */
     private static <T> T createView(Class<T> viewClz) {
+        //V传的必须是View实现的接口类，如果传act或fragment本身则通过动态代理创建的类.类内的方法会发生强制转换失败
         Class<?>[] interfaces = new Class[]{viewClz};
 //        Class<?>[] interfaces = viewClz.getInterfaces();
         return (T) Proxy.newProxyInstance(viewClz.getClassLoader(), interfaces, NULL_VIEW);

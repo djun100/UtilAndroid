@@ -2,6 +2,7 @@ package com.cy.app;
 
 
 import android.app.Dialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -25,7 +26,7 @@ public class DemoDialogFragment extends BaseDialogFragment {
                 .setCustomView(view)
 //                .setCanceledOnTouchOutside(false)
                 .setMatchHorizontalParent()
-//                .setGravity(Gravity.BOTTOM)
+                .setGravity(Gravity.BOTTOM)
                 .build();
     }
 

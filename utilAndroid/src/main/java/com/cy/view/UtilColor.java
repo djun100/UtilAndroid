@@ -1,5 +1,6 @@
 package com.cy.view;
 
+import android.animation.ArgbEvaluator;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
@@ -31,5 +32,18 @@ public class UtilColor {
         Color.colorToHSV(colorInt, hsv);
         colorInt = Color.HSVToColor(new float[]{hsv[0], hsv[1], (float) (hsv[2] + light)});
         return colorInt;
+    }
+
+    /**
+     * 计算颜色中间值
+     * @param ratio 0~1.0f
+     * @param startColor
+     * @param endColor
+     * @return
+     */
+    public static int getMiddleColor(float ratio,int startColor,int endColor){
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+        int currColor = (int)(argbEvaluator.evaluate(ratio,startColor, endColor));
+        return currColor;
     }
 }

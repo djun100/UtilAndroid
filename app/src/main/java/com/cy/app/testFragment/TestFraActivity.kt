@@ -24,11 +24,11 @@ class TestFraActivity : AppCompatActivity() {
     }
 
     fun showFra1() {
-        UtilFragment.showFragment(R.id.rootView,fra1!!,this)
+        UtilFragment.showFragment(R.id.rootView,fra1!!,supportFragmentManager)
     }
 
     fun showFra2() {
-        UtilFragment.showFragment(R.id.rootView,fra2!!,this)
+        UtilFragment.showFragment(R.id.rootView,fra2!!,supportFragmentManager)
     }
 
 }

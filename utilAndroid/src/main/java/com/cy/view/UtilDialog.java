@@ -210,8 +210,8 @@ public class UtilDialog {
             return this;
         }
 
-        public DialogBuilder setCanceledOnTouchOutside() {
-            this.canceledOnTouchOutside = true;
+        public DialogBuilder setCanceledOnTouchOutside(boolean b) {
+            this.canceledOnTouchOutside = b;
             return this;
         }
 
