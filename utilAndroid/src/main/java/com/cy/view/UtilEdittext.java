@@ -3,9 +3,13 @@ package com.cy.view;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 /**
  * Created by cy on 2017/8/14.
@@ -47,5 +51,65 @@ public class UtilEdittext {
         }
 
         public abstract void onTextChanged(String after);
+    }
+
+    public static void addMaxLengthFilter(EditText et,int maxLength) {
+        addFilter(et,new InputFilter.LengthFilter(maxLength));
+    }
+
+    /**
+     * 给edittext设置过滤器 过滤emoji
+     *
+     * @param et
+     */
+    public static void setEmojiFilter(EditText et) {
+        et.setFilters(new InputFilter[]{new EmojiExcludeFilter()});
+    }
+
+    /**只允许中文英文数字
+     * */
+    public static void setAllowZhEnNumFilter(EditText et) {
+        et.setFilters(new InputFilter[]{ new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if ( !Character.isLetterOrDigit(source.charAt(i))) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        }
+        });
+    }
+
+    public static void setAllowNumFilter(EditText et) {
+        et.setInputType(InputType.TYPE_CLASS_NUMBER);
+    }
+
+    /**
+     * https://stackoverflow.com/questions/22990870/how-to-disable-emoji-from-being-entered-in-android-edittext
+     * */
+    public static class EmojiExcludeFilter implements InputFilter {
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            for (int i = start; i < end; i++) {
+                int type = Character.getType(source.charAt(i));
+                if (type == Character.SURROGATE || type == Character.OTHER_SYMBOL) {
+                    return "";
+                }
+            }
+            return null;
+        }
+    }
+
+    private static void addFilter(EditText et,InputFilter filter){
+        InputFilter[] filtersOld = et.getFilters();
+        InputFilter[] filters =new InputFilter[filtersOld.length+1];
+        System.arraycopy(filtersOld, 0, filters, 0, filtersOld.length);
+        filters[filters.length-1] = filter;
+        et.setFilters(filters);
+
     }
 }

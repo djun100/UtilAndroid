@@ -25,10 +25,14 @@ public class UtilActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    public static void setTransparentStatusBar(Activity activity,boolean darkMode){
+    public static void setTransparentStatusBar(Activity activity){
         Window window = activity.getWindow();
         // 设置状态栏背景透明
         UtilStatusBar.transparentStatusBar(window);
+    }
+
+    public static void setMode(Activity activity,boolean darkMode){
+        Window window = activity.getWindow();
         // 设置图标主题
         if (darkMode) {
             UtilStatusBar.setDarkMode(window);
