@@ -52,6 +52,10 @@ public class UtilEdittext {
         public abstract void onTextChanged(String after);
     }
 
+    public static void addMaxLengthFilter(EditText et,int maxLength) {
+        addFilter(et,new InputFilter.LengthFilter(maxLength));
+    }
+
     /**
      * 给edittext设置过滤器 过滤emoji
      *
@@ -77,4 +81,56 @@ public class UtilEdittext {
             return null;
         }
     }
+
+    /**只允许中文英文数字
+     * */
+    public static void setAllowZhEnNumFilter(EditText et) {
+        et.setFilters(new InputFilter[]{ new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if ( !Character.isLetterOrDigit(source.charAt(i))
+//                                    && !Character.toString(source.charAt(i)) .equals("_")
+//                                    && !Character.toString(source.charAt(i)) .equals("-")
+                    )
+                    {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        }
+        });
+    }
+
+    public static void setAllowNumFilter(final EditText et) {
+        final String LETTER_NUMBER="[\\d]*";
+        et.addTextChangedListener(new TextWatcher() {
+            String before = "";
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                before = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().matches(LETTER_NUMBER) && !"".equals(s.toString())) {
+                    et.setText(before);
+                    et.setSelection(et.getText().toString().length());
+                }
+            }
+        });
+    }
+
+    private static void addFilter(EditText et,InputFilter filter){
+        InputFilter[] filtersOld = et.getFilters();
+        InputFilter[] filters =new InputFilter[filtersOld.length+1];
+        System.arraycopy(filtersOld, 0, filters, 0, filtersOld.length);
+        filters[filters.length-1] = filter;
+        et.setFilters(filters);
+    }
+
 }
