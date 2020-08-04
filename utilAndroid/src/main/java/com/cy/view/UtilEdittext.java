@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,7 +17,8 @@ import android.widget.EditText;
 
 public class UtilEdittext {
 
-    /**﻿在页面刚开启后需要延时500-1000ms才生效，不是addOnGlobalLayoutListener能监视的。
+    /**﻿
+     * 在页面刚开启后需要延时500-1000ms才生效，不是addOnGlobalLayoutListener能监视的。
      * 页面已开启就需要的话建议使用﻿getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
      * @param view
      */
@@ -65,10 +67,27 @@ public class UtilEdittext {
         et.setFilters(new InputFilter[]{new EmojiExcludeFilter()});
     }
 
+    /**只允许中文英文数字
+     * */
+    public static void setAllowZhEnNumFilter(EditText et) {
+        et.setFilters(new InputFilter[]{ new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                for (int i = start; i < end; i++) {
+                    if ( !Character.isLetterOrDigit(source.charAt(i))) {
+                        return "";
+                    }
+                }
+                return null;
+            }
+        }
+        });
+    }
+
     /**
      * https://stackoverflow.com/questions/22990870/how-to-disable-emoji-from-being-entered-in-android-edittext
      * */
-    private static class EmojiExcludeFilter implements InputFilter {
+    public static class EmojiExcludeFilter implements InputFilter {
 
         @Override
         public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -80,27 +99,6 @@ public class UtilEdittext {
             }
             return null;
         }
-    }
-
-    /**只允许中文英文数字
-     * */
-    public static void setAllowZhEnNumFilter(EditText et) {
-        et.setFilters(new InputFilter[]{ new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                for (int i = start; i < end; i++) {
-                    if ( !Character.isLetterOrDigit(source.charAt(i))
-//                                    && !Character.toString(source.charAt(i)) .equals("_")
-//                                    && !Character.toString(source.charAt(i)) .equals("-")
-                    )
-                    {
-                        return "";
-                    }
-                }
-                return null;
-            }
-        }
-        });
     }
 
     public static void setAllowNumFilter(final EditText et) {
@@ -131,6 +129,6 @@ public class UtilEdittext {
         System.arraycopy(filtersOld, 0, filters, 0, filtersOld.length);
         filters[filters.length-1] = filter;
         et.setFilters(filters);
-    }
 
+    }
 }
