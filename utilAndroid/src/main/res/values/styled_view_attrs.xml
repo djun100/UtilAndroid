@@ -132,4 +132,9 @@
         <attr name="rv_isRippleEnable"/>
         <attr name="rv_isRippleBorderless"/>
     </declare-styleable>
+
+    <declare-styleable name="TypefaceTextViewAttr">
+        <attr name="text_typeface" format="string" />
+    </declare-styleable>
+
 </resources>
