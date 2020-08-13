@@ -1,7 +1,9 @@
 package com.cy.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -132,5 +134,30 @@ public class UtilScreen {
     private static WindowManager getWindowManager() {
         /** 用于控制在屏幕上添加或移除悬浮窗*/
         return (WindowManager) UtilContext.getContext().getSystemService(Context.WINDOW_SERVICE);
+    }
+
+    //头条适配方案
+    //https://www.jianshu.com/p/d2150109217f
+    // 通过更改全局dpi适配高分辨率手机，使按钮之类的看上去不会太小
+    public static void adaptScreen(final Activity activity){
+        adaptScreen(activity, 360, true);
+    }
+
+    private static void adaptScreen(final Activity activity,
+                                    final int sizeInPx,
+                                    final boolean isVerticalSlide) {
+        final DisplayMetrics systemDm = Resources.getSystem().getDisplayMetrics();
+        final DisplayMetrics appDm = UtilContext.getContext().getResources().getDisplayMetrics();
+        final DisplayMetrics activityDm = activity.getResources().getDisplayMetrics();
+        if (isVerticalSlide) {
+            activityDm.density = activityDm.widthPixels / (float) sizeInPx;
+        } else {
+            activityDm.density = activityDm.heightPixels / (float) sizeInPx;
+        }
+        activityDm.scaledDensity = activityDm.density * (systemDm.scaledDensity / systemDm.density);
+        activityDm.densityDpi = (int) (160 * activityDm.density);
+        appDm.density = activityDm.density;
+        appDm.scaledDensity = activityDm.scaledDensity;
+        appDm.densityDpi = activityDm.densityDpi;
     }
 }
