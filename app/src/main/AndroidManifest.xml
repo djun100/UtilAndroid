@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".testFragment.TestFraActivity"></activity>
+        <activity android:name=".ConstraintActivity"></activity>
+        <activity android:name=".testFragment.TestFraActivity" />
         <activity
             android:name=".main.MainActivity"
             android:theme="@style/Welcome">

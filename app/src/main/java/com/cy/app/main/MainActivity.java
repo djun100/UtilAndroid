@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cy.app.BaseAct;
+import com.cy.app.ConstraintActivity;
 import com.cy.app.DemoDialogFragment;
 import com.cy.app.R;
 import com.cy.app.StyledViewActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
      */
     private Button mBtnStyledView;
     private Button mbtnTestFragment;
+    private Button mbtnTestConstraint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,8 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         mBtnStyledView.setOnClickListener(this);
         mbtnTestFragment = findViewById(R.id.mbtnTestFragment);
         mbtnTestFragment.setOnClickListener(this);
+        mbtnTestConstraint = findViewById(R.id.mbtnTestConstraint);
+        mbtnTestConstraint.setOnClickListener(this);
 
         UtilViewStyle.view(mBtn)
 //                .setRippleEnable(true)
@@ -195,6 +199,9 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
                 break;
             case R.id.mbtnTestFragment:
                 baseStartActivity(TestFraActivity.class);
+                break;
+            case R.id.mbtnTestConstraint:
+                baseStartActivity(ConstraintActivity.class);
                 break;
         }
     }

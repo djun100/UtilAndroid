@@ -136,5 +136,9 @@
     <declare-styleable name="TypefaceTextViewAttr">
         <attr name="text_typeface" format="string" />
     </declare-styleable>
+    <declare-styleable name="ShaderView">
+        <attr format="dimension" name="blurRadius" />
+        <attr format="color" name="blurColor" />
+    </declare-styleable>
 
 </resources>
