@@ -99,9 +99,6 @@ public class ImageLoader {
                 .build().load();
     }
 
-    public static void loadCircler(Activity activity, ImageView imageView, String url) {
-        loadCircler(activity,imageView, url, R.drawable.avatar);
-    }
     public static void loadCircler(Activity activity, ImageView imageView, String url, @DrawableRes int placeHolder) {
         new ImageLoader.Builder().with(activity).imageUrl(url).targetImageView(imageView)
                 .circleCrop(true)
