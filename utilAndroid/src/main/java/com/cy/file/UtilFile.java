@@ -75,8 +75,11 @@ public class UtilFile {
     }
 
     public static void writeUtf8FileContent(File file, String content) {
+        writeUtf8FileContent(file,content,false);
+    }
+    public static void writeUtf8FileContent(File file, String content,boolean append) {
         try {
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file,append), "UTF-8");
             out.write(content.toCharArray());
             out.flush();
             out.close();

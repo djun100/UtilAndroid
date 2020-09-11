@@ -112,14 +112,10 @@ class LogFileMgr {
     }
 
     public static File getCrashFile(){
-        String name = null;
         if (sCrashFile == null) {
-            name = findExistLatestCrashFileName();
+            String name=UtilApp.getLastPkgName() + "-" +
+                    UtilDate.getDateStrNow(UtilDate.FORMAT_YYYY_MM_DD) + ".log";
 
-            if (name == null) {
-                name = UtilApp.getLastPkgName() + "-" +
-                        UtilDate.getDateStrNow(UtilDate.FORMAT_YYYY_MM_DD) + ".log";
-            }
             long curAvailableSize;
             if (sLogToSD) {
                 curAvailableSize = UtilFile.getExternalFreeSpace();

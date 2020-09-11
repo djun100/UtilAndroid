@@ -68,7 +68,7 @@ public class LogWriteMgr {
     public static void writeCrash(String content){
         if (LogFileMgr.sDirFileCrash == null) init(true, null);
         File file = LogFileMgr.getCrashFile();
-        UtilFile.writeUtf8FileContent(file,content+"\n\n");
+        UtilFile.writeUtf8FileContent(file,content+"\n\n",true);
     }
 
     public static final SimpleDateFormat CONTENT_FORMAT = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ");

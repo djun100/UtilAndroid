@@ -1,6 +1,7 @@
 package com.cy.io;
 
 import android.os.Build;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -66,6 +67,7 @@ public class LogWriterMmap {
                 mMappedByteBuffer.put(strBytes);
                 gCurrentLogPos += inputLen;
             } catch (Exception e) {
+                Log.e("LogWriterMmap", "map失败：\n"+ com.cy.io.Log.getStackTraceStr(e));
                 FileOutputStream os = new FileOutputStream(mFile, true);
                 os.write(content.getBytes());
                 os.write(e.getMessage().getBytes());
