@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cy.app.BaseAct;
+import com.cy.app.ClipChildrenActivity;
 import com.cy.app.ConstraintActivity;
 import com.cy.app.DemoDialogFragment;
 import com.cy.app.R;
@@ -54,6 +55,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
     private Button mBtnStyledView;
     private Button mbtnTestFragment;
     private Button mbtnTestConstraint;
+    private Button mbtnTestClipchildren;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,8 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         mbtnTestFragment.setOnClickListener(this);
         mbtnTestConstraint = findViewById(R.id.mbtnTestConstraint);
         mbtnTestConstraint.setOnClickListener(this);
+        mbtnTestClipchildren = findViewById(R.id.mbtnTestClipchildren);
+        mbtnTestClipchildren.setOnClickListener(this);
 
         UtilViewStyle.view(mBtn)
 //                .setRippleEnable(true)
@@ -202,6 +206,9 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
                 break;
             case R.id.mbtnTestConstraint:
                 baseStartActivity(ConstraintActivity.class);
+                break;
+            case R.id.mbtnTestClipchildren:
+                baseStartActivity(ClipChildrenActivity.class);
                 break;
         }
     }

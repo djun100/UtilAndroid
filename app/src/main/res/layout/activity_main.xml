@@ -59,4 +59,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TestConstraint" />
+
+    <Button
+        android:id="@+id/mbtnTestClipchildren"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TestClipchildren" />
 </LinearLayout>
