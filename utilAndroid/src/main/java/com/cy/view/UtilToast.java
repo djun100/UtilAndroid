@@ -63,6 +63,8 @@ public class UtilToast {
 
     private static void _show(final String text, final  int duration) {
         Toast toast = Toast.makeText(UtilContext.getContext(), text, duration);
+        //8.0以前如果Ui线程卡死，会导致badtoken异常，8.0系统已在内部try catch修复
+        //https://cloud.tencent.com/developer/article/1034223
         if(Build.VERSION.SDK_INT < 26) { //Android8.0以前
             hook(toast);
         }

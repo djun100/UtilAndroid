@@ -2,6 +2,7 @@ package com.cy.view;
 
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
@@ -144,5 +145,16 @@ public class UtilView {
 	public static View inflate(@LayoutRes int layout){
 		View view=LayoutInflater.from(UtilContext.getContext()).inflate(layout,null);
 		return view;
+	}
+
+	/**
+	 * 检测制定View是否被完全遮住
+	 * @return
+	 */
+	public static boolean isFullyInvisable(View view) {
+		boolean cover = false;
+		Rect rect = new Rect();
+		cover = view.getGlobalVisibleRect(rect);
+		return !cover;
 	}
 }
