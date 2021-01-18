@@ -143,16 +143,21 @@ public class UtilScreen {
         adaptScreen(activity, 360, true);
     }
 
+    /**
+     * @param activity
+     * @param designedScreenDp  设计人员采用的屏幕宽度或高度dp
+     * @param isVerticalSlide
+     */
     private static void adaptScreen(final Activity activity,
-                                    final int sizeInPx,
+                                    final int designedScreenDp,
                                     final boolean isVerticalSlide) {
         final DisplayMetrics systemDm = Resources.getSystem().getDisplayMetrics();
         final DisplayMetrics appDm = UtilContext.getContext().getResources().getDisplayMetrics();
         final DisplayMetrics activityDm = activity.getResources().getDisplayMetrics();
         if (isVerticalSlide) {
-            activityDm.density = activityDm.widthPixels / (float) sizeInPx;
+            activityDm.density = activityDm.widthPixels / (float) designedScreenDp;
         } else {
-            activityDm.density = activityDm.heightPixels / (float) sizeInPx;
+            activityDm.density = activityDm.heightPixels / (float) designedScreenDp;
         }
         activityDm.scaledDensity = activityDm.density * (systemDm.scaledDensity / systemDm.density);
         activityDm.densityDpi = (int) (160 * activityDm.density);
