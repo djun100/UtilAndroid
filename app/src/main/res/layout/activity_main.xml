@@ -65,4 +65,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TestClipchildren" />
+
+    <Button
+        android:id="@+id/mbtnTestService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TestService" />
 </LinearLayout>

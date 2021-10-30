@@ -18,6 +18,7 @@ import com.cy.app.BaseAct;
 import com.cy.app.ClipChildrenActivity;
 import com.cy.app.ConstraintActivity;
 import com.cy.app.DemoDialogFragment;
+import com.cy.app.MyService;
 import com.cy.app.R;
 import com.cy.app.StyledViewActivity;
 import com.cy.app.TestLog;
@@ -56,6 +57,7 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
     private Button mbtnTestFragment;
     private Button mbtnTestConstraint;
     private Button mbtnTestClipchildren;
+    private Button mbtnTestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,8 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
         mbtnTestConstraint.setOnClickListener(this);
         mbtnTestClipchildren = findViewById(R.id.mbtnTestClipchildren);
         mbtnTestClipchildren.setOnClickListener(this);
+        mbtnTestService = findViewById(R.id.mbtnTestService);
+        mbtnTestService.setOnClickListener(this);
 
         UtilViewStyle.view(mBtn)
 //                .setRippleEnable(true)
@@ -209,6 +213,10 @@ public class MainActivity extends BaseAct<MainPresenter> implements IMainView, V
                 break;
             case R.id.mbtnTestClipchildren:
                 baseStartActivity(ClipChildrenActivity.class);
+                break;
+            case R.id.mbtnTestService:
+                Intent intent1= new Intent(MainActivity.this,MyService.class);
+                startService(intent1);
                 break;
         }
     }
